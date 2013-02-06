@@ -1,0 +1,7 @@
+To be able ot use MongoDB please go to the follwing site for the installation guide for your operating sytem:
+http://docs.mongodb.org/manual/installation/
+To Run:
+- Open up two terminals
+- In one terminal run ./bin/mongodb
+- In the other terminal run ./bin/mongo
+- Then run mongo commands under the ./bin/mongo terminal
