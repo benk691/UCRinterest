@@ -4,7 +4,6 @@ from tumblelog.models import Post, Comment
 
 posts = Blueprint('posts', __name__, template_folder='templates')
 
-
 class ListView(MethodView):
 
     def get(self):
