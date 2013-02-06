@@ -7,6 +7,7 @@ from tumblelog import app
 manager = Manager(app)
 
 # Turn on debugger by default and reloader
+'''
 manager.add_command("runserver", Server(
     use_debugger = True,
     use_reloader = True,
@@ -16,8 +17,8 @@ manager.add_command("runserver", Server(
 manager.add_command("runserver", Server(
     use_debugger = True,
     use_reloader = True,
-    host = 'ec2-50-18-9-255.us-west-1.compute.amazonaws.com')
+    host = 'ec2-50-18-9-255.us-west-1.compute.amazonaws.com', port=27017)
 )
-'''
+#'''
 if __name__ == "__main__":
     manager.run()
