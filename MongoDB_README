@@ -6,4 +6,11 @@ To Run:
 - In the other terminal run ./bin/mongo
 - Then run mongo commands under the ./bin/mongo terminal
 
+Project Library:
+- Use mongoLib directory for mongo functionalities
+- The utility file will provide general functionalities
+- Will use a module (file) for each database
+    - Users
+    - Pictures
+
 NOTE: When running the Flask MongoDB tutorial that you need to do this in a virtual enviroment with flask installed using pip
