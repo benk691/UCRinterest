@@ -2,8 +2,10 @@ import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from flask.ext.script import Manager, Server
-from api import app
+from login import app
+from user import Anonymous
 
+# Manager setup
 manager = Manager(app)
 
 # Turn on debugger by default and reloader
