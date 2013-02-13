@@ -1,7 +1,5 @@
-from flask import Flask, request, render_template, redirect, url_for, flash, Response
-from flask.ext.login import (LoginManager, current_user, login_required,
-                            login_user, logout_user, UserMixin, AnonymousUser,
-                            confirm_login, fresh_login_required)
+from flask import Flask, request, render_template, redirect, url_for, flash
+from flask.ext.login import (current_user, login_required, confirm_login, fresh_login_required)
 from api import app, db
 from user import User, Anonymous
 
@@ -41,17 +39,24 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         # Query database
-        try:
-            usrQuery = User.objects.get(uname=username)
-            if usrQuery is not None and usrQuery.pwd == password:
-                if login_user(usrQuery, remember="no"):
-                    flash("Logged in!")
-                    return redirect(request.args.get("next") or url_for("index"))
-                else:
-                    flash("Sorry, but you could not log in.")
+        #usrQuery = db.test.findOne({'uname' : username})
+        print 'Username =', username
+        print 'Password =', password
+        usrQuery = User.objects.get(uname=username)
+        f = User.objects.first()
+        print 'query =', usrQuery
+        print 'query.uname =', usrQuery.uname
+        print 'query.pwd =', usrQuery.pwd
+        print 'objs =', f
+        print 'first.uname ', f.uname
+        print 'first.pwd ', f.pwd
+        if usrQuery is not None and usrQuery.pwd == password:
+            if login_user(usrQuery, remember="no"):
+                flash("Logged in!")
+                return redirect(request.args.get("next") or url_for("index"))
             else:
-                flash(u"Invalid username.")
-        except User.DoesNotExist:
+                flash("Sorry, but you could not log in.")
+        else:
             flash(u"Invalid username.")
     return render_template("login.html")
 
