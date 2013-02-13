@@ -5,8 +5,11 @@
     {% else %}
     <title>UCR Interest</title>
     {% endif %}
+    <link href="/static/styles.css" rel="stylesheet" type="text/css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/static/jz.js"></script>
   </head>
-  <body>
+  <body onload="setupBlocks();">
       <div>
 			<a href="/index">UCR Interest</a>
 			| <a href="/about">about</a>

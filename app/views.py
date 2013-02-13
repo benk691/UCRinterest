@@ -18,6 +18,14 @@ def index():
 			{
 				'pinner': { 'name': 'Perp2' },
 				'image': 'img3.jpg'
+			},
+			{
+				'pinner': { 'name': 'Perp1' },
+				'image': 'img4.jpg'
+			},
+			{
+				'pinner': { 'name': 'Perp2' },
+				'image': 'img5.jpg'
 			}
 		]
 	return render_template("index.html",
