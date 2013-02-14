@@ -16,9 +16,17 @@ dl dt 		{ background:#fff;
 dl dd 		{ margin:2px 0;
     			  padding:5px 0; }
 
-.page           { margin: 2em auto; width: 35em;
-			  border: 5px solid #ccc;
+.top_bar		{ margin: 3em auto; width: 945px;}
+.profile_pic    { float: left; margin: 0px 0px 0px 0px; width: 180px;
+			  height: 180px;
                   padding: 0.8em; background: white; }
+.profile_info   { float: left; margin: 0px 0px 0px 0px; width: 500px;
+			  height: 176px; border: 2px solid #ccc;
+                  padding: 0.8em; background: white; }
+.repins         { float: left; margin: 0px 0px 0px 10px; width: 170px;
+			  height: 176px; border: 2px solid #ccc;
+                  padding: 0.8em; background: white; }
+
 .entries        { list-style: none;
 			  margin: 0;
 			  padding: 0; }

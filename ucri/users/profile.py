@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, current_app, Blueprint
-from flask.ext.login import (current_user, login_required, confirm_login, fresh_login_required)
+from flask.ext.login import current_user, login_required, confirm_login, fresh_login_required
 from forms import RegisterForm
 from datetime import datetime
 from ucri.models.user import User
@@ -17,12 +17,28 @@ def register():
                 flash('Username already exists!')
                 redirect(url_for('profile.register'))
             else:
-                usr = User(uname=form.uname.data, fname=form.fname.data, lname=form.lname.data, email=form.email.data, gender=form.gender.data, pwd=form.pwd.data, dscrp=form.dscrp.data, bday=form.bday.data, creation_date=datetime.now())
+                usr = User(uname=form.uname.data,
+                           fname=form.fname.data,
+                           lname=form.lname.data,
+                           email=form.email.data,
+                           gender=form.gender.data,
+                           pwd=form.pwd.data,
+                           dscrp=form.dscrp.data,
+                           bday=form.bday.data,
+                           creation_date=datetime.now())
                 usr.save()
                 flash('Thanks for registering!')
                 return redirect(url_for('login.login'))
         except User.DoesNotExist:
-            usr = User(uname=form.uname.data, fname=form.fname.data, lname=form.lname.data, email=form.email.data, gender=form.gender.data, pwd=form.pwd.data, dscrp=form.dscrp.data, bday=form.bday.data, creation_date=datetime.now())
+            usr = User(uname=form.uname.data,
+                       fname=form.fname.data,
+                       lname=form.lname.data,
+                       email=form.email.data,
+                       gender=form.gender.data,
+                       pwd=form.pwd.data,
+                       dscrp=form.dscrp.data,
+                       bday=form.bday.data,
+                       creation_date=datetime.now())
             usr.save()
             flash('Thanks for registering!')
             return redirect(url_for('login.login'))

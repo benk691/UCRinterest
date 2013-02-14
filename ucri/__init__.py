@@ -44,6 +44,12 @@ app.register_blueprint(loginModule)
 from ucri.users.profile import mod as profileModule
 app.register_blueprint(profileModule)
 
+from ucri.users.viewpin import mod as viewpinModule
+app.register_blueprint(viewpinModule)
+
+from ucri.users.viewprofile import mod as viewprofileModule
+app.register_blueprint(viewprofileModule)
+
 # Index page
 @app.route("/")
 def index():
