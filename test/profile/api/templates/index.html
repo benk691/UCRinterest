@@ -7,5 +7,6 @@
 <p>You are authorized to access {{ current_user.uname }} 
 {% else %}
 <p> You are anonymous user! Go away!
+<p> <a href="{{ url_for('profile.register') }}"><input type=button value=Register></a>
 {% endif %}
 {% endblock body %}
