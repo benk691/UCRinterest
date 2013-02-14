@@ -20,7 +20,6 @@
       </dl>
       <p><input type=submit value=Register>
     </form>
-    <footer> <a href="{{ url_for('index') }}">Home</a> </footer>
   {% for message in get_flashed_messages() %}
     <div class=flash>{{ message }}</div>
   {% endfor %}
