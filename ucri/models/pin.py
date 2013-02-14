@@ -2,7 +2,7 @@
 # The library functions for the pin database model
 # This defines the required document as well as easy-to-use functions to get user information
 ##################################################
-from ucri import db
+from ucri.UCRinterest.ucri import db
 
 class Pin(db.Document):
     '''Pin collection model. Fields:

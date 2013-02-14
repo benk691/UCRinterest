@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form, TextField, TextAreaField, PasswordField, SelectField, TextAreaField, SubmitField, DateTimeField, DateField
 from flask.ext.wtf import Required, Email, EqualTo, Length
-from ucri.models.user import *
+from ucri.UCRinterest.ucri.models.user import *
 
 class RegisterForm(Form):
     '''

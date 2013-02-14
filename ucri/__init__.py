@@ -4,12 +4,12 @@ from flask.ext.mongoengine import MongoEngine
 
 # Create and configure app
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object('ucri.UCRinterest.config')
 
 # Create database
 db = MongoEngine(app)
 
-from ucri.models.user import User, Anonymous
+from ucri.UCRinterest.ucri.models.user import User, Anonymous
 
 # Login manager
 login_manager = LoginManager()
@@ -38,10 +38,10 @@ def not_found(error):
     return render_template('404.html', error=error), 404
 
 # Register blueprints
-from ucri.users.login import mod as loginModule
+from ucri.UCRinterest.ucri.users.login import mod as loginModule
 app.register_blueprint(loginModule)
 
-from ucri.users.profile import mod as profileModule
+from ucri.UCRinterest.ucri.users.profile import mod as profileModule
 app.register_blueprint(profileModule)
 
 # Index page
