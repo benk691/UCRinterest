@@ -2,10 +2,20 @@
 # The library functions for the user database model
 # This defines the required document as well as easy-to-use functions to get user information
 ##################################################
+from ucri import db
 from flask.ext.login import UserMixin, AnonymousUser
-from datetime import datetime
 
-class User(UserMixin, Document):
+# User settings
+NAME_MIN_LENGTH = 3
+NAME_MAX_LENGTH = 25
+PWD_MIN_LENGTH = 3
+PWD_MAX_LENGTH = 50
+EMAIL_MIN_LENGTH = 3
+EMAIL_MAX_LENGTH = 50
+DSCRPT_MIN_LENGTH = 0
+DSCRPT_MAX_LENGTH = 400
+
+class User(UserMixin, db.Document):
     '''User collection model. Fields:
     - uname : user name, this needs to be unique
     - fname : first name
@@ -14,16 +24,17 @@ class User(UserMixin, Document):
     - pwd   : password
     - pin_array : array of pin ids
     '''
-    uname = StringField(min_length=3, max_length=25, unique=True, required=True)
-    fname = StringField(min_length=3, max_length=25, required=True)
-    lname = StringField(min_length=3, max_length=25, required=True)
-    gender = StringField(min_length=1, max_length=1, required=True)
-    pwd = StringField(min_length=3, max_length=50, required=True)
-    email = StringField(min_length=3, max_length=50, required=True)
-    dscrp = StringField(min_length=1, max_length=400)
-    creation_date = DateTimeField(required=True)
-    birthday = DateTimeField()
-    pin_array = ListField()
+    uname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, unique=True, required=True)
+    fname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
+    lname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
+    gender = db.StringField(min_length=1, max_length=1, required=True)
+    pwd = db.StringField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
+    email = db.StringField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
+    dscrp = db.StringField(min_length=DSCRPT_MIN_LENGTH, max_length=DSCRPT_MAX_LENGTH)
+    creation_date = db.DateTimeField(required=True)
+    birthday = db.DateTimeField()
+    pin_array = db.ListField()
+    interest_array = db.ListField()
 
     def is_active(self):
         return True

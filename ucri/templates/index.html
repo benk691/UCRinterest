@@ -1,11 +1,12 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<h2>Welcome</h2>
+<h2>Welcome {{ current_user.uname }}!</h2>
 
 {% if current_user.is_authenticated() %}
-<p>You are authorized to access {{ current_user.uname }} 
+<p> Click <a href="{{ url_for('viewprofile.viewprofile') }}">here</a> to view your profile.
 {% else %}
 <p> You are anonymous user! Go away!
+<p> <a href="{{ url_for('profile.register') }}"><input type=button value=Register></a>
 {% endif %}
 {% endblock body %}

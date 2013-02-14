@@ -1,0 +1,28 @@
+<!doctype html>
+<title>viewprofile</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+<div class=wrapper>
+  <div class=top_bar>
+    <div class=profile_pic>
+    </div>
+    <div class=profile_info>
+      <name>{{current_user.fname}} {{current_user.lname}}</name>
+      <p>{{current_user.dscrp}}</p>
+      <p><a href="{{current_user.email}}">{{current_user.email}}</a></p>
+    </div>
+    <div class=repins>
+      <h5>Repins from</h5>
+    </div>
+  </div>
+  <div class=mid_bar>
+    <div class=btn_left><p>Boards</p></div>
+    <div class=btn_left><p>Pins</p></div>
+    <div class=btn_left><p>Likes</p></div>
+    <div class=btn_left><p>Activity</p></div>
+    <div class=btn_right><p>Following</p></div>
+    <div class=btn_right><p>Followers</p></div>
+  </div>
+  <div class=low_bar>
+  </div>
+</div>
