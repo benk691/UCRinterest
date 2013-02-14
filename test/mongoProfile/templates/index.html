@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>Crazy Ivan</h2>
+
+{% if current_user.is_authenticated() %}
+<p>You are authorized to access {{ current_user.uname }} 
+{% else %}
+<p> You are anonymous user! Go away!
+{% endif %}
+{% endblock body %}
