@@ -4,6 +4,7 @@
   <h2>Register</h2>
     {% from "_formhelpers.html" import render_field %}
     <form method=post action="/register">
+      {{ form.csrf_token }}
       <dl>
         {{ render_field(form.uname) }}
         {{ render_field(form.fname) }}

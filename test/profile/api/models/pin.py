@@ -3,8 +3,6 @@
 # This defines the required document as well as easy-to-use functions to get user information
 ##################################################
 from api import db
-#from flask.ext.login import UserMixin, AnonymousUser
-#from datetime import datetime
 
 class Pin(db.Document):
     '''Pin collection model. Fields:

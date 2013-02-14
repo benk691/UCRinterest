@@ -13,13 +13,12 @@ class RegisterForm(Form):
     gender = SelectField(
         u'Gender', [Required()],
         choices=[('M', 'Male'),
-                 ('F', 'Female'),
-                 ('U', 'Undefined')]
+                 ('F', 'Female')]
         )
     pwd = PasswordField(u'Password',
         [ Required(), EqualTo('confirm', message='Passwords must match'), Length(min=PWD_MIN_LENGTH, max=PWD_MAX_LENGTH) ])
     confirm = PasswordField(u'Repeat Password', [Required()])
     # Birthday
-    bday = DateField('Birthday (mm/dd/yyyy)', format='%m/%d/%Y')
+    bday = DateField(u'Birthday (mm/dd/yyyy)', format='%m/%d/%Y')
     dscrp = TextAreaField(u'Describe yourself', [Length(min=DSCRPT_MIN_LENGTH, max=DSCRPT_MAX_LENGTH)])
     reg = SubmitField(u'Register')

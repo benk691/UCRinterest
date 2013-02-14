@@ -4,7 +4,6 @@
 ##################################################
 from api import db
 from flask.ext.login import UserMixin, AnonymousUser
-#from datetime import datetime
 
 # User settings
 NAME_MIN_LENGTH = 3
@@ -13,7 +12,7 @@ PWD_MIN_LENGTH = 3
 PWD_MAX_LENGTH = 50
 EMAIL_MIN_LENGTH = 3
 EMAIL_MAX_LENGTH = 50
-DSCRPT_MIN_LENGTH = 1
+DSCRPT_MIN_LENGTH = 0
 DSCRPT_MAX_LENGTH = 400
 
 class User(UserMixin, db.Document):
@@ -29,7 +28,6 @@ class User(UserMixin, db.Document):
     fname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
     lname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
     gender = db.StringField(min_length=1, max_length=1, required=True)
-    #gender = db.StringField(min_length=4, max_length=10, required=True)
     pwd = db.StringField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
     email = db.StringField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
     dscrp = db.StringField(min_length=DSCRPT_MIN_LENGTH, max_length=DSCRPT_MAX_LENGTH)
@@ -43,9 +41,6 @@ class User(UserMixin, db.Document):
 
     def get_id(self):
         return unicode(self.uname)
-
-    def __str__(self):
-        return "fname = %s, lname = %s, uname = %s, gender = %s, pwd = %s, dscrp = %s, bday = %s" % (str(self.fname), str(self.lname), str(self.uname), str(self.gender), str(self.pwd), str(self.dscrp), str(self.bday))
 
 class Anonymous(AnonymousUser):
     name = u"Anonymous"
