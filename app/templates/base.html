@@ -31,6 +31,8 @@
 			<ul class="nav">
 				{% if user %}
 				<li><a href="#add_form" id="login_pop">Add +</a></li>
+				{% else %}
+				<li><a href="/register">Register</a></li>
 				{% endif %}
 				<li>
 					<a href="/about">About<span></span></a>

@@ -46,7 +46,7 @@ def index():
 			}
 		]
 	return render_template("index.html",
-		user = user,
+		#user = user,
 		pins = pins)
 
 @app.route('/login', methods = ['GET', 'POST'])
