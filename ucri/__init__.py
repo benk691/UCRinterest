@@ -45,6 +45,9 @@ app.register_blueprint(loginModule)
 from ucri.users.profile import mod as profileModule
 app.register_blueprint(profileModule)
 
+from ucri.users.team import mod as teamModule
+app.register_blueprint(teamModule)
+
 from ucri.users.viewprofile import mod as viewprofileModule
 app.register_blueprint(viewprofileModule)
 

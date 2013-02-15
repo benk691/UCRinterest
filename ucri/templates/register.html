@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Register</h2>
+<div class=box_register>
+  <center><h2>Register</h2></center>
     {% from "_formhelpers.html" import render_field %}
     <form method=post action="/register">
       {{ form.csrf_token }}
@@ -16,9 +17,10 @@
         {{ render_field(form.confirm) }}
         {{ render_field(form.dscrp) }}
       </dl>
-      <p><input type=submit value=Register>
+      <p><center><input type=submit value=Register></center>
     </form>
   {% for message in get_flashed_messages() %}
     <div class=flash>{{ message }}</div>
   {% endfor %}
+</div>
 {% endblock %}

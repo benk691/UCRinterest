@@ -1,1 +1,0 @@
-from ucri import app
