@@ -4,7 +4,7 @@ from flask.ext.login import (current_user, login_required, confirm_login,
                              fresh_login_required)
 from datetime import datetime
 from ucri.models.user import User
-from ucri.models.album import Album
+#from ucri.models.album import Album
 
 mod = Blueprint('viewprofile', __name__)
 
