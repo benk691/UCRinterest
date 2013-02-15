@@ -37,11 +37,4 @@ def reauth():
         flash(u"Reauthenticated.")
         return redirect(request.args.get("next") or url_for("index"))
     return render_template("reauth.html")
-"""
-@mod.route("/index")
-@login_required
-def logout():
-    logout_user()
-    flash("Logged out.")
-    return redirect(url_for("index"))
-"""
+

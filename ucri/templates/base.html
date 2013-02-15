@@ -49,7 +49,7 @@
 						<li><a href="#">Pins</a></li>
 						<li><a href="#">Likes</a></li>
 						<li class="div"><a href="#">Settings</a></li>
-						<li><a href="#">Logout</a></li>
+						<li><a href="{{ url_for('logout') }}">Logout</a></li>
 					</ul>
 					{% else %}
 					<a href="{{ url_for('login.login') }}">Login<span></span></a>

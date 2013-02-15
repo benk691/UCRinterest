@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, Response, Blueprint
-from flask.ext.login import LoginManager, current_user
+from flask.ext.login import LoginManager, current_user, logout_user
 from flask.ext.mongoengine import MongoEngine
 
 # Create and configure app
@@ -92,6 +92,12 @@ def index():
 			}
 		]
     return render_template("index.html", pins=pins)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    flash("Logged out.")
+    return redirect(url_for("index"))
 
 # About page
 @app.route('/about')
