@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang=en>
   <head>
-   {%if current_user.is_authenticated() %} 
+   {%if current_user.is_authenticated() %}
     <title>{{current_user.uname}}/UCR Interest</title>
     {% else %}
     <title>UCR Interest</title>
@@ -18,70 +18,70 @@
   <body>
       <div class="header_panel">
 
-			<!-- logo -->
-			<a href="/index" class="logo"></a>
+<!-- logo -->
+<a href="/index" class="logo"></a>
 
-			<!-- search -->
-			<form action="" method="get" class="search">
-				<input autocomplete="off" name="q" size="27" placeholder="Search" type="text" />
-				<input name="search" type="submit" />
-			</form>
+<!-- search -->
+<form action="" method="get" class="search">
+<input autocomplete="off" name="q" size="27" placeholder="Search" type="text" />
+<input name="search" type="submit" />
+</form>
 
-			<!-- navigation -->
-			<ul class="nav">
-				{% if current_user.is_authenticated() %}				
+<!-- navigation -->
+<ul class="nav">
+{% if current_user.is_authenticated() %}
                 <li><a href="#add_form" id="login_pop">Add +</a></li>
-				{% else %}
-				<li><a href="{{ url_for('profile.register') }}">Register</a></li>
-				{% endif %}
-				<li>
-					<a href="/about">About<span></span></a>
-					<ul>
-						<li><a href="/about">Help</a></li>
-						<li><a href="#">Team</a></li>
-					</ul>
-				</li>
-				<li>
-				{%if current_user.is_authenticated() %}	
-					<a href="{{ url_for('viewprofile.viewprofile') }}">{{ current_user.uname }}<span></span></a>
-					<ul>
-						<li><a href="#">Boards</a></li>
-						<li><a href="#">Pins</a></li>
-						<li><a href="#">Likes</a></li>
-						<li class="div"><a href="#">Settings</a></li>
-						<li><a href="#">Logout</a></li>
-					</ul>
-					{% else %}
-					<a href="{{ url_for('login.login') }}">Login<span></span></a>
-					{% endif %}
-				</li>
-			</ul>
-		</div>
+{% else %}
+<li><a href="{{ url_for('profile.register') }}">Register</a></li>
+{% endif %}
+<li>
+<a href="/about">About<span></span></a>
+<ul>
+<li><a href="/about">Help</a></li>
+<li><a href="{{ url_for('team.team') }}">Team</a></li>
+</ul>
+</li>
+<li>
+{%if current_user.is_authenticated() %}
+<a href="{{ url_for('viewprofile.viewprofile') }}">{{ current_user.uname }}<span></span></a>
+<ul>
+<li><a href="#">Boards</a></li>
+<li><a href="#">Pins</a></li>
+<li><a href="#">Likes</a></li>
+<li class="div"><a href="#">Settings</a></li>
+<li><a href="{{ url_for('logout') }}">Logout</a></li>
+</ul>
+{% else %}
+<a href="{{ url_for('login.login') }}">Login<span></span></a>
+{% endif %}
+</li>
+</ul>
+</div>
 
-			<!-- upload form -->
-			<a href="#x" class="overlay" id="add_form">Add+</a>
-			<div class="popup">
-				<div class="header">
-					<a class="close" href="#close">x</a>
-					<h2>Upload a Pin</h2>
-				</div>
-				<form id="upload_form">
-					<input type="file" name="image_file" id="image_file" onchange="" />
-				</form>
-				<div id="upload_result"></div>
-			</div>
+<!-- upload form -->
+<a href="#x" class="overlay" id="add_form">Add+</a>
+<div class="popup">
+<div class="header">
+<a class="close" href="#close">x</a>
+<h2>Upload a Pin</h2>
+</div>
+<form id="upload_form">
+<input type="file" name="image_file" id="image_file" onchange="" />
+</form>
+<div id="upload_result"></div>
+</div>
 
-		<div class="main_container">
-			{% with messages = get_flashed_messages() %}
-			{% if messages %}
-			<ul>
-			{% for message in messages %}
-				<li>{{ message }} </li>
-			{% endfor %}
-			</ul>
-			{% endif %}
-			{% endwith %}
-			{% block content %}{% endblock %}
-		</div>
+<div class="main_container">
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul>
+{% for message in messages %}
+<li>{{ message }} </li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+{% block content %}{% endblock %}
+</div>
   </body>
 </html>

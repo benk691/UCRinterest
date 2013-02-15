@@ -455,7 +455,10 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
     width: 96%;
 }
 
-
+.box_login		{ margin: 5em auto; width: 260px; height: 150px;
+			  background: white; box-shadow: 0px 0px 5px #888; }
+.box_register	{ margin: 5em auto; width: 500px; background: white; 
+			  box-shadow: 0px 0px 5px #888; }
 .wrapper		{ margin: 2em auto; width: 925px;}
 .top_bar		{ position: absolute; width: 945px; }
 .mid_bar		{ position: absolute; margin-top: 20.5em; width: 945px; 
@@ -498,3 +501,19 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
 			  text-align: center; background: #eee; }
 .pin_pic		{ margin: 50px auto; width: 600px; height: 600px;
 		 	  background: #eee; }
+dl 			{ margin-bottom:10px; }
+dl dt 		{ color:#5f9be3; float:left; text-align: center;
+    			  font-size: 14px; font-weight:bold; 
+			  margin-right:5px; padding:5px; width:80px; }
+dl dd 		{ margin:10px 0; padding:5px 0; }
+.btn_rt		{ float: right; margin-right: 25px; }
+
+.t_members		{ margin: 2em auto; width: 700px; height: 900px; }
+.t_mem_box		{ margin: 3em auto; width: 700px; height: 200px; 
+			  background: #eee; box-shadow: 0px 0px 5px #888; }
+.t_dscrp		{ float: left; width: 480px; height: 180px; 
+			  padding: 10px; font-family:"Georgia"; 
+			  font-size: 16px; background: #e8e8e8; }
+.t_pic		{ float: left; width: 200px; height: 200px; 
+			  background: white; }
+
