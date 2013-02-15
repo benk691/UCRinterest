@@ -13,11 +13,8 @@ a {
     text-decoration: none;
 }
 
-<<<<<<< HEAD
-=======
 name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3em; font-weight: bold; }
 
->>>>>>> 384ad328676fb90f34e38458961ed63f78c71a50
 /* header elements */
 .header_panel {
     background-color: #FAF7F7;
@@ -457,8 +454,6 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
     margin-bottom: 10px;
     width: 96%;
 }
-<<<<<<< HEAD
-=======
 
 .box_login		{ margin: 5em auto; width: 260px; height: 150px;
 			  background: white; box-shadow: 0px 0px 5px #888; }
@@ -522,4 +517,3 @@ dl dd 		{ margin:10px 0; padding:5px 0; }
 .t_pic		{ float: left; width: 200px; height: 200px; 
 			  background: white; }
 
->>>>>>> 384ad328676fb90f34e38458961ed63f78c71a50
