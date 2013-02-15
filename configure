@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Install necessary python packages
+pip install -q -r requirements.txt --use-mirrors

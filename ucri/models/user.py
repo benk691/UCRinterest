@@ -4,16 +4,7 @@
 ##################################################
 from ucri import db
 from flask.ext.login import UserMixin, AnonymousUser
-
-# User settings
-NAME_MIN_LENGTH = 3
-NAME_MAX_LENGTH = 25
-PWD_MIN_LENGTH = 3
-PWD_MAX_LENGTH = 50
-EMAIL_MIN_LENGTH = 3
-EMAIL_MAX_LENGTH = 50
-DSCRPT_MIN_LENGTH = 0
-DSCRPT_MAX_LENGTH = 400
+from settings import *
 
 class User(UserMixin, db.Document):
     '''User collection model. Fields:
