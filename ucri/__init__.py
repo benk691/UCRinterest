@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, Response, Blueprint
-from flask.ext.login import LoginManager
+from flask.ext.login import LoginManager, current_user
 from flask.ext.mongoengine import MongoEngine
 
 # Create and configure app
@@ -44,14 +44,70 @@ app.register_blueprint(loginModule)
 from ucri.users.profile import mod as profileModule
 app.register_blueprint(profileModule)
 
-from ucri.users.viewpin import mod as viewpinModule
-app.register_blueprint(viewpinModule)
+#from ucri.users.viewpin import mod as viewpinModule
+#app.register_blueprint(viewpinModule)
 
 from ucri.users.viewprofile import mod as viewprofileModule
 app.register_blueprint(viewprofileModule)
 
 # Index page
 @app.route("/")
+@app.route("/index")
 def index():
-    return render_template("index.html")
+    pins = [
+			{
+				'id': '1',
+				'title': 'Sample 1',
+				'pinner': { 'name': 'Perp1' },
+				'image': 'img1.jpg',
+				'desc': 'Description 1'
+			},
+			{
+				'id': '2',
+				'title': 'Sample 2',
+				'pinner': { 'name': 'Perp1' },
+				'image': 'img2.jpg',
+				'desc': 'Description 2'
+			},
+			{
+				'id': '3',
+				'title': 'Sample 3',
+				'pinner': { 'name': 'Perp2' },
+				'image': 'img3.jpg',
+				'desc': 'Description 3'
+			},
+			{
+				'id': '4',
+				'title': 'Sample 4',
+				'pinner': { 'name': 'Perp1' },
+				'image': 'img4.jpg',
+				'desc': 'Description 4'
+			},
+			{
+				'id': '5',
+				'title': 'Sample 5',
+				'pinner': { 'name': 'Perp2' },
+				'image': 'img5.jpg',
+				'desc': 'Description 5'
+			}
+		]
+    return render_template("index.html", pins=pins)
 
+# About page
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/pin/<id>')
+def bigpin(id):
+	pin = {
+				'id': '1',
+				'title': 'Sample 1',
+				'pinner': { 'name': 'Perp1' },
+				'image': 'img1.jpg',
+				'desc': 'Description 1'
+			}
+	user = { 'name': 'Tester' }
+	return render_template('bigpin.html',
+		pin = pin,
+		user = current_user)

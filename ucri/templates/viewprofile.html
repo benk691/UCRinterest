@@ -1,7 +1,5 @@
-<!doctype html>
-<title>viewprofile</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-
+{% extends "base.html" %}
+{% block content %}
 <div class=wrapper>
   <div class=top_bar>
     <div class=profile_pic>
@@ -26,3 +24,9 @@
   <div class=low_bar>
   </div>
 </div>
+
+{% for pin in pins %}
+{% include 'pin.html' %}
+{% endfor %}
+
+{% endblock %}

@@ -9,7 +9,7 @@ from ucri.models.album import Album
 
 mod = Blueprint('viewpin', __name__)
 
-@mod.route('/viewpin')
+@mod.route('/pin/<id>')
 @login_required
 def viewpin():
-    return render_template('viewpin.html')
+    return render_template('pin.html')
