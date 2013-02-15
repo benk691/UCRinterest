@@ -24,7 +24,7 @@ class User(UserMixin, db.Document):
     dscrp = db.StringField(min_length=DSCRPT_MIN_LENGTH, max_length=DSCRPT_MAX_LENGTH)
     creation_date = db.DateTimeField(required=True)
     birthday = db.DateTimeField()
-    pin_array = db.ListField()
+    #pin_array = db.ListField()
     interest_array = db.ListField()
 
     def is_active(self):

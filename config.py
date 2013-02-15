@@ -7,7 +7,11 @@ DEBUG = True
 
 SECRET_KEY = 'SECRET_STUFF'
 
-UPLOAD_FOLDER = '/photos'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg'])
+
+UPLOAD_FOLDER = os.path.realpath('.') + '/photos/'
+
+FILE_SYSTEM_STORAGE_FILE_VIEW = 'static'
 
 HOST_URL = 'http://localhost:5000'
 

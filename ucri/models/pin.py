@@ -13,9 +13,14 @@ class Pin(db.Document):
     - orig : original [t/f]
     - cat : category
     - img : image
+    - cmts : a list of comments
     '''
     title = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
+    #img = db.ImageField(required=True)
+    img = db.StringField(required=True)
+    #pinner = db.ReferenceField(required=True)
     dscrp = db.StringField(min_length=DSCRPT_MIN_LENGTH, max_length=DSCRPT_MAX_LENGTH)
-    orig = db.BooleanField() # Not sure about this field
-    date = db.DateTimeField()
-    img = db.ImageField(required=True)
+    orig = db.BooleanField(default=False)
+    date = db.DateTimeField(required=True)
+    cmts = db.ListField()
+    meta = { 'category' : 'img' }

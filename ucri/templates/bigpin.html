@@ -1,7 +1,7 @@
 <div class="pin bigpin">
 	<div class="owner">
 		<a href="#" class="button follow_button">Follow</a>
-		<p class="owner_name"><a target="_blank" href="#">{{pin.pinner.name}}</a></p>
+		<p class="owner_name"><a target="_blank" href="#">{{current_user.uname}}</a></p>
 		<p class="owner_when">Uploaded X months ago</p>
 	</div>
 	<div class="holder">
@@ -10,11 +10,11 @@
 			<a href="#" class="button">Like</a>
 		</div>
 		<a class="image" href="#" title="{{pin.title}}">
-			<img alt="{{ pin.title }}" src="/static/{{pin.image}}">
+			<img alt="{{ pin.title }}" src="/static/{{pin.img}}">
 		</a>
 	</div>
 
-	<p class="desc">{{ pin.desc }}</p>
+	<p class="dscrp">{{ pin.dscrp }}</p>
 
 	<div class="comments"></div>
 

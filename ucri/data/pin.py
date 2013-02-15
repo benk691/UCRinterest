@@ -7,7 +7,7 @@ from ucri.models.user import User
 from ucri.models.pin import Pin
 from ucri.models.album import Album
 
-mod = Blueprint('viewpin', __name__)
+mod = Blueprint('pin', __name__)
 
 @mod.route('/pin/<id>')
 @login_required

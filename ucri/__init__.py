@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, Response, Blueprint
 from flask.ext.login import LoginManager, current_user, logout_user
 from flask.ext.mongoengine import MongoEngine
+from datetime import datetime
 
 # Create and configure app
 app = Flask(__name__)
@@ -47,50 +48,32 @@ app.register_blueprint(profileModule)
 from ucri.users.viewprofile import mod as viewprofileModule
 app.register_blueprint(viewprofileModule)
 
-from ucri.users.pin import mod as pinModule
-app.register_blueprint(pinModule)
+#from ucri.users.pin import mod as pinModule
+#app.register_blueprint(pinModule)
+
+from ucri.models.pin import Pin
+
+@app.route("/make")
+def make():
+    pin = Pin(title="Settings 1", img="img1.jpg", dscrp="Description 1", orig=True, date=datetime.now())
+    pin.save()
+    pin = Pin(title="Settings 2", img="img2.jpg", dscrp="Description 2", orig=True, date=datetime.now())
+    pin.save()
+    pin = Pin(title="Settings 3", img="img3.jpg", dscrp="Description 3", orig=True, date=datetime.now())
+    pin.save()
+    pin = Pin(title="Settings 4", img="img4.jpg", dscrp="Description 4", orig=True, date=datetime.now())
+    pin.save()
+    flash("Pins Created!")
+    return redirect(url_for('index'))
 
 # Index page
 @app.route("/")
 @app.route("/index")
 def index():
-    pins = [
-			{
-				'id': '1',
-				'title': 'Sample 1',
-				'pinner': { 'name': 'Perp1' },
-				'image': 'img1.jpg',
-				'desc': 'Description 1'
-			},
-			{
-				'id': '2',
-				'title': 'Sample 2',
-				'pinner': { 'name': 'Perp1' },
-				'image': 'img2.jpg',
-				'desc': 'Description 2'
-			},
-			{
-				'id': '3',
-				'title': 'Sample 3',
-				'pinner': { 'name': 'Perp2' },
-				'image': 'img3.jpg',
-				'desc': 'Description 3'
-			},
-			{
-				'id': '4',
-				'title': 'Sample 4',
-				'pinner': { 'name': 'Perp1' },
-				'image': 'img4.jpg',
-				'desc': 'Description 4'
-			},
-			{
-				'id': '5',
-				'title': 'Sample 5',
-				'pinner': { 'name': 'Perp2' },
-				'image': 'img5.jpg',
-				'desc': 'Description 5'
-			}
-		]
+    pins = Pin.objects.all()
+    #pins = User.objects.all()
+    flash('pins = %s' % str(Pin.objects.count()))
+    #flash('pins = %s' % str(User.objects.count()))
     return render_template("index.html", pins=pins)
 
 @app.route('/logout')
@@ -106,14 +89,8 @@ def about():
 
 @app.route('/pin/<id>')
 def bigpin(id):
-	pin = {
-				'id': '1',
-				'title': 'Sample 1',
-				'pinner': { 'name': 'Perp1' },
-				'image': 'img1.jpg',
-				'desc': 'Description 1'
-			}
-	user = { 'name': 'Tester' }
+	pin = Pin.objects.get(id=id)
+	#user = { 'name': 'Tester' }
 	return render_template('bigpin.html',
 		pin = pin,
 		user = current_user)
