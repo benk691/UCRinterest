@@ -14,6 +14,7 @@ class User(UserMixin, db.Document):
     - email : email address
     - pwd   : password
     - pin_array : array of pin ids
+    - interest_array : array of interests
     '''
     uname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, unique=True, required=True)
     fname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)

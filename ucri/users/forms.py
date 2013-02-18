@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form, TextField, TextAreaField, PasswordField, SelectField, TextAreaField, SubmitField, DateTimeField, DateField
 from flask.ext.wtf import Required, Email, EqualTo, Length
-from ucri.models.user import *
+from ucri.models.settings import *
 from datetime import datetime
 
 class RegisterForm(Form):
@@ -23,3 +23,9 @@ class RegisterForm(Form):
     bday = DateField(u'Birthday (mm/dd/yyyy)', format='%m/%d/%Y', default=datetime(1970, 1, 1))
     dscrp = TextAreaField(u'Describe yourself', [Length(min=DSCRPT_MIN_LENGTH, max=DSCRPT_MAX_LENGTH)])
     reg = SubmitField(u'Register')
+
+class InterestForm(Form):
+    '''
+    Interest form for user creation
+    '''
+    interest = TextField(u'Interest', [Length(min=INTEREST_MIN_LENGTH, max=INTEREST_MAX_LENGTH)])

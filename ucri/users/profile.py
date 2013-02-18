@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, current_app, Blueprint
 from flask.ext.login import current_user, login_required, confirm_login, fresh_login_required
-from forms import RegisterForm
+from forms import RegisterForm, InterestForm
 from datetime import datetime
 from ucri.models.user import User
 
@@ -43,3 +43,8 @@ def register():
             flash('Thanks for registering!')
             return redirect(url_for('login.login'))
     return render_template('register.html', form=form)
+
+@mod.route('/interests', methods=['GET', 'POST'])
+def interests():
+    form = InterestForm(request.form)
+    if request.method == 'POST' and form.validate():     
