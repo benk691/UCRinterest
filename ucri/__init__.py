@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, Response, Blueprint
-from flask.ext.login import LoginManager, current_user, logout_user
+from flask.ext.login import LoginManager, current_user, logout_user, login_required
 from flask.ext.mongoengine import MongoEngine
 from datetime import datetime
 
@@ -51,16 +51,16 @@ app.register_blueprint(teamModule)
 from ucri.users.viewprofile import mod as viewprofileModule
 app.register_blueprint(viewprofileModule)
 
-#from ucri.users.pin import mod as pinModule
+#from ucri.data.pin import mod as pinModule
 #app.register_blueprint(pinModule)
 
 from ucri.models.pin import Pin
 
 @app.route("/make")
 def make():
-    pin = Pin(title="Settings 1", img="img1.jpg", dscrp="Description 1", orig=True, date=datetime.now())
+    pin = Pin(title="Settings 1", img_path="img1.jpg", dscrp="Description 1", orig=True, date=datetime.now())
     pin.save()
-    pin = Pin(title="Settings 2", img="img2.jpg", dscrp="Description 2", orig=True, date=datetime.now())
+    pin = Pin(title="Settings 2", img_path="img2.jpg", dscrp="Description 2", orig=True, date=datetime.now())
     pin.save()
     pin = Pin(title="Settings 3", img="img3.jpg", dscrp="Description 3", orig=True, date=datetime.now())
     pin.save()

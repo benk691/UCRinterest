@@ -21,11 +21,10 @@ class User(UserMixin, db.Document):
     lname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
     gender = db.StringField(min_length=1, max_length=1, required=True)
     pwd = db.StringField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
-    email = db.StringField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
+    email = db.EmailField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
     dscrp = db.StringField(min_length=DSCRPT_MIN_LENGTH, max_length=DSCRPT_MAX_LENGTH)
     creation_date = db.DateTimeField(required=True)
     birthday = db.DateTimeField()
-    #pin_array = db.ListField()
     interest_array = db.ListField()
 
     def is_active(self):
