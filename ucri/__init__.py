@@ -1,7 +1,11 @@
-from flask import Flask, request, render_template, redirect, url_for, flash, Response, Blueprint
+import os
+from flask import Flask, request, render_template, redirect, url_for, flash, Response, Blueprint, send_from_directory
 from flask.ext.login import LoginManager, current_user, logout_user
 from flask.ext.mongoengine import MongoEngine
 from datetime import datetime
+from werkzeug import secure_filename
+from config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
+from forms import UploadForm
 
 # Create and configure app
 app = Flask(__name__)
@@ -56,6 +60,9 @@ app.register_blueprint(viewprofileModule)
 
 from ucri.models.pin import Pin
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 @app.route("/make")
 def make():
     pin = Pin(title="Settings 1", img="img1.jpg", dscrp="Description 1", orig=True, date=datetime.now())
@@ -73,11 +80,12 @@ def make():
 @app.route("/")
 @app.route("/index")
 def index():
+    upform = UploadForm()
     pins = Pin.objects.all()
     #pins = User.objects.all()
-    flash('pins = %s' % str(Pin.objects.count()))
+    #flash('pins = %s' % str(Pin.objects.count()))
     #flash('pins = %s' % str(User.objects.count()))
-    return render_template("index.html", pins=pins)
+    return render_template("index.html", pins=pins, upform=upform)
 
 @app.route('/logout')
 def logout():
@@ -97,3 +105,24 @@ def bigpin(id):
 	return render_template('bigpin.html',
 		pin = pin,
 		user = current_user)
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    form = UploadForm()
+    if form.validate():
+        filename = secure_filename(form.photo.data.filename)
+        form.photo.file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        pin = Pin(title=form.title.data,
+                  img=filename,
+                  dscrp=form.dscrp.data,
+                  orig=True,
+                  date=datetime.now())
+        pin.save()
+        flash("Image has been uploaded.")
+        return redirect("/index#add_form")
+    flash("Image upload error.")
+    return redirect("/index#add_form")
+        
+@app.route('/uploads/<file>')
+def uploaded_file(file):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], file)

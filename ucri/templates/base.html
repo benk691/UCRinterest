@@ -64,10 +64,18 @@
 					<a class="close" href="#close">x</a>
 					<h2>Upload a Pin</h2>
 				</div>
-				<form id="upload_form">
-					<input type="file" name="image_file" id="image_file" onchange="" />
+				<form action="/upload" method=POST enctype="multipart/form-data">
+					{{ upform.hidden_tag() }}
+				    <dl>
+				        <dt>Title<dd>{{upform.title(size=30)}}
+				        <dt>File<dd>{{upform.photo()}}
+				        <dt>Caption<dd>{{upform.dscrp(size=80)}}</textarea>
+				    </dl>
+				    <p><input type=submit value=Post></p>
 				</form>
-				<div id="upload_result"></div>
+				{% for message in get_flashed_messages() %}
+					<div id="upload_result">{{ message }}</div>
+  				{% endfor %}
 			</div>
 
 		<div class="main_container">
