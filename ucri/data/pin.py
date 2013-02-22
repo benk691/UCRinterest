@@ -16,12 +16,5 @@ def viewpin():
 
 @login_required
 def createPin(title, img_path, dscrp):
-    orig = True
-    try:
-        pinQuery = Pin.objects.get(img_path=img_path)
-        if pinQuery is not None:
-            orig = False
-    except Pin.DoesNotExist:
-        pass
-
-    pin = Pin(title=title, img_path=img_path, pinner=current_user, dscrp=dscrp, orig=orig, date=datetime.now())
+    pin = Pin(title=title, img_path=img_path, pinner=current_user, dscrp=dscrp, date=datetime.now())
+    pin.save()
