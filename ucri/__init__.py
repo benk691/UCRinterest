@@ -96,7 +96,8 @@ def logout():
 # About page
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    upform = UploadForm()
+    return render_template('about.html', upform=upform)
 
 @app.route('/pin/<id>')
 def bigpin(id):
