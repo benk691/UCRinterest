@@ -65,15 +65,23 @@ def allowed_file(filename):
 
 @app.route("/make")
 def make():
-    pin = Pin(title="Settings 1", img="img1.jpg", dscrp="Description 1", orig=True, date=datetime.now())
+    pin = Pin(title="Settings 1", img="img1.jpg", dscrp="Description 1", orig=True, date=datetime.now(), pinner=current_user)
     pin.save()
-    pin = Pin(title="Settings 2", img="img2.jpg", dscrp="Description 2", orig=True, date=datetime.now())
+    pin = Pin(title="Settings 2", img="img2.jpg", dscrp="Description 2", orig=True, date=datetime.now(), pinner=current_user)
     pin.save()
-    pin = Pin(title="Settings 3", img="img3.jpg", dscrp="Description 3", orig=True, date=datetime.now())
+    pin = Pin(title="Settings 3", img="img3.jpg", dscrp="Description 3", orig=True, date=datetime.now(), pinner=current_user)
     pin.save()
-    pin = Pin(title="Settings 4", img="img4.jpg", dscrp="Description 4", orig=True, date=datetime.now())
+    pin = Pin(title="Settings 4", img="img4.jpg", dscrp="Description 4", orig=True, date=datetime.now(), pinner=current_user)
     pin.save()
     flash("Pins Created!")
+    return redirect(url_for('index'))
+
+@app.route("/clear")
+def clear():
+    pins = Pin.objects.all()
+    for pin in pins:
+        pin.delete()
+    flash("Pins deleted!")
     return redirect(url_for('index'))
 
 # Index page
@@ -81,7 +89,7 @@ def make():
 @app.route("/index")
 def index():
     upform = UploadForm()
-    pins = Pin.objects.all()
+    pins = Pin.objects.order_by('-date')
     #pins = User.objects.all()
     #flash('pins = %s' % str(Pin.objects.count()))
     #flash('pins = %s' % str(User.objects.count()))
@@ -117,7 +125,8 @@ def upload():
                   img=filename,
                   dscrp=form.dscrp.data,
                   orig=True,
-                  date=datetime.now())
+                  date=datetime.now(),
+                  pinner=current_user.to_dbref())
         pin.save()
         flash("Image has been uploaded.")
         return redirect("/index#add_form")
