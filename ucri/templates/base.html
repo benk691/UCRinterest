@@ -28,10 +28,12 @@
 
 			<!-- navigation -->
 			<ul class="nav">
-				{% if current_user.is_authenticated() %}				
-                <li><a href="#add_form" id="login_pop">Add +</a></li>
+				{% if current_user.is_authenticated() %}
+					{% if upform %}
+                		<li><a href="#add_form" id="login_pop">Add +</a></li>
+                	{% endif %}
 				{% else %}
-				<li><a href="{{ url_for('profile.register') }}">Register</a></li>
+					<li><a href="{{ url_for('profile.register') }}">Register</a></li>
 				{% endif %}
 				<li>
 					<a href="/about">About<span></span></a>
@@ -58,25 +60,27 @@
 		</div>
 
 			<!-- upload form -->
-			<a href="#x" class="overlay" id="add_form">Add+</a>
-			<div class="popup">
-				<div class="header">
-					<a class="close" href="#close">x</a>
-					<h2>Upload a Pin</h2>
+			{% if upform %}
+				<a href="#x" class="overlay" id="add_form">Add+</a>
+				<div class="popup">
+					<div class="header">
+						<a class="close" href="#close">x</a>
+						<h2>Upload a Pin</h2>
+					</div>
+					<form action="/upload" method=POST enctype="multipart/form-data">
+						{{ upform.hidden_tag() }}
+					    <dl>
+					        <dt>Title<dd>{{upform.title(size=30)}}
+					        <dt>File<dd>{{upform.photo()}}
+					        <dt>Caption<dd>{{upform.dscrp(size=80)}}</textarea>
+					    </dl>
+					    <p><input type=submit value=Post></p>
+					</form>
+					{% for message in get_flashed_messages() %}
+						<div id="upload_result">{{ message }}</div>
+	  				{% endfor %}
 				</div>
-				<form action="/upload" method=POST enctype="multipart/form-data">
-					{{ upform.hidden_tag() }}
-				    <dl>
-				        <dt>Title<dd>{{upform.title(size=30)}}
-				        <dt>File<dd>{{upform.photo()}}
-				        <dt>Caption<dd>{{upform.dscrp(size=80)}}</textarea>
-				    </dl>
-				    <p><input type=submit value=Post></p>
-				</form>
-				{% for message in get_flashed_messages() %}
-					<div id="upload_result">{{ message }}</div>
-  				{% endfor %}
-			</div>
+			{% endif %}
 
 		<div class="main_container">
 			{% with messages = get_flashed_messages() %}
