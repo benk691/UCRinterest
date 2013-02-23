@@ -65,13 +65,13 @@ def allowed_file(filename):
 
 @app.route("/make")
 def make():
-    pin = Pin(title="Settings 1", img="img1.jpg", dscrp="Description 1", orig=True, date=datetime.now(), pinner=current_user)
+    pin = Pin(title="Settings 1", img="img1.jpg", dscrp="Description 1", orig=True, date=datetime.now(), pinner=current_user.to_dbref())
     pin.save()
-    pin = Pin(title="Settings 2", img="img2.jpg", dscrp="Description 2", orig=True, date=datetime.now(), pinner=current_user)
+    pin = Pin(title="Settings 2", img="img2.jpg", dscrp="Description 2", orig=True, date=datetime.now(), pinner=current_user.to_dbref())
     pin.save()
-    pin = Pin(title="Settings 3", img="img3.jpg", dscrp="Description 3", orig=True, date=datetime.now(), pinner=current_user)
+    pin = Pin(title="Settings 3", img="img3.jpg", dscrp="Description 3", orig=True, date=datetime.now(), pinner=current_user.to_dbref())
     pin.save()
-    pin = Pin(title="Settings 4", img="img4.jpg", dscrp="Description 4", orig=True, date=datetime.now(), pinner=current_user)
+    pin = Pin(title="Settings 4", img="img4.jpg", dscrp="Description 4", orig=True, date=datetime.now(), pinner=current_user.to_dbref())
     pin.save()
     flash("Pins Created!")
     return redirect(url_for('index'))
@@ -129,9 +129,9 @@ def upload():
                   pinner=current_user.to_dbref())
         pin.save()
         flash("Image has been uploaded.")
-        return redirect("/index#add_form")
+        return redirect(request.referrer)
     flash("Image upload error.")
-    return redirect("/index#add_form")
+    return redirect(request.referrer)
         
 @app.route('/uploads/<file>')
 def uploaded_file(file):

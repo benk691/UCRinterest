@@ -82,7 +82,7 @@
 				</div>
 			{% endif %}
 
-		<div class="main_container">
+		
 			{% with messages = get_flashed_messages() %}
 			{% if messages %}
 			<ul>
@@ -93,6 +93,6 @@
 			{% endif %}
 			{% endwith %}
 			{% block content %}{% endblock %}
-		</div>
+		
   </body>
 </html>
