@@ -6,6 +6,8 @@ from datetime import datetime
 from werkzeug import secure_filename
 from config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 from forms import UploadForm
+import re
+from mongoengine.queryset import Q
 
 # Create and configure app
 app = Flask(__name__)
@@ -129,10 +131,24 @@ def upload():
                   pinner=current_user.to_dbref())
         pin.save()
         flash("Image has been uploaded.")
-        return redirect(request.referrer)
-    flash("Image upload error.")
-    return redirect(request.referrer)
+    else:
+        flash("Image upload error.")
+    return redirect(request.referrer or url_for("index"))
         
 @app.route('/uploads/<file>')
 def uploaded_file(file):
     return send_from_directory(app.config['UPLOAD_FOLDER'], file)
+
+@app.route('/search', methods = ['POST'])
+def search():
+    #get form input
+    query = request.form.get('q')
+    #tokenize
+    terms = re.split('\s', query)
+    #generate regular expression from tokens
+    x = "|".join(map(str, terms))
+    #create regular expression object
+    regx = re.compile(x, re.IGNORECASE)
+    #query database
+    pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
+    return render_template("index.html", pins=pins, upform=UploadForm())
