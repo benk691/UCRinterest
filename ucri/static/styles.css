@@ -424,7 +424,7 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
 .bigpin .image img {
     display: block;
     margin: 0 auto;
-    max-width: none;
+    max-width: 600px;
 }
 .bigpin .desc {
     border-bottom: 1px solid #D1CDCD;
@@ -464,9 +464,7 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
 .mid_bar		{ position: absolute; margin-top: 20.5em; width: 945px; 
 			  height: 60px; background: white;
 			  box-shadow: 0px 0px 5px #888;}
-.low_bar		{ position: absolute; margin-top: 27.5em; width: 945px; 
-			  height: 2000px; background: white;
-			  box-shadow: 0px 0px 5px #888;}
+.low_bar		{ position: absolute; margin-top: 27.5em; width: 100%;}
 .profile_pic    { float: left; margin: 0px 0px 0px 0px; width: 180px;
 			  height: 180px; padding: 0.8em; background: white; 
 			  box-shadow: 0px 0px 5px #888; }
