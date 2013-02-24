@@ -112,6 +112,11 @@ def upload():
     form = UploadForm()
     if form.validate():
         filename = secure_filename(form.photo.data.filename)
+        pos = filename.rfind('.')
+        flash(str(filename[pos + 1: ] in ALLOWED_EXTENSIONS))
+        if pos < 0 or (pos >= 0 and (not filename[pos + 1 : ] in ALLOWED_EXTENSIONS)):
+            flash("Error: Invalid extension, pleases use jpg or png")
+            return redirect('/index#add_form')
         form.photo.file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         pin = Pin(title=form.title.data,
                   img=filename,
@@ -123,7 +128,7 @@ def upload():
         return redirect("/index#add_form")
     flash("Image upload error.")
     return redirect("/index#add_form")
-        
+
 @app.route('/uploads/<file>')
 def uploaded_file(file):
     return send_from_directory(app.config['UPLOAD_FOLDER'], file)
