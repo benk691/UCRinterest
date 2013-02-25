@@ -45,6 +45,9 @@ def not_found(error):
     return render_template('404.html', error=error), 404
 
 # Register blueprints
+from ucri.data.help import mod as helpModule
+app.register_blueprint(helpModule)
+
 from ucri.users.login import mod as loginModule
 app.register_blueprint(loginModule)
 
@@ -92,9 +95,6 @@ def clear():
 def index():
     upform = UploadForm()
     pins = Pin.objects.order_by('-date')
-    #pins = User.objects.all()
-    #flash('pins = %s' % str(Pin.objects.count()))
-    #flash('pins = %s' % str(User.objects.count()))
     return render_template("index.html", pins=pins, upform=upform)
 
 @app.route('/logout')
@@ -112,7 +112,6 @@ def about():
 @app.route('/pin/<id>')
 def bigpin(id):
 	pin = Pin.objects.get(id=id)
-	#user = { 'name': 'Tester' }
 	return render_template('bigpin.html',
 		pin = pin,
 		user = current_user)
@@ -122,6 +121,11 @@ def upload():
     form = UploadForm()
     if form.validate():
         filename = secure_filename(form.photo.data.filename)
+        pos = filename.rfind('.')
+        flash(str(filename[pos + 1: ] in ALLOWED_EXTENSIONS))
+        if pos < 0 or (pos >= 0 and (not filename[pos + 1 : ] in ALLOWED_EXTENSIONS)):
+            flash("Error: Invalid extension, pleases use jpg or png")
+            return redirect('/index#add_form')
         form.photo.file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         pin = Pin(title=form.title.data,
                   img=filename,
