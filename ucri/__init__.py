@@ -147,8 +147,21 @@ def search():
     terms = re.split('\s', query)
     #generate regular expression from tokens
     x = "|".join(map(str, terms))
-    #create regular expression object
     regx = re.compile(x, re.IGNORECASE)
     #query database
     pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
     return render_template("index.html", pins=pins, upform=UploadForm())
+
+@app.route('/pin/<id>/edit', methods=['POST', 'GET'])
+def editpin(id):
+    pin = Pin.objects.get(id=id)
+    if request.method == 'POST':
+        pin.dscrp = request.form.get('dscrp')
+        pin.save()
+    return render_template("editpin.html", pin=pin, upform=UploadForm())
+
+@app.route('/delete', methods=['POST'])
+def deletepin():
+    pin = Pin.objects.get(id=request.form.get('id'))
+    pin.delete()
+    return redirect(url_for('index'))

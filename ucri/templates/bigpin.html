@@ -7,7 +7,11 @@
 	<div class="holder">
 		<div class="actions">
 			<a href="#" class="button">Repin</a>
-			<a href="#" class="button">Like</a>
+			{% if current_user.id == pin.pinner.id %}
+				<a href="/pin/{{pin.id}}/edit" class="button">Edit</a>
+			{% else %}
+				<a href="#" class="button">Like</a>
+			{% endif %}
 		</div>
 		<a class="image" href="#" title="{{pin.title}}">
 			<img alt="{{ pin.title }}" src="/uploads/{{pin.img}}">

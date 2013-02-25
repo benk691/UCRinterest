@@ -3,7 +3,11 @@
 		{% if current_user.is_authenticated() %}
 		<div class="actions" pin_id="{{ pin.id }}">
 			<a href="#" class="button">Repin</a>
-			<a href="#" class="button">Like</a>
+			{% if current_user.id == pin.pinner.id %}
+				<a href="/pin/{{pin.id}}/edit" class="button">Edit</a>
+			{% else %}
+				<a href="#" class="button">Like</a>
+			{% endif %}
 			<a href="#" class="button comment_tr">Comment</a>
 		</div>
 		{% endif %}
@@ -13,8 +17,8 @@
 	</div>
 	<p class="dscrp">{{ pin.dscrp }}</p>
 	<p class="info">
-		<span>1 likes</span>
-		<span>1 repins</span>
+		<span>0 likes</span>
+		<span>0 repins</span>
 	</p>
 	<form class="comment" method="post" action="" style="display: none">
 		<input type="hidden" name="id" value="{{ pin.id }}" />

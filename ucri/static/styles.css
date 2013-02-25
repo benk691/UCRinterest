@@ -239,9 +239,6 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
     width: 57px;
     z-index: 1;
 }
-.popup form input[type="file"] {
-    font-size: 18px;
-}
 
 /* photo pins - general styles */
 .main_container {
@@ -515,3 +512,54 @@ dl dd 		{ margin:10px 0; padding:5px 0; }
 .t_pic		{ float: left; width: 200px; height: 200px; 
 			  background: white; }
 
+
+.edata {
+    width: 750px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.es0 {
+    float: left;
+}
+.es1 {
+    width: 500px;
+    border-bottom: thin solid #D1CDCD;
+    margin: 1px;
+}
+.es1 h2 {
+    font-size: xx-large;
+}
+.es1 input {
+    font-size: large;
+    float: right;
+    margin: 5px;
+    background-color: #F0EDED;
+}
+.es1 input:hover {
+    background-color: #FF0000;
+}
+.es2 {
+    margin: 1px;
+    border-bottom: thin solid #D1CDCD;
+    border-top: thin solid #D1CDCD
+}
+.es3 {
+    
+    float: right;
+}
+.edata .popup p {
+    font-size: large;
+    font-weight: bold;
+}
+.edata .popup input {
+    float: right;
+    font-size: large;
+    margin-right: 20px;
+    background-color: #FF0000;
+}
+.edata .popup button {
+    float: right;
+    font-size: large;
+    margin-right: 8px;
+    background-color: #F0EDED;
+}
