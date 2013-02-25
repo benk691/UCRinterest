@@ -16,15 +16,15 @@
         <form method=post action="/register">
           {{ form.csrf_token }}
           <dl>
-            {{ render_field(form.uname) }}
-            {{ render_field(form.fname) }}
-            {{ render_field(form.lname) }}
-            {{ render_field(form.email) }}
-            {{ render_field(form.gender) }}
-            {{ render_field(form.bday) }}
-            {{ render_field(form.pwd) }}
-            {{ render_field(form.confirm) }}
-            {{ render_field(form.dscrp) }}
+            <div class=fld_bx1>{{ render_field(form.uname) }}</div>
+            <div class=fld_bx2>{{ render_field(form.pwd) }}</div>
+            <div class=fld_bx2>{{ render_field(form.confirm) }}</div>
+            <div class=fld_bx2>{{ render_field(form.fname) }}</div>
+            <div class=fld_bx2>{{ render_field(form.lname) }}</div>
+            <div class=fld_bx1>{{ render_field(form.email) }}</div>
+            <div class=fld_bx1>{{ render_field(form.gender) }}</div>
+            <div class=fld_bx1>{{ render_field(form.bday) }}</div>
+            <div class=fld_bx1>{{ render_field(form.dscrp) }}</div>
           </dl>
           <p><center><input type=submit value=Register></center>
         </form>

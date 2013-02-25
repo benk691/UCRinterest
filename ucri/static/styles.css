@@ -514,4 +514,20 @@ dl dd 		{ margin:10px 0; padding:5px 0; }
 			  font-size: 16px; background: #e8e8e8; }
 .t_pic		{ float: left; width: 200px; height: 200px; 
 			  background: white; }
-
+.fld_bx1        { float: left; width: 500px; }
+.fld_bx2        { float: left; width: 250px; }
+.abt_t      { margin: 2em auto; text-align: center; padding: 10px; 
+              width: 200px; background: white; 
+              border-radius: 15px; box-shadow: 0px 0px 5px #888; }
+.abt_d      { margin: 4em auto; text-align: center; 
+              padding: 10px; width: 500px; background: white; 
+              border-radius: 15px; box-shadow: 0px 0px 5px #888; }
+.hlp_wrapper    { margin: 2em auto; width: 800px;}
+.hlp_bx     { background: #e8e8e8; width: 800px; 
+              box-shadow: 0px 0px 5px #888; }
+.hlp_sep        { width: 800px; height: 30px; }
+.hlp_sep_t      { width: 780px; text-align: left; 
+              padding: 15px 0px 15px 15px;}
+.hlp_txt        { text-align: center; font-family: "Georgia"; 
+              font-size: 16px; padding: 10px;}
+.hlp_img        { text-align: center; padding: 0px 10px 10px 10px;}
