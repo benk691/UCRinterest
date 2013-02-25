@@ -6,6 +6,8 @@ from datetime import datetime
 from werkzeug import secure_filename
 from config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 from forms import UploadForm
+import re
+from mongoengine.queryset import Q
 
 # Create and configure app
 app = Flask(__name__)
@@ -65,15 +67,23 @@ def allowed_file(filename):
 
 @app.route("/make")
 def make():
-    pin = Pin(title="Settings 1", img="img1.jpg", dscrp="Description 1", orig=True, date=datetime.now())
+    pin = Pin(title="Settings 1", img="img1.jpg", dscrp="Description 1", orig=True, date=datetime.now(), pinner=current_user.to_dbref())
     pin.save()
-    pin = Pin(title="Settings 2", img="img2.jpg", dscrp="Description 2", orig=True, date=datetime.now())
+    pin = Pin(title="Settings 2", img="img2.jpg", dscrp="Description 2", orig=True, date=datetime.now(), pinner=current_user.to_dbref())
     pin.save()
-    pin = Pin(title="Settings 3", img="img3.jpg", dscrp="Description 3", orig=True, date=datetime.now())
+    pin = Pin(title="Settings 3", img="img3.jpg", dscrp="Description 3", orig=True, date=datetime.now(), pinner=current_user.to_dbref())
     pin.save()
-    pin = Pin(title="Settings 4", img="img4.jpg", dscrp="Description 4", orig=True, date=datetime.now())
+    pin = Pin(title="Settings 4", img="img4.jpg", dscrp="Description 4", orig=True, date=datetime.now(), pinner=current_user.to_dbref())
     pin.save()
     flash("Pins Created!")
+    return redirect(url_for('index'))
+
+@app.route("/clear")
+def clear():
+    pins = Pin.objects.all()
+    for pin in pins:
+        pin.delete()
+    flash("Pins deleted!")
     return redirect(url_for('index'))
 
 # Index page
@@ -81,7 +91,7 @@ def make():
 @app.route("/index")
 def index():
     upform = UploadForm()
-    pins = Pin.objects.all()
+    pins = Pin.objects.order_by('-date')
     #pins = User.objects.all()
     #flash('pins = %s' % str(Pin.objects.count()))
     #flash('pins = %s' % str(User.objects.count()))
@@ -122,13 +132,28 @@ def upload():
                   img=filename,
                   dscrp=form.dscrp.data,
                   orig=True,
-                  date=datetime.now())
+                  date=datetime.now(),
+                  pinner=current_user.to_dbref())
         pin.save()
         flash("Image has been uploaded.")
-        return redirect("/index#add_form")
-    flash("Image upload error.")
-    return redirect("/index#add_form")
-
+    else:
+        flash("Image upload error.")
+    return redirect(request.referrer or url_for("index"))
+        
 @app.route('/uploads/<file>')
 def uploaded_file(file):
     return send_from_directory(app.config['UPLOAD_FOLDER'], file)
+
+@app.route('/search', methods = ['POST'])
+def search():
+    #get form input
+    query = request.form.get('q')
+    #tokenize
+    terms = re.split('\s', query)
+    #generate regular expression from tokens
+    x = "|".join(map(str, terms))
+    #create regular expression object
+    regx = re.compile(x, re.IGNORECASE)
+    #query database
+    pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
+    return render_template("index.html", pins=pins, upform=UploadForm())
