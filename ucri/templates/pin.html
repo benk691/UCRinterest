@@ -1,0 +1,22 @@
+<div class="pin">
+	<div class="holder">
+		<div class="actions" pin_id="{{ pin.id }}">
+			<a href="#" class="button">Repin</a>
+			<a href="#" class="button">Like</a>
+			<a href="#" class="button comment_tr">Comment</a>
+		</div>
+		<a class="image ajax" href="/pin/{{pin.id}}" title="{{ pin.title }}">
+			<img alt="{{ pin.title }}" src="/static/{{pin.img}}">
+		</a>
+	</div>
+	<p class="dscrp">{{ pin.dscrp }}</p>
+	<p class="info">
+		<span>1 likes</span>
+		<span>1 repins</span>
+	</p>
+	<form class="comment" method="post" action="" style="display: none">
+		<input type="hidden" name="id" value="{{ pin.id }}" />
+		<textarea placeholder="Add a comment..." maxlength="1000"></textarea>
+		<button type="button" class="button">Comment</button>
+	</form>
+</div>

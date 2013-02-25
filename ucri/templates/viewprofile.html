@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class=wrapper>
+  <div class=top_bar>
+    <div class=profile_pic>
+    </div>
+    <div class=profile_info>
+      <name>{{current_user.fname}} {{current_user.lname}}</name>
+      <p>{{current_user.dscrp}}</p>
+      <p><a href="{{current_user.email}}">{{current_user.email}}</a></p>
+    </div>
+    <div class=repins>
+      <h2>Repins from</h2>
+    </div>
+  </div>
+  <div class=mid_bar>
+    <div class=btn_left><div class=btn_txt><h3>Boards</h3></div></div>
+    <div class=btn_left><div class=btn_txt><h3>Pins</h3></div></div>
+    <div class=btn_left><div class=btn_txt><h3>Likes</h3></div></div>
+    <div class=btn_left><div class=btn_txt><h3>Activity</h3></div></div>
+    <div class=btn_right><div class=btn_txt><h3>Following</h3></div></div>
+    <div class=btn_right><div class=btn_txt><h3>Followers</h3></div></div>
+  </div>
+  <div class=low_bar>
+  </div>
+</div>
+
+{% for pin in pins %}
+{% include 'pin.html' %}
+{% endfor %}
+
+{% endblock %}
