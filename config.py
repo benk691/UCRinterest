@@ -1,5 +1,4 @@
 import os
-_basedir = os.path.abspath(os.path.dirname(__file__))
 
 CSRF_ENABLED = True
 
@@ -7,9 +6,9 @@ DEBUG = True
 
 SECRET_KEY = 'SECRET_STUFF'
 
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg'])
+ALLOWED_EXTENSIONS = set(['apng', 'png', 'jpg', 'jpeg', 'gif'])
 
-UPLOAD_FOLDER = os.path.realpath('.') + '/photos/'
+UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'photos')
 
 FILE_SYSTEM_STORAGE_FILE_VIEW = 'static'
 

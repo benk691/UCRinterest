@@ -424,7 +424,7 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
 .bigpin .image img {
     display: block;
     margin: 0 auto;
-    max-width: none;
+    max-width: 600px;
 }
 .bigpin .desc {
     border-bottom: 1px solid #D1CDCD;
@@ -455,83 +455,104 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
     width: 96%;
 }
 
-.box_login		{ margin: 5em auto; width: 260px; height: 150px; 
-			  border-radius: 15px;
-			  background: white; box-shadow: 0px 0px 5px #888; }
-.box_register	{ margin: 5em auto; width: 500px; height: 450px; 
-			  border-radius: 15px; background: white; 
-			  box-shadow: 0px 0px 5px #888; }
-.wrapper		{ margin: 2em auto; width: 925px;}
+/***************************PROFILE*PAGE*****************************/
+
+.wrapper		{ margin: 2em auto; width: 925px; }
 .top_bar		{ position: absolute; width: 945px; }
 .mid_bar		{ position: absolute; margin-top: 20.5em; width: 945px; 
-			  height: 60px; background: white;
-			  box-shadow: 0px 0px 5px #888;}
-.low_bar		{ position: absolute; margin-top: 27.5em; width: 945px; 
-			  height: 2000px; background: white;
-			  box-shadow: 0px 0px 5px #888;}
+			      height: 60px; background: white;
+			      box-shadow: 0px 0px 5px #888;}
+.low_bar		{ position: absolute; margin-top: 27.5em; width: 100%;}
 .profile_pic    { float: left; margin: 0px 0px 0px 0px; width: 180px;
-			  height: 180px; padding: 0.8em; background: white; 
-			  box-shadow: 0px 0px 5px #888; }
+			      height: 180px; padding: 0.8em; background: white; 
+			      box-shadow: 0px 0px 5px #888; }
 .profile_info   { float: left; margin: 0px 0px 0px 0px; width: 527px;
-			  height: 180px; padding: 0.8em; background: white; 
-			  box-shadow: 0px 0px 5px #888; }
+			      height: 180px; padding: 0.8em; background: white; 
+			      box-shadow: 0px 0px 5px #888; }
 .repins         { float: left; margin: 0px 0px 0px 10px; width: 180px;
-			  height: 180px; padding: 0.8em; background: white; 
-			  box-shadow: 0px 0px 5px #888; }
+			      height: 180px; padding: 0.8em; background: white; 
+			      box-shadow: 0px 0px 5px #888; }
 .btn_left		{ float: left; border-right: 2px solid #ccc; 
-			  padding-left: 15px; padding-right: 15px; 
-			  height: 60px; }
+			      padding-left: 15px; padding-right: 15px; 
+			      height: 60px; }
 .btn_right		{ float: right; border-left: 2px solid #ccc; 
-			  padding-left: 15px; padding-right: 15px;
-			  height: 60px; }
+			      padding-left: 15px; padding-right: 15px;
+			      height: 60px; }
 .btn_txt		{ margin: 2em auto; }
 
-.pin_wrapper	{ margin: 2em auto; width: 700px;
-			  box-shadow: 0px 0px 5px #888; }
-.pin_top		{ position: absolute; margin-top: 2em; width: 700px; 
-			  height: 90px; background: white;}
-.pin_mid		{ position: absolute; margin-top: 7.75em; width: 700px; 
-			  height: 700px; background: white;}
-.pin_low		{ position: absolute; margin-top: 51.70em; width: 685px;
-			  padding: 15px 0px 15px 15px;
-			  height: 60px; background: white;}
-.pin_usr_pic	{ float: left; margin: 15px 0px 0px 15px; width: 60px; 
-			  height: 60px; background: #eee; }
-.pin_lbox		{ float: left; margin: 15px 0px 0px 15px; height: 60px; 
-			  text-align: center; background: #eee; }
-.pin_rbox		{ float: right; margin: 15px 15px 0px 0px; height: 60px; 
-			  text-align: center; background: #eee; }
-.pin_pic		{ margin: 50px auto; width: 600px; height: 600px;
-		 	  background: #eee; }
-dl 			{ margin-bottom:10px; }
-dl dt 		{ color:#5f9be3; float:left; text-align: center;
-    			  font-size: 14px; font-weight:bold; 
-			  margin-right:5px; padding:5px; width:80px; }
-dl dd 		{ margin:10px 0; padding:5px 0; }
-.btn_rt		{ float: right; margin-right: 25px; }
+/*****************************TEAM*PAGE******************************/
 
 .t_members		{ margin: 2em auto; width: 700px; height: 900px; }
 .t_mem_box		{ margin: 3em auto; width: 700px; height: 200px; 
-			  background: #eee; box-shadow: 0px 0px 5px #888; }
+			      background: #eee; box-shadow: 0px 0px 5px #888; }
 .t_dscrp		{ float: left; width: 480px; height: 180px; 
-			  padding: 10px; font-family: "Georgia"; 
-			  font-size: 16px; background: #e8e8e8; }
-.t_pic		{ float: left; width: 200px; height: 200px; 
-			  background: white; }
-.fld_bx1		{ float: left; width: 500px; }
-.fld_bx2		{ float: left; width: 250px; }
-.abt_t		{ margin: 2em auto; text-align: center; padding: 10px; 
-			  width: 200px; background: white; 
-			  border-radius: 15px; box-shadow: 0px 0px 5px #888; }
-.abt_d		{ margin: 4em auto; text-align: center; 
-			  padding: 10px; width: 500px; background: white; 
-			  border-radius: 15px; box-shadow: 0px 0px 5px #888; }
-.hlp_wrapper	{ margin: 2em auto; width: 800px;}
-.hlp_bx		{ background: #e8e8e8; width: 800px; 
-			  box-shadow: 0px 0px 5px #888; }
-.hlp_sep		{ width: 800px; height: 30px; }
-.hlp_sep_t		{ width: 780px; text-align: left; 
-			  padding: 15px 0px 15px 15px;}
-.hlp_txt		{ text-align: center; font-family: "Georgia"; 
-			  font-size: 16px; padding: 10px;}
-.hlp_img		{ text-align: center; padding: 0px 10px 10px 10px;}
+			      padding: 10px; font-family:"Georgia"; 
+			      font-size: 16px; background: #e8e8e8; }
+.t_pic		    { float: left; width: 200px; height: 200px; 
+			      background: white; }
+
+/***************************REGISTER*PAGE****************************/
+
+.box_register	{ margin: 5em auto; width: 500px; padding: 10px;
+                  background: white; box-shadow: 0px 0px 5px #888; }
+.fld_bx1        { float: left; width: 480px; }
+.fld_bx2        { float: left; width: 240px; }
+
+/*****************************ABOUT*PAGE*****************************/
+
+.abt_t          { margin: 2em auto; text-align: center; }
+
+.abt_bx         { margin: 2em auto; width: 800px; 
+                  box-shadow: 0px 0px 5px #888; 
+                  border-top-left-radius: 15px; 
+                  border-bottom-right-radius: 15px;
+                  background: #e8e8e8;  }
+.abt_itm        { margin: 0em auto; width: 800px; height: 200px; 
+                  border-radius: 15px; }
+.abt_dscrp      { float: left; width: 480px; height: 180px; 
+                  padding: 10px; text-align: center; 
+                  line-height: 170px;
+                  font-family:"Georgia"; 
+                  font-size: 16px; }
+.abt_img        { float: left; width: 300px; height: 200px; 
+                  background: white; }
+
+/*****************************HELP*PAGE******************************/
+
+.hlp_wrapper    { margin: 2em auto; width: 800px;}
+.hlp_bx         { background: #e8e8e8; width: 800px; 
+                  box-shadow: 0px 0px 5px #888; }
+.hlp_sep        { width: 800px; height: 30px; }
+.hlp_sep_t      { width: 780px; text-align: left; 
+                  padding: 15px 0px 15px 15px;}
+.hlp_txt        { text-align: center; font-family: "Georgia"; 
+                  font-size: 16px; padding: 10px;}
+.hlp_img        { text-align: center; padding: 0px 10px 10px 10px;}
+
+/*****************************LOGIN*PAGE*****************************/
+
+.lgn_box		{ margin: 5em auto; width: 225px; height: 185px;
+			      padding: 15px; background: white; 
+			      border-radius: 15px; box-shadow: 0px 0px 5px #888; }
+.lgn_lgn		{ float: left; }
+.lgn_reg		{ float: right; }
+input.rnd, input.rnd_btn
+			    { border: 1px solid #ccc; -moz-border-radius: 10px; 
+			      -webkit-border-radius: 10px; border-radius: 10px; 
+			      -moz-box-shadow: 2px 2px 3px #666;
+			      -webkit-box-shadow: 2px 2px 3px #666;
+			      box-shadow: 2px 2px 3px #666; font-size: 20px;
+			      padding: 4px 7px; outline: 0;
+			      -webkit-appearance: none; }
+input.rnd_btn 	{ background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f0f0f0));
+			      background: -moz-linear-gradient(top,  #ffffff,  #f0f0f0);
+			      filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f0f0f0'); }
+
+/****************************UNKNOWN*PAGE****************************/
+
+dl              { margin-bottom:10px; }
+dl dt 		    { color:#5f9be3; float:left; text-align: center;
+    		      font-size: 14px; font-weight:bold; 
+			      margin-right:5px; padding:5px; width:80px; }
+dl dd 		    { margin:10px 0; padding:5px 0; }
+.btn_rt		    { float: right; margin-right: 25px; }

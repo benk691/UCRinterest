@@ -3,7 +3,7 @@ from flask.ext.wtf import Required, Email, EqualTo, Length
 from ucri.models.user import *
 from datetime import datetime
 
-class UploadForm(Form):
+class PicForm(Form):
     '''
     Upload form for pins
     '''

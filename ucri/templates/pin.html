@@ -1,12 +1,14 @@
 <div class="pin">
 	<div class="holder">
+		{% if current_user.is_authenticated() %}
 		<div class="actions" pin_id="{{ pin.id }}">
 			<a href="#" class="button">Repin</a>
 			<a href="#" class="button">Like</a>
 			<a href="#" class="button comment_tr">Comment</a>
 		</div>
+		{% endif %}
 		<a class="image ajax" href="/pin/{{pin.id}}" title="{{ pin.title }}">
-			<img alt="{{ pin.title }}" src="/static/{{pin.img}}">
+			<img alt="{{ pin.title }}" src="/uploads/{{pin.img}}">
 		</a>
 	</div>
 	<p class="dscrp">{{ pin.dscrp }}</p>
