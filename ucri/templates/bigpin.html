@@ -1,16 +1,20 @@
 <div class="pin bigpin">
 	<div class="owner">
+		{% if current_user.is_authenticated() %}
 		<a href="#" class="button follow_button">Follow</a>
+		{% endif %}
 		<p class="owner_name"><a target="_blank" href="#">{{pin.pinner.uname}}</a></p>
 		<p class="owner_when">Uploaded {{pin.date.strftime('%I:%M%p %m-%d-%Y')}}</p>
 	</div>
 	<div class="holder">
 		<div class="actions">
+			{% if current_user.is_authenticated() %}
 			<a href="#" class="button">Repin</a>
 			{% if current_user.id == pin.pinner.id %}
 				<a href="/pin/{{pin.id}}/edit" class="button">Edit</a>
 			{% else %}
 				<a href="#" class="button">Like</a>
+			{% endif %}
 			{% endif %}
 		</div>
 		<a class="image" href="#" title="{{pin.title}}">
@@ -21,9 +25,11 @@
 	<p class="dscrp">{{ pin.dscrp }}</p>
 	<div class="comments"></div>
 
+	{% if current_user.is_authenticated() %}
 	<form class="comment" method="post" action="#">
 		<input type="hidden" name="id" value="0" />
 		<textarea placeholder="Add a comment..." maxlength="1000"></textarea>
 		<button type="button" class="button">Comment</button>
 	</form>
+	{% endif %}
 </div>
