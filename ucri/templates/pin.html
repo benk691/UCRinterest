@@ -1,12 +1,15 @@
-<div class="pin">
+<div class="pin" pin_id={{pin.id}}>
 	<div class="holder">
 		{% if current_user.is_authenticated() %}
 		<div class="actions" pin_id="{{ pin.id }}">
-			<a href="#" class="button">Repin</a>
+			<form method="POST">
+				<input type="hidden" name="id" value="{{ pin.id }}" />
+				<button type="submit" class="button" formaction="/repin">Repin</button>
+			</form>
 			{% if current_user.id == pin.pinner.id %}
 				<a href="/pin/{{pin.id}}/edit" class="button">Edit</a>
 			{% else %}
-				<a href="#" class="button">Like</a>
+				<a href="#" class="button likebutton">Like</a>
 			{% endif %}
 			<a href="#" class="button comment_tr">Comment</a>
 		</div>
@@ -18,7 +21,7 @@
 	<p class="dscrp">{{ pin.dscrp }}</p>
 	<p class="info">
 		<span>0 likes</span>
-		<span>0 repins</span>
+		<span>{{ pin.repins }} repins</span>
 	</p>
 	<div class="comments">
 		{% for comment in pin.cmts %}

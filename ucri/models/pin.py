@@ -25,4 +25,6 @@ class Pin(db.Document):
     orig = db.BooleanField(default=False)
     date = db.DateTimeField(required=True)
     cmts = db.ListField(db.EmbeddedDocumentField(Comment))
+    repins = db.IntField()
     meta = { 'category' : 'img' }
+

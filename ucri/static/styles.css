@@ -13,6 +13,7 @@ a {
     text-decoration: none;
 }
 
+
 name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3em; font-weight: bold; }
 
 /* header elements */
@@ -311,6 +312,15 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
     margin: 0 5px 0 0;
 }
 .pin:hover .actions a {
+    display: block;
+}
+.pin .actions button {
+    clear: none;
+    display: none;
+    float: left;
+    margin: 0 5px 0 0;
+}
+.pin:hover .actions button {
     display: block;
 }
 .pin .image {

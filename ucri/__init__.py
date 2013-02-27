@@ -90,6 +90,16 @@ def clear():
     flash("Pins deleted!")
     return redirect(url_for('index'))
 
+@app.route('/fix_repins')
+def fix_repins():
+    pins = Pin.objects.all()
+    for pin in pins:
+        if pin.repins == None:
+            pin.repins = 0
+            pin.save()
+    flash("fixed repin counts")
+    return(redirect("/index"))
+
 # Index page
 @app.route("/")
 @app.route("/index")
@@ -136,12 +146,33 @@ def upload():
                   dscrp=form.dscrp.data,
                   orig=True,
                   date=datetime.now(),
-                  pinner=current_user.to_dbref())
+                  pinner=current_user.to_dbref(),
+                  repins=0)
         pin.save()
         flash("Image has been uploaded.")
     else:
         flash("Image upload error.")
     return redirect(request.referrer + "#add_form" or url_for("index"))
+
+@app.route('/repin', methods=['POST'])
+def repin():
+    id = request.form.get('id')
+    pin = Pin.objects.get(id=id)
+    newpin = Pin(title=pin.title,
+                 img=pin.img,
+                 dscrp=pin.dscrp,
+                 orig=False,
+                 date=datetime.now(),
+                 pinner=current_user.to_dbref(),
+                 repins=0)
+    newpin.save()
+    if pin.repins == None:
+        fix_repins()
+        pin = Pin.objects.get(id=id)
+    pin.repins = pin.repins + 1
+    pin.save()
+    flash("Pin repinned")
+    return redirect('/viewprofile')
         
 @app.route('/uploads/<file>')
 def uploaded_file(file):
