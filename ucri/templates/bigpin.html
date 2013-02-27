@@ -23,13 +23,17 @@
 	</div>
 
 	<p class="dscrp">{{ pin.dscrp }}</p>
-	<div class="comments"></div>
+	<div class="comments">
+		{% for comment in pin.cmts %}
+		{% include 'comment.html' %}
+		{% endfor %}
+	</div>
 
 	{% if current_user.is_authenticated() %}
-	<form class="comment" method="post" action="#">
-		<input type="hidden" name="id" value="0" />
-		<textarea placeholder="Add a comment..." maxlength="1000"></textarea>
-		<button type="button" class="button">Comment</button>
+	<form class="comment" method="post" action="">
+		<input type="hidden" name="id" value="{{ pin.id }}" />
+		<textarea placeholder="Add a comment..." maxlength="1000" name="val"></textarea>
+		<button type="submit" class="button" formaction="/add_comment">Comment</button>
 	</form>
 	{% endif %}
 </div>

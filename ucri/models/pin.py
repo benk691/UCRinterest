@@ -5,6 +5,7 @@
 from ucri import db
 from settings import *
 from user import User
+from comment import Comment
 
 class Pin(db.Document):
     '''Pin collection model. Fields:
@@ -23,5 +24,5 @@ class Pin(db.Document):
     dscrp = db.StringField(min_length=DSCRPT_MIN_LENGTH, max_length=DSCRPT_MAX_LENGTH)
     orig = db.BooleanField(default=False)
     date = db.DateTimeField(required=True)
-    cmts = db.ListField()
+    cmts = db.ListField(db.EmbeddedDocumentField(Comment))
     meta = { 'category' : 'img' }

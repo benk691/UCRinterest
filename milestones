@@ -1,0 +1,20 @@
+Milestone 0:
+
+1. Users should be able to sign up and log in.
+2. Each user should have a profile, including personal information (photo, nickname,
+gender, profile creation date, birthday, etc.) and topics of interest.
+3. Each user should be able to post pins (picture and description) on and manage the
+pin board. They can upload, delete, describe, label and sort their pins.
+4. The browsing page should be similar to the Pinterest website. Users can browse
+pins in a page showing the thumbnails and descriptions of the photos. When a pin
+is clicked, one can see a bigger image and more detailed information of the pin.
+5. Users can “look around” randomly selected pins
+
+
+Milestone 1:
+
+1. Users should be able to add other user as friends and get noticed when a friend has updates.
+2. Users can repin, like, comment on and save pins to their “favorites”.
+3. Users can set whether specific pins can be browsed and commented only by friends or all the
+others.
+4. Users can search pins based on pins label or description by entering keyword.

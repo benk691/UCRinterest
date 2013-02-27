@@ -64,6 +64,7 @@ app.register_blueprint(viewprofileModule)
 #app.register_blueprint(pinModule)
 
 from ucri.models.pin import Pin
+from ucri.models.comment import Comment
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -174,3 +175,16 @@ def deletepin():
     pin = Pin.objects.get(id=request.form.get('id'))
     pin.delete()
     return redirect(url_for('index'))
+
+@app.route('/add_comment', methods=['POST'])
+def add_comment():
+    if request.form.get('val') != "":
+        pin = Pin.objects.get(id=request.form.get('id'))
+        comment = Comment(commenter = current_user.to_dbref(),
+                          message = request.form.get('val'),
+                          date = datetime.now())
+        pin.cmts = pin.cmts + [comment]
+        pin.save()
+        flash("Comment added")
+    return redirect(request.referrer)
+    

@@ -20,9 +20,14 @@
 		<span>0 likes</span>
 		<span>0 repins</span>
 	</p>
+	<div class="comments">
+		{% for comment in pin.cmts %}
+		{% include 'comment.html' %}
+		{% endfor %}
+	</div>
 	<form class="comment" method="post" action="" style="display: none">
 		<input type="hidden" name="id" value="{{ pin.id }}" />
-		<textarea placeholder="Add a comment..." maxlength="1000"></textarea>
-		<button type="button" class="button">Comment</button>
+		<textarea placeholder="Add a comment..." maxlength="1000" name="val"></textarea>
+		<button type="submit" class="button" formaction="/add_comment">Comment</button>
 	</form>
 </div>
