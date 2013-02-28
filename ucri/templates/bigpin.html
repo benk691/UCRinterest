@@ -16,7 +16,10 @@
 			{% if current_user.id == pin.pinner.id %}
 				<a href="/pin/{{pin.id}}/edit" class="button">Edit</a>
 			{% else %}
-				<a href="#" class="button">Like</a>
+				<form method="POST">
+					<input type="hidden" name="id" value="{{ pin.id }}" />
+					<button type="submit" class="button" formaction="/like">Like</button>
+				</form>
 			{% endif %}
 			{% endif %}
 		</div>

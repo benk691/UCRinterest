@@ -9,7 +9,10 @@
 			{% if current_user.id == pin.pinner.id %}
 				<a href="/pin/{{pin.id}}/edit" class="button">Edit</a>
 			{% else %}
-				<a href="#" class="button likebutton">Like</a>
+				<form method="POST">
+					<input type="hidden" name="id" value="{{ pin.id }}" />
+					<button type="submit" class="button" formaction="/like">{% if pin.is_liked() %}Liked{% else %}Like{% endif %} </button>
+				</form>
 			{% endif %}
 			<a href="#" class="button comment_tr">Comment</a>
 		</div>
@@ -20,7 +23,7 @@
 	</div>
 	<p class="dscrp">{{ pin.dscrp }}</p>
 	<p class="info">
-		<span>0 likes</span>
+		<span>{{ pin.like_count }} likes</span>
 		<span>{{ pin.repins }} repins</span>
 	</p>
 	<div class="comments">

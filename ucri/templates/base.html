@@ -47,8 +47,8 @@
 					<a href="{{ url_for('viewprofile.viewprofile') }}">{{ current_user.uname }}<span></span></a>
 					<ul>
 						<li><a href="#">Boards</a></li>
-						<li><a href="#">Pins</a></li>
-						<li><a href="#">Likes</a></li>
+						<li><a href="/viewprofile/pins">Pins</a></li>
+						<li><a href="/viewprofile/likes">Likes</a></li>
 						<li class="div"><a href="#">Settings</a></li>
 						<li><a href="{{ url_for('logout') }}">Logout</a></li>
 					</ul>
@@ -74,7 +74,7 @@
 					        <dt>File<dd>{{upform.photo()}}
 					        <dt>Caption<dd>{{upform.dscrp(size=80)}}
 					    </dl>
-					    <p><input type=submit value=Post></p>
+					    <p><input type=submit class="button" value=Post></p>
 					</form>
 					{% for message in get_flashed_messages() %}
 						<div id="upload_result">{{ message }}</div>

@@ -100,6 +100,16 @@ def fix_repins():
     flash("fixed repin counts")
     return(redirect("/index"))
 
+@app.route('/fix_likes')
+def fix_likes():
+    pins = Pin.objects.all()
+    for pin in pins:
+        if pin.like_count == None:
+            pin.like_count = 0
+            pin.save()
+    flash("fixed like counts")
+    return(redirect("/index"))
+
 # Index page
 @app.route("/")
 @app.route("/index")
@@ -147,7 +157,8 @@ def upload():
                   orig=True,
                   date=datetime.now(),
                   pinner=current_user.to_dbref(),
-                  repins=0)
+                  repins=0,
+                  like_count=0)
         pin.save()
         flash("Image has been uploaded.")
     else:
@@ -164,7 +175,8 @@ def repin():
                  orig=False,
                  date=datetime.now(),
                  pinner=current_user.to_dbref(),
-                 repins=0)
+                 repins=0,
+                 like_count=0)
     newpin.save()
     if pin.repins == None:
         fix_repins()
@@ -219,3 +231,22 @@ def add_comment():
         flash("Comment added")
     return redirect(request.referrer)
     
+@app.route('/like', methods=['POST'])
+def like():
+    id = request.form.get('id')
+    pin = Pin.objects.get(id=id)
+    if pin.is_liked() == True:
+        pin.update(pull__likes=current_user.to_dbref())
+        pin.like_count = pin.like_count - 1
+        pin.save()
+        flash("pin unliked")
+        return redirect(request.referrer)
+    else:
+        if pin.like_count == None:
+            fix_likes()
+            pin = Pin.objects.get(id=id)
+        pin.likes.append(current_user.to_dbref())
+        pin.like_count = pin.like_count + 1
+        pin.save()
+        flash("pin liked")
+    return redirect("/viewprofile/likes")

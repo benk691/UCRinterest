@@ -487,9 +487,11 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
 .btn_left		{ float: left; border-right: 2px solid #ccc; 
 			  padding-left: 15px; padding-right: 15px; 
 			  height: 60px; }
+.btn_left:hover { background-color: #F0EDED}
 .btn_right		{ float: right; border-left: 2px solid #ccc; 
 			  padding-left: 15px; padding-right: 15px;
 			  height: 60px; }
+.btn_right:hover { background-color: #F0EDED}
 .btn_txt		{ margin: 2em auto; }
 
 .pin_wrapper	{ margin: 2em auto; width: 700px;
@@ -560,10 +562,17 @@ dl dd 		{ margin:10px 0; padding:5px 0; }
     font-size: xx-large;
 }
 .es1 input {
-    font-size: large;
-    float: right;
-    margin: 5px;
     background-color: #F0EDED;
+    border: 1px solid #BBBBBB;
+    border-radius: 6px 6px 6px 6px;
+    color: #524D4D;
+    display: inline-block;
+    float: right;
+    font-weight: bold;
+    line-height: 1em;
+    margin: 0;
+    padding: 5px 9px;
+    text-align: center;
 }
 .es1 input:hover {
     background-color: #FF0000;
@@ -583,13 +592,31 @@ dl dd 		{ margin:10px 0; padding:5px 0; }
 }
 .edata .popup input {
     float: right;
+    display: inline-block;
     font-size: large;
     margin-right: 20px;
     background-color: #FF0000;
+    border: 1px solid #BBBBBB;
+    border-radius: 6px 6px 6px 6px;
+    line-height: 1em;
+    padding: 5px 9px;
+    text-align: center;
+}
+.edata .popup input:hover {
+    box-shadow: 0 1px rgba(255, 255, 255, 0.35) inset, 0 0 0 1px rgba(140, 126, 126, 0.5), 0 1px 2px rgba(35, 24, 24, 0.75);
 }
 .edata .popup button {
     float: right;
+    display: inline-block;
     font-size: large;
     margin-right: 8px;
     background-color: #F0EDED;
+    border: 1px solid #BBBBBB;
+    border-radius: 6px 6px 6px 6px;
+    line-height: 1em;
+    padding: 5px 9px;
+    text-align: center;
+}
+.edata .popup button:hover {
+    box-shadow: 0 1px rgba(255, 255, 255, 0.35) inset, 0 0 0 1px rgba(140, 126, 126, 0.5), 0 1px 2px rgba(35, 24, 24, 0.75);
 }

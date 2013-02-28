@@ -6,6 +6,7 @@ from ucri import db
 from settings import *
 from user import User
 from comment import Comment
+from flask.ext.login import current_user
 
 class Pin(db.Document):
     '''Pin collection model. Fields:
@@ -25,6 +26,15 @@ class Pin(db.Document):
     orig = db.BooleanField(default=False)
     date = db.DateTimeField(required=True)
     cmts = db.ListField(db.EmbeddedDocumentField(Comment))
-    repins = db.IntField()
+    repins = db.IntField(default=0)
+    likes = db.ListField(db.ReferenceField(User, dbref=True))
+    like_count = db.IntField(default=0)
     meta = { 'category' : 'img' }
 
+    def is_liked(self):
+        lpins = Pin.objects(likes__contains=current_user.to_dbref())
+        for lpin in lpins:
+            if lpin == self:
+                return True
+        else:
+            return False
