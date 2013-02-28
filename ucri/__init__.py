@@ -60,7 +60,7 @@ app.register_blueprint(teamModule)
 from ucri.users.viewprofile import mod as viewprofileModule
 app.register_blueprint(viewprofileModule)
 
-#from ucri.users.pin import mod as pinModule
+#from ucri.data.pin import mod as pinModule
 #app.register_blueprint(pinModule)
 
 from ucri.models.pin import Pin
