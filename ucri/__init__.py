@@ -250,3 +250,11 @@ def like():
         pin.save()
         flash("pin liked")
     return redirect("/viewprofile/likes")
+
+@app.route('/favorite', methods=['POST'])
+def favorite():
+    id = request.form.get('id')
+    pin = Pin.objects.get(id=id)
+    pin.favs.append(current_user.to_dbref())
+    pin.save()
+    return redirect("/viewprofile/favorites")

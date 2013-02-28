@@ -17,6 +17,10 @@ class Pin(db.Document):
     - cat : category
     - img : image
     - cmts : a list of comments
+    - repins : count of repins
+    - likes : list of users who have liked
+    - like_count : count of likes
+    - favs : list of users who have added pin to favorites
     '''
     title = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
     #img = db.ImageField(required=True)
@@ -29,6 +33,7 @@ class Pin(db.Document):
     repins = db.IntField(default=0)
     likes = db.ListField(db.ReferenceField(User, dbref=True))
     like_count = db.IntField(default=0)
+    favs = db.ListField(db.ReferenceField(User, dbref=True))
     meta = { 'category' : 'img' }
 
     def is_liked(self):

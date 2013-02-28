@@ -26,4 +26,10 @@ def profilepins():
 @login_required
 def likedpins():
 	pins = Pin.objects(likes__contains=current_user.to_dbref())
-	return render_template('profilepins.html', pins=pins, upform=UploadForm())	
+	return render_template('profilepins.html', pins=pins, upform=UploadForm())
+
+@mod.route('/viewprofile/favorites')
+@login_required
+def favorites():
+	pins = Pin.objects(favs__contains=current_user.to_dbref())
+	return render_template('profilepins.html', pins=pins, upform=UploadForm())

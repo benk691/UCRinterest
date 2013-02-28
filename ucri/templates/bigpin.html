@@ -18,12 +18,16 @@
 			{% else %}
 				<form method="POST">
 					<input type="hidden" name="id" value="{{ pin.id }}" />
-					<button type="submit" class="button" formaction="/like">Like</button>
+					<button type="submit" class="button" formaction="/like">{% if pin.is_liked() %}Liked{% else %}Like{% endif %}</button>
 				</form>
 			{% endif %}
+				<form method="POST">
+					<input type="hidden" name="id" value="{{ pin.id }}" />
+					<button type="submit" class="button" formaction="/favorite">Add to Favorites</button>
+				</form>
 			{% endif %}
 		</div>
-		<a class="image" href="#" title="{{pin.title}}">
+		<a class="image" href="/uploads/{{pin.img}}" title="{{pin.title}}">
 			<img alt="{{ pin.title }}" src="/uploads/{{pin.img}}">
 		</a>
 	</div>
