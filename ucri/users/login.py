@@ -1,3 +1,4 @@
+from bcrypt import hashpw, gensalt
 from flask import Flask, request, render_template, redirect, url_for, flash, Response, Blueprint
 from flask.ext.login import (current_user, login_required,
                             login_user, logout_user,
@@ -17,7 +18,7 @@ def login():
         # Query database
         try:
             usrQuery = User.objects.get(uname=username)
-            if usrQuery is not None and usrQuery.pwd == password:
+            if usrQuery is not None and hashpw(password, usrQuery.pwd) == usrQuery.pwd:#usrQuery.pwd == password:
                 if login_user(usrQuery, remember="no"):
                     flash("Logged in!")
                     return redirect(request.args.get("next") or url_for("index"))
