@@ -5,7 +5,6 @@ from flask.ext.mongoengine import MongoEngine
 from datetime import datetime
 from werkzeug import secure_filename
 from config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
-from forms import UploadForm
 import re
 from mongoengine.queryset import Q
 
@@ -17,6 +16,7 @@ app.config.from_object('config')
 db = MongoEngine(app)
 
 from ucri.models.user import User, Anonymous
+from ucri.data.forms import UploadForm
 
 # Login manager
 login_manager = LoginManager()
