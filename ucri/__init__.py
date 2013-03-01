@@ -185,7 +185,7 @@ def repin():
     pin.save()
     flash("Pin repinned")
     return redirect('/viewprofile/pins')
-        
+
 @app.route('/uploads/<file>')
 def uploaded_file(file):
     return send_from_directory(app.config['UPLOAD_FOLDER'], file)
@@ -257,4 +257,8 @@ def favorite():
     pin = Pin.objects.get(id=id)
     pin.favs.append(current_user.to_dbref())
     pin.save()
+<<<<<<< HEAD
     return redirect("/viewprofile/favorites")
+=======
+    return redirect("/viewprofile/favorites")
+>>>>>>> bb8961ac385de5c17e5c36779ddef91c638363c0

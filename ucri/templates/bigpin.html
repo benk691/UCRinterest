@@ -37,7 +37,12 @@
 		{% include 'comment.html' %}
 		{% endfor %}
 	</div>
-
+	<p class="dscrp">{{ pin.dscrp }}</p>
+	<div class="comments">
+		{% for comment in pin.cmts %}
+		{% include 'comment.html' %}
+		{% endfor %}
+	</div>
 	{% if current_user.is_authenticated() %}
 	<form class="comment" method="post" action="">
 		<input type="hidden" name="id" value="{{ pin.id }}" />
