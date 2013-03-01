@@ -15,18 +15,14 @@
   </div>
   <div class=mid_bar>
     <div class=btn_left><div class=btn_txt><h3>Boards</h3></div></div>
-    <div class=btn_left><div class=btn_txt><h3>Pins</h3></div></div>
-    <div class=btn_left><div class=btn_txt><h3>Likes</h3></div></div>
-    <div class=btn_left><div class=btn_txt><h3>Activity</h3></div></div>
+    <a href="/viewprofile/pins"><div class=btn_left><div class=btn_txt><h3>Pins</h3></div></div></a>
+    <a href="/viewprofile/likes"><div class=btn_left><div class=btn_txt><h3>Likes</h3></div></div></a>
+    <a href="/viewprofile/favorites"><div class=btn_left><div class=btn_txt><h3>Favorites</h3></div></div></a>
     <div class=btn_right><div class=btn_txt><h3>Following</h3></div></div>
     <div class=btn_right><div class=btn_txt><h3>Followers</h3></div></div>
   </div>
 </div>
   <div class=low_bar>
-    <div class="main_container">
-      {% for pin in pins %}
-      {% include 'pin.html' %}
-      {% endfor %}
-    </div>
+    {% block profile %}{% endblock %}
   </div>
 {% endblock %}

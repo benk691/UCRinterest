@@ -1,10 +1,19 @@
-<div class="pin">
+<div class="pin" pin_id={{pin.id}}>
 	<div class="holder">
 		{% if current_user.is_authenticated() %}
 		<div class="actions" pin_id="{{ pin.id }}">
-			<a href="#" class="button">Repin</a>
-			<a href="#" class="button">Like</a>
-            <a href="#" class="button">Delete</a>
+			<form method="POST">
+				<input type="hidden" name="id" value="{{ pin.id }}" />
+				<button type="submit" class="button" formaction="/repin">Repin</button>
+			</form>
+			{% if current_user.id == pin.pinner.id %}
+				<a href="/pin/{{pin.id}}/edit" class="button">Edit</a>
+			{% else %}
+				<form method="POST">
+					<input type="hidden" name="id" value="{{ pin.id }}" />
+					<button type="submit" class="button" formaction="/like">{% if pin.is_liked() %}Liked{% else %}Like{% endif %} </button>
+				</form>
+			{% endif %}
 			<a href="#" class="button comment_tr">Comment</a>
 		</div>
 		{% endif %}
@@ -14,12 +23,17 @@
 	</div>
     <p class="desc">{{ pin.dscrp }}</p>
 	<p class="info">
-		<span>1 likes</span>
-		<span>1 repins</span>
+		<span>{{ pin.like_count }} likes</span>
+		<span>{{ pin.repins }} repins</span>
 	</p>
+	<div class="comments">
+		{% for comment in pin.cmts %}
+		{% include 'comment.html' %}
+		{% endfor %}
+	</div>
 	<form class="comment" method="post" action="" style="display: none">
 		<input type="hidden" name="id" value="{{ pin.id }}" />
-		<textarea placeholder="Add a comment..." maxlength="1000"></textarea>
-		<button type="button" class="button">Comment</button>
+		<textarea placeholder="Add a comment..." maxlength="1000" name="val"></textarea>
+		<button type="submit" class="button" formaction="/add_comment">Comment</button>
 	</form>
 </div>

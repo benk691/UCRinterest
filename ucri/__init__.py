@@ -64,6 +64,7 @@ app.register_blueprint(viewprofileModule)
 #app.register_blueprint(pinModule)
 
 from ucri.models.pin import Pin
+from ucri.models.comment import Comment
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -88,6 +89,26 @@ def clear():
         pin.delete()
     flash("Pins deleted!")
     return redirect(url_for('index'))
+
+@app.route('/fix_repins')
+def fix_repins():
+    pins = Pin.objects.all()
+    for pin in pins:
+        if pin.repins == None:
+            pin.repins = 0
+            pin.save()
+    flash("fixed repin counts")
+    return(redirect("/index"))
+
+@app.route('/fix_likes')
+def fix_likes():
+    pins = Pin.objects.all()
+    for pin in pins:
+        if pin.like_count == None:
+            pin.like_count = 0
+            pin.save()
+    flash("fixed like counts")
+    return(redirect("/index"))
 
 # Index page
 @app.route("/")
@@ -120,24 +141,50 @@ def bigpin(id):
 def upload():
     form = UploadForm()
     if form.validate():
+        if form.title.data == "":
+            flash("Must include title")
+            return redirect(request.referrer + "#add_form")
         filename = secure_filename(form.photo.data.filename)
         pos = filename.rfind('.')
-        flash(str(filename[pos + 1: ] in ALLOWED_EXTENSIONS))
+        #flash(str(filename[pos + 1: ] in ALLOWED_EXTENSIONS))
         if pos < 0 or (pos >= 0 and (not filename[pos + 1 : ] in ALLOWED_EXTENSIONS)):
             flash("Error: Invalid extension, pleases use jpg or png")
-            return redirect('/index#add_form')
+            return redirect(request.referrer + '#add_form')
         form.photo.file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         pin = Pin(title=form.title.data,
                   img=filename,
                   dscrp=form.dscrp.data,
                   orig=True,
                   date=datetime.now(),
-                  pinner=current_user.to_dbref())
+                  pinner=current_user.to_dbref(),
+                  repins=0,
+                  like_count=0)
         pin.save()
         flash("Image has been uploaded.")
     else:
         flash("Image upload error.")
-    return redirect(request.referrer or url_for("index"))
+    return redirect(request.referrer + "#add_form" or url_for("index"))
+
+@app.route('/repin', methods=['POST'])
+def repin():
+    id = request.form.get('id')
+    pin = Pin.objects.get(id=id)
+    newpin = Pin(title=pin.title,
+                 img=pin.img,
+                 dscrp=pin.dscrp,
+                 orig=False,
+                 date=datetime.now(),
+                 pinner=current_user.to_dbref(),
+                 repins=0,
+                 like_count=0)
+    newpin.save()
+    if pin.repins == None:
+        fix_repins()
+        pin = Pin.objects.get(id=id)
+    pin.repins = pin.repins + 1
+    pin.save()
+    flash("Pin repinned")
+    return redirect('/viewprofile/pins')
         
 @app.route('/uploads/<file>')
 def uploaded_file(file):
@@ -151,8 +198,63 @@ def search():
     terms = re.split('\s', query)
     #generate regular expression from tokens
     x = "|".join(map(str, terms))
-    #create regular expression object
     regx = re.compile(x, re.IGNORECASE)
     #query database
     pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
     return render_template("index.html", pins=pins, upform=UploadForm())
+
+@app.route('/pin/<id>/edit', methods=['POST', 'GET'])
+def editpin(id):
+    pin = Pin.objects.get(id=id)
+    if pin.pinner.id != current_user.id:
+        return redirect(url_for('index'))
+    if request.method == 'POST':
+        pin.dscrp = request.form.get('dscrp')
+        pin.save()
+    return render_template("editpin.html", pin=pin, upform=UploadForm())
+
+@app.route('/delete', methods=['POST'])
+def deletepin():
+    pin = Pin.objects.get(id=request.form.get('id'))
+    pin.delete()
+    return redirect(url_for('index'))
+
+@app.route('/add_comment', methods=['POST'])
+def add_comment():
+    if request.form.get('val') != "":
+        pin = Pin.objects.get(id=request.form.get('id'))
+        comment = Comment(commenter = current_user.to_dbref(),
+                          message = request.form.get('val'),
+                          date = datetime.now())
+        pin.cmts = pin.cmts + [comment]
+        pin.save()
+        flash("Comment added")
+    return redirect(request.referrer)
+    
+@app.route('/like', methods=['POST'])
+def like():
+    id = request.form.get('id')
+    pin = Pin.objects.get(id=id)
+    if pin.is_liked() == True:
+        pin.update(pull__likes=current_user.to_dbref())
+        pin.like_count = pin.like_count - 1
+        pin.save()
+        flash("pin unliked")
+        return redirect(request.referrer)
+    else:
+        if pin.like_count == None:
+            fix_likes()
+            pin = Pin.objects.get(id=id)
+        pin.likes.append(current_user.to_dbref())
+        pin.like_count = pin.like_count + 1
+        pin.save()
+        flash("pin liked")
+    return redirect("/viewprofile/likes")
+
+@app.route('/favorite', methods=['POST'])
+def favorite():
+    id = request.form.get('id')
+    pin = Pin.objects.get(id=id)
+    pin.favs.append(current_user.to_dbref())
+    pin.save()
+    return redirect("/viewprofile/favorites")
