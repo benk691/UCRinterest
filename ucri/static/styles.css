@@ -531,26 +531,29 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
 
 /*****************************LOGIN*PAGE*****************************/
 
-<<<<<<< HEAD
-.lgn_box		{ margin: 5em auto; width: 225px; height: 185px;
-=======
-.lgn_box		{ margin: 5em auto; width: 350px; height: 185px;
->>>>>>> upstream/master
-			      padding: 15px; background: white; 
-			      border-radius: 15px; box-shadow: 0px 0px 5px #888; }
+.lgn_box        { margin: 5em auto; width: 225px; height: 185px;
+                  padding: 15px; background: white; 
+                  border-radius: 15px; box-shadow: 0px 0px 5px #888; }
 .lgn_lgn		{ float: left; }
 .lgn_reg		{ float: right; }
-input.rnd, input.rnd_btn
-			    { border: 1px solid #ccc; -moz-border-radius: 10px; 
-			      -webkit-border-radius: 10px; border-radius: 10px; 
-			      -moz-box-shadow: 2px 2px 3px #666;
-			      -webkit-box-shadow: 2px 2px 3px #666;
-			      box-shadow: 2px 2px 3px #666; font-size: 20px;
-			      padding: 4px 7px; outline: 0;
-			      -webkit-appearance: none; }
-input.rnd_btn 	{ background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f0f0f0));
-			      background: -moz-linear-gradient(top,  #ffffff,  #f0f0f0);
-			      filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f0f0f0'); }
+input.rnd
+                { border: 1px solid #ccc; -moz-border-radius: 10px; 
+                  -webkit-border-radius: 10px; border-radius: 10px; 
+                  -moz-box-shadow: 2px 2px 3px #666;
+                  -webkit-box-shadow: 2px 2px 3px #666;
+                  box-shadow: 2px 2px 3px #666; font-size: 20px;
+                  padding: 4px 7px; outline: 0;
+                  -webkit-appearance: none; width: 210px;}
+input.rnd_btn   { border: 1px solid #ccc; -moz-border-radius: 10px; 
+                  -webkit-border-radius: 10px; border-radius: 10px; 
+                  -moz-box-shadow: 2px 2px 3px #666;
+                  -webkit-box-shadow: 2px 2px 3px #666;
+                  box-shadow: 2px 2px 3px #666; font-size: 20px;
+                  padding: 4px 7px; outline: 0;
+                  -webkit-appearance: none; 
+                  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f0f0f0));
+                  background: -moz-linear-gradient(top,  #ffffff,  #f0f0f0);
+                  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f0f0f0'); }
 
 /****************************UNKNOWN*PAGE****************************/
 
