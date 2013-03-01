@@ -26,6 +26,7 @@ class User(UserMixin, db.Document):
     birthday = db.DateTimeField()
     #pin_array = db.ListField()
     interest_array = db.ListField()
+    meta = { 'category' : 'user' }
 
     def is_active(self):
         return True
