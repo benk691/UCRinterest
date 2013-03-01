@@ -1,35 +1,26 @@
-<!DOCTYPE html>
-<html lang=en>
-  <head>
-    <title>UCR Interest</title>
-    <!-- styles -->
-    <link href="/static/styles.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-    <div class="header_panel">
-        <!-- logo -->
-        <a href="/index" class="logo"></a>
-    </div>
-    <div class=box_register>
-      <center><h2>Register</h2></center>
-        {% from "_formhelpers.html" import render_field %}
-        <form method=post action="/register">
-          {{ form.csrf_token }}
-          <dl>
-            <div class=fld_bx1>{{ render_field(form.uname) }}</div>
-            <div class=fld_bx2>{{ render_field(form.pwd) }}</div>
-            <div class=fld_bx2>{{ render_field(form.confirm) }}</div>
-            <div class=fld_bx2>{{ render_field(form.fname) }}</div>
-            <div class=fld_bx2>{{ render_field(form.lname) }}</div>
-            <div class=fld_bx1>{{ render_field(form.email) }}</div>
-            <div class=fld_bx1>{{ render_field(form.gender) }}</div>
-            <div class=fld_bx1>{{ render_field(form.bday) }}</div>
-            <div class=fld_bx1>{{ render_field(form.dscrp) }}</div>
-          </dl>
-          <p><center><input type=submit value=Register></center>
-        </form>
-      {% for message in get_flashed_messages() %}
-        <div class=flash>{{ message }}</div>
-      {% endfor %}
-    </div>
-  </body>
+{% extends "base.html" %}
+
+{% block content %}
+<div class=box_register>
+  <center><h1>Register</h1></center>
+  {% from "_formhelpers.html" import render_field %}
+  <form method=post action="/register">
+  {{ form.csrf_token }}
+    <dl>
+      <div class=fld_bx1>{{ render_field(form.uname) }}</div>
+      <div class=fld_bx2>{{ render_field(form.pwd) }}</div>
+      <div class=fld_bx2>{{ render_field(form.confirm) }}</div>
+      <div class=fld_bx2>{{ render_field(form.fname) }}</div>
+      <div class=fld_bx2>{{ render_field(form.lname) }}</div>
+      <div class=fld_bx1>{{ render_field(form.email) }}</div>
+      <div class=fld_bx1>{{ render_field(form.gender) }}</div>
+      <div class=fld_bx1>{{ render_field(form.bday) }}</div>
+      <div class=fld_bx1>{{ render_field(form.dscrp) }}</div>
+    </dl>
+    <p><center><input type=submit value=Register></center>
+  </form>
+{% for message in get_flashed_messages() %}
+   <div class=flash>{{ message }}</div>
+{% endfor %}
+</div>
+{% endblock %}
