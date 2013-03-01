@@ -257,8 +257,4 @@ def favorite():
     pin = Pin.objects.get(id=id)
     pin.favs.append(current_user.to_dbref())
     pin.save()
-<<<<<<< HEAD
     return redirect("/viewprofile/favorites")
-=======
-    return redirect("/viewprofile/favorites")
->>>>>>> bb8961ac385de5c17e5c36779ddef91c638363c0
