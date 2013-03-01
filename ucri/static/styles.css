@@ -531,7 +531,7 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
 
 /*****************************LOGIN*PAGE*****************************/
 
-.lgn_box		{ margin: 5em auto; width: 225px; height: 185px;
+.lgn_box		{ margin: 5em auto; width: 350px; height: 185px;
 			      padding: 15px; background: white; 
 			      border-radius: 15px; box-shadow: 0px 0px 5px #888; }
 .lgn_lgn		{ float: left; }
@@ -547,7 +547,6 @@ input.rnd, input.rnd_btn
 input.rnd_btn 	{ background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f0f0f0));
 			      background: -moz-linear-gradient(top,  #ffffff,  #f0f0f0);
 			      filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f0f0f0'); }
-
 /****************************UNKNOWN*PAGE****************************/
 
 dl              { margin-bottom:10px; }
