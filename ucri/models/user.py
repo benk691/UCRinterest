@@ -34,4 +34,4 @@ class User(UserMixin, db.Document):
         return unicode(self.uname)
 
 class Anonymous(AnonymousUser):
-    name = u"Anonymous"
+    uname = u"Anonymous"

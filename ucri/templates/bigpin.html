@@ -8,15 +8,15 @@
 		<div class="actions">
 			<a href="#" class="button">Repin</a>
 			<a href="#" class="button">Like</a>
+            <a href="#" class="button">Delete</a>
 		</div>
 		<a class="image" href="#" title="{{pin.title}}">
 			<img alt="{{ pin.title }}" src="/uploads/{{pin.img}}">
 		</a>
 	</div>
+	<p class="desc">{{ pin.dscrp }}</p>
 
-	<p class="dscrp">{{ pin.dscrp }}</p>
 	<div class="comments"></div>
-
 	<form class="comment" method="post" action="#">
 		<input type="hidden" name="id" value="0" />
 		<textarea placeholder="Add a comment..." maxlength="1000"></textarea>
