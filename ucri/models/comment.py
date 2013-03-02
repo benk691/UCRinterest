@@ -11,6 +11,6 @@ class Comment(db.EmbeddedDocument):
     - content : the content of the comment
     - author : the author of the comment
     '''
-    content = db.StingField(required=True, min_length=CMT_MIN_LENGTH)
+    content = db.StringField(required=True, min_length=CMT_MIN_LENGTH)
     # author is the uname in the User model
     author = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
