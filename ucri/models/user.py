@@ -5,6 +5,7 @@
 from ucri import db
 from flask.ext.login import UserMixin, AnonymousUser
 from settings import *
+from flask.ext.login import current_user
 
 class User(UserMixin, db.Document):
     '''User collection model. Fields:
@@ -29,7 +30,9 @@ class User(UserMixin, db.Document):
     # Doesn't work
     #follower_array = db.ListField(db.ReferenceField(User, dbref=True))
     # A list of strings of usernames, usernames are unique load user link with user name if possible
-    follower_array = db.ListField(db.StringField())
+    #follower_array = db.ListField(db.StringField())
+    # Works:
+    follower_array = db.ListField(db.ReferenceField('self', dbref=True))
 
     meta = { 'category' : 'user' }
 
@@ -38,6 +41,14 @@ class User(UserMixin, db.Document):
 
     def get_id(self):
         return unicode(self.uname)
+
+    #Tests if current_user is following this User
+    def following(self):
+        for user in current_user.follower_array:
+            if user == self:
+                return True
+        else:
+            return False
 
 class Anonymous(AnonymousUser):
     uname = u"Anonymous"

@@ -492,6 +492,15 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
 .btn_right:hover { background-color: #F0EDED}
 .btn_txt		{ margin: 2em auto; }
 
+.wrapper2   { margin:2em auto; width: 500px;}
+.top_bar2   { width: 500px; }
+.profile_pic2   { float: left; margin: 0px 0px 0px 0px; width: 90px;
+                  height: 90px; padding: 0.8em; background: white; 
+                  box-shadow: 0px 0px 5px #888; }
+.profile_info2  { float: left; margin: 0px 0px 0px 0px; width: 350px;
+                  height: 90px; padding: 0.8em; background: white; 
+                  box-shadow: 0px 0px 5px #888; }
+
 /*****************************TEAM*PAGE******************************/
 
 .t_members		{ margin: 2em auto; width: 700px; height: 900px; }
