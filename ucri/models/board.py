@@ -5,7 +5,7 @@
 from ucri import db
 from settings import *
 
-class Album(db.Document):
+class Board(db.Document):
     '''Album object:
     creator - creator of album 
     title - title of album
@@ -16,3 +16,4 @@ class Album(db.Document):
     title = db.StringField(min_length = NAME_MIN_LENGTH, max_length = NAME_MAX_LENGTH, required = True)
     dscrp = db.StringField(min_length = DSCRPT_MIN_LENGTH, max_length = DSCRPT_MAX_LENGTH)
     pins = db.ListField()
+    meta = { 'category' : 'board' }

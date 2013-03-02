@@ -9,12 +9,19 @@ from ucri.models.pin import Pin
 
 mod = Blueprint('pin', __name__)
 
+"""
 @mod.route('/pin/<id>')
 @login_required
 def viewpin():
     return render_template('pin.html')
+"""
 
-@login_required
-def createPin(title, img_path, dscrp):
-    pin = Pin(title=title, img_path=img_path, pinner=current_user, dscrp=dscrp, date=datetime.now())
-    pin.save()
+@mod.route('/pin/<id>', methods=['POST'])
+#@login_required
+def remove(id):
+    pin = Pin.objects.get(id=id)
+    if request.method == 'POST':
+        pin.delete()
+        redirect("bigpin.html", pin=pin, user=current_user)
+        #return redirect(url_for("index"))
+    return redirect("bigpin.html", pin=pin, user=current_user)

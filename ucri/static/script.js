@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(window).load(function(){
 	$('.main_container').masonry({
 		itemSelector: '.pin',
 		isAnimated: true,

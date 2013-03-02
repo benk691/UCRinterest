@@ -14,7 +14,8 @@ class RegisterForm(Form):
     gender = SelectField(
         u'Gender', [Required()],
         choices=[('M', 'Male'),
-                 ('F', 'Female')]
+                 ('F', 'Female'),
+                 ('U', 'Unspecified')]
         )
     pwd = PasswordField(u'Password',
         [ Required(), EqualTo('confirm', message='Passwords must match'), Length(min=PWD_MIN_LENGTH, max=PWD_MAX_LENGTH) ])

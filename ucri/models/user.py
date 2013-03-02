@@ -26,6 +26,7 @@ class User(UserMixin, db.Document):
     creation_date = db.DateTimeField(required=True)
     birthday = db.DateTimeField()
     interest_array = db.ListField()
+    meta = { 'category' : 'user' }
 
     def is_active(self):
         return True
@@ -34,4 +35,4 @@ class User(UserMixin, db.Document):
         return unicode(self.uname)
 
 class Anonymous(AnonymousUser):
-    name = u"Anonymous"
+    uname = u"Anonymous"
