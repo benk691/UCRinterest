@@ -6,7 +6,7 @@ from ucri import db
 from settings import *
 
 class Board(db.Document):
-    '''Album object:
+    '''Board object:
     creator - creator of album 
     title - title of album
     dscrp - description of album

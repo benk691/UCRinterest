@@ -26,6 +26,11 @@ class User(UserMixin, db.Document):
     birthday = db.DateTimeField()
     #pin_array = db.ListField()
     interest_array = db.ListField()
+    # Doesn't work
+    #follower_array = db.ListField(db.ReferenceField(User, dbref=True))
+    # A list of strings of usernames, usernames are unique load user link with user name if possible
+    follower_array = db.ListField(db.StringField())
+
     meta = { 'category' : 'user' }
 
     def is_active(self):
