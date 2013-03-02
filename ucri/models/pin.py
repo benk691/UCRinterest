@@ -17,8 +17,7 @@ class Pin(db.Document):
     - cmts : a list of comments
     '''
     title = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
-    #img = db.ImageField(required=True)
-    img_path = db.StringField(required=True, min_length=PATH_MIN_LENGTH)
+    img = db.StringField(required=True)
     # pinner is the uname in the User model
     pinner = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
     dscrp = db.StringField(min_length=DSCRPT_MIN_LENGTH, max_length=DSCRPT_MAX_LENGTH)
