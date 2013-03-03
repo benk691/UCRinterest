@@ -54,17 +54,17 @@ app.register_blueprint(loginModule)
 from ucri.UCRinterest.ucri.users.profile import mod as profileModule
 app.register_blueprint(profileModule)
 
-from ucri.users.team import mod as teamModule
+from ucri.UCRinterest.ucri.users.team import mod as teamModule
 app.register_blueprint(teamModule)
 
-from ucri.users.viewprofile import mod as viewprofileModule
+from ucri.UCRinterest.ucri.users.viewprofile import mod as viewprofileModule
 app.register_blueprint(viewprofileModule)
 
-#from ucri.data.pin import mod as pinModule
+#from ucri.UCRinterest.ucri.data.pin import mod as pinModule
 #app.register_blueprint(pinModule)
 
-from ucri.models.pin import Pin
-from ucri.models.comment import Comment
+from ucri.UCRinterest.ucri.models.pin import Pin
+from ucri.UCRinterest.ucri.models.comment import Comment
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
