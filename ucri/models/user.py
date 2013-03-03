@@ -25,13 +25,7 @@ class User(UserMixin, db.Document):
     dscrp = db.StringField(min_length=DSCRPT_MIN_LENGTH, max_length=DSCRPT_MAX_LENGTH)
     creation_date = db.DateTimeField(required=True)
     birthday = db.DateTimeField()
-    #pin_array = db.ListField()
     interest_array = db.ListField()
-    # Doesn't work
-    #follower_array = db.ListField(db.ReferenceField(User, dbref=True))
-    # A list of strings of usernames, usernames are unique load user link with user name if possible
-    #follower_array = db.ListField(db.StringField())
-    # Works:
     follower_array = db.ListField(db.ReferenceField('self', dbref=True))
 
     meta = { 'category' : 'user' }
