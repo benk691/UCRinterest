@@ -22,7 +22,7 @@ class Pin(db.Document):
     - favs : list of users who have added pin to favorites
     '''
     title = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
-    img = db.StringField(required=True)
+    img = db.StringField(min_length=PATH_MIN_LENGTH, required=True)
     pinner = db.ReferenceField(User, dbref=True, required=True)
     dscrp = db.StringField(min_length=DSCRPT_MIN_LENGTH, max_length=DSCRPT_MAX_LENGTH)
     date = db.DateTimeField(required=True)
@@ -38,5 +38,5 @@ class Pin(db.Document):
         for lpin in lpins:
             if lpin == self:
                 return True
-        else:
-            return False
+            else:
+                return False

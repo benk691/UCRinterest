@@ -47,6 +47,24 @@ def register():
             return redirect(url_for('login.login'))
     return render_template('register.html', form=form)
 
+@mod.route('/follow', methods=["POST"])
+def follow():
+    id = request.form.get('pinner')
+    user = User.objects.get(id=id)
+    current_user.follower_array.append(user)
+    current_user.save()
+    flash("Following " + user.uname)
+    return redirect("/viewprofile/following")
+
+@mod.route('/clearfollows')
+def clearfollows():
+    users = User.objects
+    for user in users:
+        user.follower_array = None
+        user.save()
+    flash("Follows cleared")
+    return redirect('/index')
+
 '''
 @mod.route('/interests', methods=['GET', 'POST'])
 def interests():
