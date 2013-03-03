@@ -4,16 +4,7 @@
 ##################################################
 from flask.ext.login import UserMixin, AnonymousUser
 from ucri.UCRinterest.ucri import db
-
-# User settings
-NAME_MIN_LENGTH = 3
-NAME_MAX_LENGTH = 25
-PWD_MIN_LENGTH = 3
-PWD_MAX_LENGTH = 50
-EMAIL_MIN_LENGTH = 3
-EMAIL_MAX_LENGTH = 50
-DSCRPT_MIN_LENGTH = 0
-DSCRPT_MAX_LENGTH = 400
+from settings import *
 
 class User(UserMixin, db.Document):
     '''User collection model. Fields:
@@ -33,8 +24,10 @@ class User(UserMixin, db.Document):
     dscrp = db.StringField(min_length=DSCRPT_MIN_LENGTH, max_length=DSCRPT_MAX_LENGTH)
     creation_date = db.DateTimeField(required=True)
     birthday = db.DateTimeField()
-    pin_array = db.ListField()
     interest_array = db.ListField()
+    follower_array = db.ListField(db.StringField())
+
+    meta = { 'category' : 'user' }
 
     def is_active(self):
         return True
@@ -43,4 +36,4 @@ class User(UserMixin, db.Document):
         return unicode(self.uname)
 
 class Anonymous(AnonymousUser):
-    name = u"Anonymous"
+    uname = u"Anonymous"

@@ -1,6 +1,7 @@
 from flask.ext.wtf import Form, TextField, TextAreaField, PasswordField, SelectField, TextAreaField, SubmitField, DateTimeField, DateField
 from flask.ext.wtf import Required, Email, EqualTo, Length
 from ucri.UCRinterest.ucri.models.user import *
+from datetime import datetime
 
 class RegisterForm(Form):
     '''
@@ -13,12 +14,13 @@ class RegisterForm(Form):
     gender = SelectField(
         u'Gender', [Required()],
         choices=[('M', 'Male'),
-                 ('F', 'Female')]
+                 ('F', 'Female'),
+                 ('U', 'Unspecified')]
         )
     pwd = PasswordField(u'Password',
         [ Required(), EqualTo('confirm', message='Passwords must match'), Length(min=PWD_MIN_LENGTH, max=PWD_MAX_LENGTH) ])
     confirm = PasswordField(u'Repeat Password', [Required()])
     # Birthday
-    bday = DateField(u'Birthday (mm/dd/yyyy)', format='%m/%d/%Y')
+    bday = DateField(u'Birthday (mm/dd/yyyy)', format='%m/%d/%Y', default=datetime(1970, 1, 1))
     dscrp = TextAreaField(u'Describe yourself', [Length(min=DSCRPT_MIN_LENGTH, max=DSCRPT_MAX_LENGTH)])
     reg = SubmitField(u'Register')

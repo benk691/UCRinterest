@@ -1,14 +1,14 @@
-{% extends "layout.html" %}
-
-{% block body %}
-  <h2>Login</h2>
+{% extends "base.html" %}
+{% block content %}
+<div class=lgn_box>
+  <center><h1>Login</h1></center>
   <form action="" method=post>
     <dl>
-      <dt>Username:
-      <dd><input type=text name=username>
-      <dt>Password:
-      <dd><input type=password name=password>
-      <dd><input type=submit value=Login>
+      <dd><input type=text class=rnd name=username placeholder=Username>
+      <dd><input type=password class=rnd name=password placeholder=Password>
+      <dd><div class=lgn_lgn><input type=submit class=rnd_btn value=Login></div>
+          <div class=lgn_reg><input type="button" class=rnd_btn value="Register" onClick="window.location='{{ url_for('profile.register') }}' "></div>
     </dl>
   </form>
+</div>
 {% endblock %}

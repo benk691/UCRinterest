@@ -1,17 +1,13 @@
+from bcrypt import hashpw, gensalt
 from flask import Flask, request, render_template, redirect, url_for, flash, Response, Blueprint
-from flask.ext.login import (LoginManager, current_user, login_required,
-                            login_user, logout_user, UserMixin, AnonymousUser,
+from flask.ext.login import (current_user, login_required,
+                            login_user, logout_user,
                             confirm_login, fresh_login_required)
 #from api import app, db
 from ucri.UCRinterest.ucri.models.user import User, Anonymous
 
 # Login blueprint
 mod = Blueprint('login', __name__)
-
-@mod.route("/secret")
-@fresh_login_required
-def secret():
-    return render_template("secret.html")
 
 @mod.route("/login", methods=["GET", "POST"])
 def login():
@@ -22,7 +18,7 @@ def login():
         # Query database
         try:
             usrQuery = User.objects.get(uname=username)
-            if usrQuery is not None and usrQuery.pwd == password:
+            if usrQuery is not None and hashpw(password, usrQuery.pwd) == usrQuery.pwd:#usrQuery.pwd == password:
                 if login_user(usrQuery, remember="no"):
                     flash("Logged in!")
                     return redirect(request.args.get("next") or url_for("index"))
@@ -43,9 +39,3 @@ def reauth():
         return redirect(request.args.get("next") or url_for("index"))
     return render_template("reauth.html")
 
-@mod.route("/index")
-@login_required
-def logout():
-    logout_user()
-    flash("Logged out.")
-    return redirect(url_for("index"))
