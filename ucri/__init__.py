@@ -4,9 +4,9 @@ from flask.ext.login import LoginManager, current_user, logout_user
 from flask.ext.mongoengine import MongoEngine
 from datetime import datetime
 from werkzeug import secure_filename
-from config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 import re
 from mongoengine.queryset import Q
+from ucri.UCRinterest.config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 
 # Create and configure app
 app = Flask(__name__)
@@ -69,7 +69,6 @@ from ucri.UCRinterest.ucri.models.comment import Comment
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-"""
 @app.route("/make")
 def make():
     pin = Pin(title="Settings 1", img="img1.jpg", dscrp="Description 1", orig=True, date=datetime.now(), pinner=current_user.to_dbref())
@@ -82,7 +81,6 @@ def make():
     pin.save()
     flash("Pins Created!")
     return redirect(url_for('index'))
-"""
 
 @app.route("/clear")
 def clear():
