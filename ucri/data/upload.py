@@ -1,5 +1,5 @@
-import flask, flask.views
 import os
+import flask, flask.views
 from flask import (Flask, request, url_for, redirect, render_template, flash,
                    session, g, send_from_directory)
 from flask.ext.uploads import (UploadSet, configure_uploads, IMAGES,

@@ -3,11 +3,10 @@ from flask import (Flask, request, render_template, redirect, url_for, flash,
 from flask.ext.login import (current_user, login_required, confirm_login,
                              fresh_login_required)
 from datetime import datetime
-from ucri.models.user import User
+from ucri.UCRinterest.ucri.models.user import User
 #from ucri.models.album import Album
-from ucri.models.pin import Pin
-
-from ucri import UploadForm
+from ucri.UCRinterest.ucri.models.pin import Pin
+from ucri.UCRinterest.ucri import UploadForm
 
 mod = Blueprint('viewprofile', __name__)
 

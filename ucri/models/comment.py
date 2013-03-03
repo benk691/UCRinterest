@@ -1,4 +1,4 @@
-from ucri import db
+from ucri.UCRinterest.ucri import db
 from settings import *
 from user import User
 

@@ -2,7 +2,7 @@
 # The library functions for the album database model
 # This defines the required document as well as easy-to-use functions to get user information
 ##################################################
-from ucri import db
+from ucri.UCRinterest.ucri import db
 from settings import *
 
 class Board(db.Document):
