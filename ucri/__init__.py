@@ -1,11 +1,11 @@
-from flask import Flask, request, render_template, redirect, url_for, flash, Response, Blueprint
+from flask import Flask, request, render_template, redirect, url_for, flash, Response, Blueprint, send_from_directory
 from flask.ext.login import LoginManager, current_user, logout_user, login_required
 from flask.ext.mongoengine import MongoEngine
 from datetime import datetime
 from werkzeug import secure_filename
-from config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 import re
 from mongoengine.queryset import Q
+from config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 
 # Create and configure app
 app = Flask(__name__)
@@ -132,8 +132,10 @@ def about():
 @app.route('/pin/<id>')
 def bigpin(id):
 	pin = Pin.objects.get(id=id)
+    #following = pin.pinner.following()
 	return render_template('bigpin.html',
 		pin = pin,
+        #show_follow = !following,
 		user = current_user)
 
 @app.route('/upload', methods=['POST'])
@@ -257,3 +259,21 @@ def favorite():
     pin.favs.append(current_user.to_dbref())
     pin.save()
     return redirect("/viewprofile/favorites")
+
+@app.route('/follow', methods=["POST"])
+def follow():
+    id = request.form.get('pinner')
+    user = User.objects.get(id=id)
+    current_user.follower_array.append(user)
+    current_user.save()
+    flash("Following " + user.uname)
+    return redirect("/viewprofile/following")
+
+@app.route('/clearfollows')
+def clearfollows():
+    users = User.objects
+    for user in users:
+        user.follower_array = None
+        user.save()
+    flash("Follows cleared")
+    return redirect('/index')

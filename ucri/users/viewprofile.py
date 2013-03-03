@@ -33,3 +33,15 @@ def likedpins():
 def favorites():
 	pins = Pin.objects(favs__contains=current_user.to_dbref())
 	return render_template('profilepins.html', pins=pins, upform=UploadForm())
+
+@mod.route('/viewprofile/following')
+@login_required
+def following():
+	users = current_user.follower_array
+	return render_template('profilefollows.html', users=users, upform=UploadForm())
+
+@mod.route('/viewprofile/followers')
+@login_required
+def followers():
+	users = User.objects.filter(follower_array__contains=current_user.to_dbref())
+	return render_template('profilefollows.html', users=users, upform=UploadForm())
