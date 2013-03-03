@@ -2,8 +2,8 @@
 # The library functions for the user database model
 # This defines the required document as well as easy-to-use functions to get user information
 ##################################################
-from ucri.UCRinterest.ucri import db
 from flask.ext.login import UserMixin, AnonymousUser
+from ucri.UCRinterest.ucri import db
 
 # User settings
 NAME_MIN_LENGTH = 3
