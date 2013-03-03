@@ -47,8 +47,8 @@ def not_found(error):
 # Register blueprints
 from ucri.UCRinterest.ucri.data.help import mod as helpModule
 app.register_blueprint(helpModule)
-from ucri.UCRinterest.ucri.users.login import mod as loginModule
 
+from ucri.UCRinterest.ucri.users.login import mod as loginModule
 app.register_blueprint(loginModule)
 
 from ucri.UCRinterest.ucri.users.profile import mod as profileModule
@@ -133,8 +133,10 @@ def about():
 @app.route('/pin/<id>')
 def bigpin(id):
 	pin = Pin.objects.get(id=id)
+    #following = pin.pinner.following()
 	return render_template('bigpin.html',
 		pin = pin,
+        #show_follow = !following,
 		user = current_user)
 
 @app.route('/upload', methods=['POST'])
@@ -258,3 +260,21 @@ def favorite():
     pin.favs.append(current_user.to_dbref())
     pin.save()
     return redirect("/viewprofile/favorites")
+
+@app.route('/follow', methods=["POST"])
+def follow():
+    id = request.form.get('pinner')
+    user = User.objects.get(id=id)
+    current_user.follower_array.append(user)
+    current_user.save()
+    flash("Following " + user.uname)
+    return redirect("/viewprofile/following")
+
+@app.route('/clearfollows')
+def clearfollows():
+    users = User.objects
+    for user in users:
+        user.follower_array = None
+        user.save()
+    flash("Follows cleared")
+    return redirect('/index')

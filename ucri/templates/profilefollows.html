@@ -1,0 +1,17 @@
+{% extends "viewprofile.html" %}
+{% block profile %}
+{% for user in users %}
+<div class=wrapper2>
+	<div class=top_bar2>
+	    <div class=profile_pic2>
+	    </div>
+	    <div class=profile_info2>
+	      <name>{{user.fname}} {{user.lname}}</name>
+	      <p>{{user.dscrp}}</p>
+	      <p><a href="{{user.email}}">{{user.email}}</a></p>
+	    </div>
+  	</div>
+</div>
+{% endfor %}
+
+{% endblock %}
