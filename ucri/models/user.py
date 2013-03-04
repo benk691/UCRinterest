@@ -4,8 +4,8 @@
 ##################################################
 from ucri import db
 from flask.ext.login import UserMixin, AnonymousUser
-from settings import *
 from flask.ext.login import current_user
+from settings import *
 
 class User(UserMixin, db.Document):
     '''User collection model. Fields:

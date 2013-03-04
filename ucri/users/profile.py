@@ -38,6 +38,11 @@ def register():
             return createNewUser(form)
     return render_template('register.html', form=form)
 
+@mod.route('/profile/edit')
+def edit():
+    #form
+    pass
+
 @mod.route('/interests', methods=['GET', 'POST'])
 def add_interests():
     form = InterestForm(request.form)
