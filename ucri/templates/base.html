@@ -44,7 +44,8 @@
 				</li>
 				<li>
 				{%if current_user.is_authenticated() %}	
-					<a href="{{ url_for('viewprofile.viewprofile/<id>') }}">{{ current_user.uname }}<span></span></a>
+                    <input type="hidden" name="user" value="{{ current_user.uname }}"/>
+					<a href="{{ url_for('viewprofile.viewprofile') }}" >{{ current_user.uname }}<span></span></a>
 					<ul>
 						<li><a href="#">Boards</a></li>
 						<li><a href="/viewprofile/pins">Pins</a></li>
