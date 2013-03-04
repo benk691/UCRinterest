@@ -662,3 +662,8 @@ dl dd 		    { margin:10px 0; padding:5px 0; }
 .edata .popup button:hover {
     box-shadow: 0 1px rgba(255, 255, 255, 0.35) inset, 0 0 0 1px rgba(140, 126, 126, 0.5), 0 1px 2px rgba(35, 24, 24, 0.75);
 }
+
+/* Flash messages */
+.flash          { background: #CEE5F5; padding: 0.5em;
+                  border: 1px solid #AACBE2; }
+.error          { background: #F0D6D6; padding: 0.5em; }
