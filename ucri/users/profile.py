@@ -39,12 +39,12 @@ def register():
     return render_template('register.html', form=form)
 
 @mod.route('/profile/edit')
-def edit():
-    #form
+def editProfile():
+    form = EditForm(request.form)
     pass
 
 @mod.route('/interests', methods=['GET', 'POST'])
-def add_interests():
+def addInterests():
     form = InterestForm(request.form)
     if request.method == 'POST' and form.validate():     
         pass
