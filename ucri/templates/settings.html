@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class=wrapper>
+  <span><h1>Edit Account Settings</h1></span>
+  <!-- Get form helper -->
+  {% from "_formhelpers.html" import render_field %}
+  <!-- Deactivate Account -->
+  <form action="#del_confirm" method=GET class=del-post>
+      <div class="button btn_right btn_txt"><h1>Deactivate</h1></div>
+  </form>
+  <!-- Email Address -->
+  <form method=post action="/settings/email">
+  {{ form.csrf_token }}
+    <div class=fld_bx2>{{ render_field(form.email) }} </div>
+  </form>
+  <!-- Change Password -->
+  <form method=post action="/settings/pwd">
+    {{ form.csrf_token }}
+    <input class="button btn_left btn_txt" type=submit value="Change Password">
+  </form>
+</div>  
+{% endblock %}

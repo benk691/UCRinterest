@@ -32,9 +32,9 @@ class InterestForm(Form):
     '''
     interest = TextField(u'Interest', [Length(min=INTEREST_MIN_LENGTH, max=INTEREST_MAX_LENGTH)])
 
-class EditForm(Form):
+class SettingsForm(Form):
     '''
-    Edit form for editing profiles
+    Settings form for editing profiles
     '''
     # TODO: 
     #   - Think about entering your old password
