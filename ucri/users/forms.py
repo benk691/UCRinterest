@@ -25,10 +25,8 @@ class RegisterForm(Form):
     dscrp = TextAreaField(u'Describe yourself', [Length(min=DSCRPT_MIN_LENGTH, max=DSCRPT_MAX_LENGTH)])
     reg = SubmitField(u'Register')
 
-"""
 class InterestForm(Form):
     '''
     Interest form for user creation
     '''
     interest = TextField(u'Interest', [Length(min=INTEREST_MIN_LENGTH, max=INTEREST_MAX_LENGTH)])
-"""
