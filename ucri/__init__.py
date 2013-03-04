@@ -1,8 +1,8 @@
 ##################################################
 # Init
 ##################################################
-from flask import Flask, request, render_template, redirect, url_for, flash, Response, Blueprint, send_from_directory
-from flask.ext.login import LoginManager, current_user, logout_user, login_required
+from flask import Flask, render_template
+from flask.ext.login import LoginManager
 from flask.ext.mongoengine import MongoEngine
 from datetime import datetime
 from config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER

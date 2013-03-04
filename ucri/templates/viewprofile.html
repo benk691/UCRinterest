@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 <div class=wrapper>
+  <div class="actions" user_id="{{ user.uname }}">
   <div class=top_bar>
     <div class=profile_pic>
     </div>
     <div class=profile_info>
-      <name>{{current_user.fname}} {{current_user.lname}}</name>
-      <p>{{current_user.dscrp}}</p>
-      <p><a href="{{current_user.email}}">{{current_user.email}}</a></p>
+      <name>{{user.fname}} {{user.lname}}</name>
+      <p>{{user.dscrp}}</p>
+      <p><a href="{{user.email}}">{{user.email}}</a></p>
     </div>
     <div class=repins>
       <h2>Repins from</h2>

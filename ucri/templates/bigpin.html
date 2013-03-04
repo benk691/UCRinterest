@@ -21,7 +21,7 @@
 				{% else %}
 					<form method="POST">
 						<input type="hidden" name="id" value="{{ pin.id }}" />
-						<button type="submit" class="button" formaction="/like">{% if pin.is_liked() %}Liked{% else %}Like{% endif %}</button>
+						<button type="submit" class="button" formaction="/like">{% if pin.is_liked() %}Unlike{% else %}Like{% endif %}</button>
 					</form>
 				{% endif %}
 				<form method="POST">
