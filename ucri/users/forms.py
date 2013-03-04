@@ -39,34 +39,20 @@ class EditForm(Form):
     # TODO: 
     #   - Think about entering your old password
     #   - If checking the current user here doesn't work then do it in the profile edit function
-    def_fname = "Anonymous"
-    def_lname = "NA"
-    def_email = "anon@aol.com"
-    def_gender = 2
-    def_birthday = datetime.now()
-    def_dscrp = "Description"
-
-    if current_user != None:
-        def_fname = current_user.fname
-        def_lname = current_user.lname
-        def_email = current_user.email
-        def_gender = choices=['M', 'F', 'U'].index(current_user.gender)
-        def_birthday = current_user.birthday
-        def_dscrp = current_user.dscrp
-
-    fname = TextField(u'First Name', [Length(min=NAME_MIN_LENGTH, max=NAME_MAX_LENGTH)], default=def_fname)
-    lname = TextField(u'Last Name', [Length(min=NAME_MIN_LENGTH, max=NAME_MAX_LENGTH)], default=def_lname)
-    email = TextField(u'Email address', [Email(), Length(min=EMAIL_MIN_LENGTH, max=EMAIL_MAX_LENGTH)], default=def_email)
+    fname = TextField(u'First Name', [Length(min=NAME_MIN_LENGTH, max=NAME_MAX_LENGTH)])
+    lname = TextField(u'Last Name', [Length(min=NAME_MIN_LENGTH, max=NAME_MAX_LENGTH)])
+    email = TextField(u'Email address', [Email(), Length(min=EMAIL_MIN_LENGTH, max=EMAIL_MAX_LENGTH)])
     gender = SelectField(
         u'Gender',
         choices=[('M', 'Male'),
                  ('F', 'Female'),
-                 ('U', 'Unspecified')],
-        default=def_gender)
+                 ('U', 'Unspecified')]
+        )
+    # New password
     pwd = PasswordField(u'Password',
         [ EqualTo('confirm', message='Passwords must match'), Length(min=PWD_MIN_LENGTH, max=PWD_MAX_LENGTH) ])
     confirm = PasswordField(u'Repeat Password')
     # Birthday
-    bday = DateField(u'Birthday (mm/dd/yyyy)', format='%m/%d/%Y', default=def_birthday)
-    dscrp = TextAreaField(u'Describe yourself', [Length(min=DSCRPT_MIN_LENGTH, max=DSCRPT_MAX_LENGTH)], default=def_dscrp)
+    bday = DateField(u'Birthday (mm/dd/yyyy)', format='%m/%d/%Y')
+    dscrp = TextAreaField(u'Describe yourself', [Length(min=DSCRPT_MIN_LENGTH, max=DSCRPT_MAX_LENGTH)])
     update = SubmitField(u'Update')
