@@ -25,6 +25,7 @@ class Pin(db.Document):
     title = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
     img = db.StringField(required=True)
     pinner = db.ReferenceField(User, dbref=True, required=True)
+    orig = db.BooleanField(required=True)
     dscrp = db.StringField(min_length=DSCRPT_MIN_LENGTH, max_length=DSCRPT_MAX_LENGTH)
     orig = db.BooleanField(default=False)
     date = db.DateTimeField(required=True)
