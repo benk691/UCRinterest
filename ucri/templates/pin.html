@@ -5,6 +5,7 @@
             {% else %}
                 <span>Repinned by <b>{{ pin.pinner.uname }}</b></span>   
             {% endif %}   
+        </p>
 	<div class="holder">
 		{% if current_user.is_authenticated() %}
 		<div class="actions" pin_id="{{ pin.id }}">
