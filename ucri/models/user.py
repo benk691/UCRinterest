@@ -20,6 +20,7 @@ class User(UserMixin, db.Document):
     uname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, unique=True, required=True)
     fname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
     lname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
+    img = db.StringField(min_length=PATH_MIN_LENGTH, required=True)
     gender = db.StringField(min_length=1, max_length=1, required=True)
     pwd = db.StringField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
     email = db.EmailField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)

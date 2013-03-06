@@ -3,6 +3,7 @@ from flask import Flask, request, render_template, redirect, url_for, flash, cur
 from flask.ext.login import current_user, login_required, confirm_login, fresh_login_required
 from datetime import datetime
 from forms import RegisterForm, SettingsForm, PasswordForm, InterestForm
+from ucri import DEFAULT_PROFILE_PIC
 from ucri.models.user import User
 from ucri.data.forms import UploadForm
 
@@ -14,6 +15,7 @@ def createNewUser(form):
     usr = User(uname=form.uname.data,
                fname=form.fname.data,
                lname=form.lname.data,
+               img = DEFAULT_PROFILE_PIC,
                email=form.email.data,
                gender=form.gender.data,
                pwd=hashedpwd,
@@ -54,7 +56,7 @@ def profileSettings():
 
 @mod.route('/settings/pwd', methods=['GET', 'POST'])
 def setPassword():
-    form = SettingsForm(request.form)
+    form = PasswordForm(request.form)
     return render_template("settings.html", form=form, upform=UploadForm())
 
 ##############################

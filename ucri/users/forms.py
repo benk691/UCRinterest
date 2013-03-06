@@ -1,7 +1,9 @@
-from flask.ext.wtf import Form, TextField, TextAreaField, PasswordField, SelectField, TextAreaField, SubmitField, DateTimeField, DateField
-from flask.ext.wtf import Required, Email, EqualTo, Length
+from flask.ext.wtf import Form, TextField, TextAreaField, PasswordField, SelectField, TextAreaField, SubmitField, DateTimeField, DateField, FileField
+from flask.ext.wtf import Required, Email, EqualTo, Length, file_required, file_allowed
 from flask.ext.login import current_user, login_required
+from werkzeug import secure_filename
 from datetime import datetime
+from ucri import DEFAULT_PROFILE_PIC
 from ucri.models.settings import *
 
 class RegisterForm(Form):
@@ -26,18 +28,13 @@ class RegisterForm(Form):
     dscrp = TextAreaField(u'Describe yourself', [Length(min=DSCRPT_MIN_LENGTH, max=DSCRPT_MAX_LENGTH)])
     reg = SubmitField(u'Register')
 
-class InterestForm(Form):
-    '''
-    Interest form for user creation
-    '''
-    interest = TextField(u'Interest', [Length(min=INTEREST_MIN_LENGTH, max=INTEREST_MAX_LENGTH)])
-
 class SettingsForm(Form):
     '''
     Settings form for editing profiles
     '''
     fname = TextField(u'First Name', [Length(min=NAME_MIN_LENGTH, max=NAME_MAX_LENGTH)])
     lname = TextField(u'Last Name', [Length(min=NAME_MIN_LENGTH, max=NAME_MAX_LENGTH)])
+    img = FileField(u'Profile Picture', [file_required()], default=DEFAULT_PROFILE_PIC)
     email = TextField(u'Email address', [Email(), Length(min=EMAIL_MIN_LENGTH, max=EMAIL_MAX_LENGTH)])
     gender = SelectField(
         u'Gender',
@@ -58,3 +55,10 @@ class PasswordForm(Form):
     pwd = PasswordField(u'Password',
         [ EqualTo('confirm', message='Passwords must match'), Length(min=PWD_MIN_LENGTH, max=PWD_MAX_LENGTH) ])
     confirm = PasswordField(u'Repeat Password')
+
+class InterestForm(Form):
+    '''
+    Interest form for user creation
+    '''
+    interest = TextField(u'Interest', [Length(min=INTEREST_MIN_LENGTH, max=INTEREST_MAX_LENGTH)])
+

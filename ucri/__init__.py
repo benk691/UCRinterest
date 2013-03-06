@@ -5,7 +5,7 @@ from flask import Flask, request, render_template, redirect, url_for, flash, Res
 from flask.ext.login import LoginManager, current_user, logout_user, login_required
 from flask.ext.mongoengine import MongoEngine
 from datetime import datetime
-from config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
+from config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER, DEFAULT_PROFILE_PIC
 
 # Create and configure app
 app = Flask(__name__)
