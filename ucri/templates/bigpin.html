@@ -1,3 +1,5 @@
+<link href="/static/styles.css" rel="stylesheet" type="text/css" />
+<div class="pin_wrapper">
 <div class="pin bigpin">
 	<div class="owner">
 		{% if current_user.is_authenticated() and not pin.pinner.following() and not pin.pinner.id == current_user.id  %}
@@ -47,4 +49,5 @@
 		<button type="submit" class="button" formaction="/add_comment">Comment</button>
 	</form>
 	{% endif %}
+</div>
 </div>
