@@ -36,9 +36,6 @@ class SettingsForm(Form):
     '''
     Settings form for editing profiles
     '''
-    # TODO: 
-    #   - Think about entering your old password
-    #   - If checking the current user here doesn't work then do it in the profile edit function
     fname = TextField(u'First Name', [Length(min=NAME_MIN_LENGTH, max=NAME_MAX_LENGTH)])
     lname = TextField(u'Last Name', [Length(min=NAME_MIN_LENGTH, max=NAME_MAX_LENGTH)])
     email = TextField(u'Email address', [Email(), Length(min=EMAIL_MIN_LENGTH, max=EMAIL_MAX_LENGTH)])
@@ -48,11 +45,16 @@ class SettingsForm(Form):
                  ('F', 'Female'),
                  ('U', 'Unspecified')]
         )
-    # New password
+    change_pwd = SubmitField(u'Change Password')
+    bday = DateField(u'Birthday (mm/dd/yyyy)', format='%m/%d/%Y')
+    dscrp = TextAreaField(u'Describe yourself', [Length(min=DSCRPT_MIN_LENGTH, max=DSCRPT_MAX_LENGTH)])
+    save = SubmitField(u'Save Profile')
+
+class PasswordForm(Form):
+    '''
+    Form for changing password
+    '''
+    old_pwd = PasswordField(u'Old Password')
     pwd = PasswordField(u'Password',
         [ EqualTo('confirm', message='Passwords must match'), Length(min=PWD_MIN_LENGTH, max=PWD_MAX_LENGTH) ])
     confirm = PasswordField(u'Repeat Password')
-    # Birthday
-    bday = DateField(u'Birthday (mm/dd/yyyy)', format='%m/%d/%Y')
-    dscrp = TextAreaField(u'Describe yourself', [Length(min=DSCRPT_MIN_LENGTH, max=DSCRPT_MAX_LENGTH)])
-    update = SubmitField(u'Update')

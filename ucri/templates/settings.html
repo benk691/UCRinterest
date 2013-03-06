@@ -8,15 +8,24 @@
   <form action="#del_confirm" method=GET class=del-post>
       <div class="button btn_right btn_txt"><h1>Deactivate</h1></div>
   </form>
-  <!-- Email Address -->
-  <form method=post action="/settings/email">
+  <form method=post action="/settings">
   {{ form.csrf_token }}
-    <div class=fld_bx2>{{ render_field(form.email) }} </div>
-  </form>
-  <!-- Change Password -->
-  <form method=post action="/settings/pwd">
-    {{ form.csrf_token }}
-    <input class="button btn_left btn_txt" type=submit value="Change Password">
+    <dl>
+      <!-- Email Address -->
+      <div class=fld_bx2>{{ render_field(form.email) }} </div>
+      <!-- Change Password -->
+      <div class="button btn_left btn_txt">{{ render_field(form.change_pwd) }} </div>
+      <!-- Change Gender -->
+      <div class=fld_bx1>{{ render_field(form.gender) }} </div>
+      <!-- Name -->
+      <div class=fld_bx2>{{ render_field(form.fname) }} </div>
+      <div class=fld_bx2>{{ render_field(form.lname) }} </div>
+      <!-- Birthday -->
+      <div class=fld_bx1>{{ render_field(form.bday) }} </div>
+      <!-- Description -->
+      <div class=fld_bx1>{{ render_field(form.dscrp) }} </div>
+    </dl>
+    <div><center>{{ render_field(form.save) }}</center><div>
   </form>
 </div>  
 {% endblock %}

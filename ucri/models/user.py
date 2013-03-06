@@ -25,7 +25,7 @@ class User(UserMixin, db.Document):
     email = db.EmailField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
     dscrp = db.StringField(min_length=DSCRPT_MIN_LENGTH, max_length=DSCRPT_MAX_LENGTH)
     creation_date = db.DateTimeField(required=True)
-    birthday = db.DateTimeField()
+    bday = db.DateTimeField(required=True)
     interest_array = db.ListField()
     follower_array = db.ListField(db.ReferenceField('self', dbref=True))
 
