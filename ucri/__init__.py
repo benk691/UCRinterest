@@ -68,7 +68,7 @@ from ucri.UCRinterest.ucri.models.comment import Comment
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
+"""
 @app.route("/make")
 def make():
     pin = Pin(title="Settings 1", img="img1.jpg", dscrp="Description 1", orig=True, date=datetime.now(), pinner=current_user.to_dbref())
@@ -89,7 +89,7 @@ def clear():
         pin.delete()
     flash("Pins deleted!")
     return redirect(url_for('index'))
-
+"""
 @app.route('/fix_repins')
 def fix_repins():
     pins = Pin.objects.all()
