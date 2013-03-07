@@ -3,8 +3,7 @@
 # This defines the required document as well as easy-to-use functions to get user information
 ##################################################
 from ucri import db
-from flask.ext.login import UserMixin, AnonymousUser
-from flask.ext.login import current_user
+from flask.ext.login import UserMixin, AnonymousUser, current_user
 from settings import *
 
 class User(UserMixin, db.Document):
@@ -20,7 +19,9 @@ class User(UserMixin, db.Document):
     uname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, unique=True, required=True)
     fname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
     lname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
-    img = db.StringField(min_length=PATH_MIN_LENGTH, required=True)
+    img_file = db.FileField(required=True)
+    img = db.ImageField(required=True)
+    img_path = db.StringField(min_length=PATH_MIN_LENGTH, required=True)
     gender = db.StringField(min_length=1, max_length=1, required=True)
     pwd = db.StringField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
     email = db.EmailField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)

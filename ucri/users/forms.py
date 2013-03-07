@@ -1,3 +1,5 @@
+from bcrypt import hashpw, gensalt
+from flask import flash
 from flask.ext.wtf import Form, TextField, TextAreaField, PasswordField, SelectField, TextAreaField, SubmitField, DateTimeField, DateField, FileField
 from flask.ext.wtf import Required, Email, EqualTo, Length, file_required, file_allowed
 from flask.ext.login import current_user, login_required
@@ -34,7 +36,7 @@ class SettingsForm(Form):
     '''
     fname = TextField(u'First Name', [Length(min=NAME_MIN_LENGTH, max=NAME_MAX_LENGTH)])
     lname = TextField(u'Last Name', [Length(min=NAME_MIN_LENGTH, max=NAME_MAX_LENGTH)])
-    img = FileField(u'Profile Picture', [file_required()], default=DEFAULT_PROFILE_PIC)
+    img = FileField(u'Profile Picture', [file_required()])
     email = TextField(u'Email address', [Email(), Length(min=EMAIL_MIN_LENGTH, max=EMAIL_MAX_LENGTH)])
     gender = SelectField(
         u'Gender',
@@ -55,6 +57,18 @@ class PasswordForm(Form):
     pwd = PasswordField(u'Password',
         [ EqualTo('confirm', message='Passwords must match'), Length(min=PWD_MIN_LENGTH, max=PWD_MAX_LENGTH) ])
     confirm = PasswordField(u'Repeat Password')
+    change = SubmitField(u'Change Password')
+
+    @login_required
+    def validate(self):
+        rv = Form.validate(self)
+        if rv:
+            if hashpw(self.old_pwd.data, current_user.pwd) == current_user.pwd:
+                return True
+            else:
+                flash("Your old password is incorrect")
+        flash("Your new password did not match with the confirmation password")
+        return False
 
 class InterestForm(Form):
     '''

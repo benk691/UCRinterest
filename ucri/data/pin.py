@@ -93,7 +93,6 @@ def upload():
             return redirect(request.referrer + "#add_form")
         filename = secure_filename(form.photo.data.filename)
         pos = filename.rfind('.')
-        #flash(str(filename[pos + 1: ] in ALLOWED_EXTENSIONS))
         if pos < 0 or (pos >= 0 and (not filename[pos + 1 : ] in ALLOWED_EXTENSIONS)):
             flash("Error: Invalid extension, pleases use jpg or png")
             return redirect(request.referrer + '#add_form')
