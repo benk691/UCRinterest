@@ -1,8 +1,8 @@
+import os, re
 from flask import Flask, request, render_template, redirect, url_for, flash, Response, Blueprint, send_from_directory, current_app
 from flask.ext.login import current_user, login_required, confirm_login
 from werkzeug import secure_filename
 from mongoengine.queryset import Q
-import os, re
 from datetime import datetime
 from ucri import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 from ucri.models.user import User
@@ -14,7 +14,10 @@ from ucri.data.forms import UploadForm
 mod = Blueprint('pin', __name__)
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+    if filename != None and (type(filename) == type('') or type(filename) == type(unicode())) and '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS:
+        return True
+    flash("Failed to upload image %s. Please use an image with one of the following extensions: %s" % (str(filename), ''.join([ '%s, ' % ext for ext in ALLOWED_EXTENSIONS ]).strip(', ')))
+    return False
 
 def createPin(title, img, dscrp):
     '''Creates pin
@@ -35,8 +38,6 @@ def createPin(title, img, dscrp):
         pin.save()
         if pin.repins == None:
             fix_repins()
-    else:
-        flash("Failed to create pin. Please use an image with one of the following extensions: %s" % (''.join([ '%s, ' % ext for ext in ALLOWED_EXTENSIONS ]).strip(', ')))
 
 @mod.route("/make")
 def make():

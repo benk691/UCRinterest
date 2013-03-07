@@ -6,9 +6,9 @@
   {% from "_formhelpers.html" import render_field %}
   <!-- Deactivate Account -->
   <form action="#del_confirm" method=GET class=del-post>
-      <div class="button btn_right btn_txt"><h1>Deactivate</h1></div>
+      <div class="button btn_right btn_txt">{{ render_field(form.deactivate) }} </div>
   </form>
-  <form method=post action="/settings">
+  <form action="{{ url_for('profile.profileSettings') }}" method=POST enctype=multipart/form-data>
   {{ form.csrf_token }}
     <dl>
       <!-- Email Address -->
@@ -24,8 +24,12 @@
       <div class=fld_bx1>{{ render_field(form.bday) }} </div>
       <!-- Description -->
       <div class=fld_bx1>{{ render_field(form.dscrp) }} </div>
+     <!-- Commenters -->
+     <div class=fld_bx1><i><b>Note:</b> This will be set for all your pins!</i></div>
+     <div class=fld_bx1>{{ render_field(form.pin_commenters) }}</div>
      <!-- Profile Picture -->
-      <div class=fld_bx1>{{ render_field(form.img) }} </div>
+      <div class=fld_bx1><dt>Profile Picture{{ render_field(form.img) }} </div>
+      <!-- This is also okay: <dt>Profile Picture<dd><input type=file name=img>-->
     </dl>
     <p><center><input type="submit" value="Save Profile"></center>
   </form>

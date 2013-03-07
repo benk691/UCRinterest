@@ -36,7 +36,7 @@ class SettingsForm(Form):
     '''
     fname = TextField(u'First Name', [Length(min=NAME_MIN_LENGTH, max=NAME_MAX_LENGTH)])
     lname = TextField(u'Last Name', [Length(min=NAME_MIN_LENGTH, max=NAME_MAX_LENGTH)])
-    img = FileField(u'Profile Picture', [file_required()])
+    img = FileField([file_required()])
     email = TextField(u'Email address', [Email(), Length(min=EMAIL_MIN_LENGTH, max=EMAIL_MAX_LENGTH)])
     gender = SelectField(
         u'Gender',
@@ -47,7 +47,24 @@ class SettingsForm(Form):
     change_pwd = SubmitField(u'Change Password')
     bday = DateField(u'Birthday (mm/dd/yyyy)', format='%m/%d/%Y')
     dscrp = TextAreaField(u'Describe yourself', [Length(min=DSCRPT_MIN_LENGTH, max=DSCRPT_MAX_LENGTH)])
+    pin_commenters = SelectField(
+        u'Select who can comment on your pins',
+        choices=[('E', 'Everyone'),
+                 ('R', 'Only Your Followers'),
+                 ('L', 'Only People You Follow'), 
+                 ('B', 'Both Followers and Following')],
+        default=1
+        )
+    deactivate = SubmitField(u'Deactivate')
     save = SubmitField(u'Save Profile')
+
+    @login_required
+    def __init__(self, *args, **kwargs):
+        Form.__init__(self, *args, **kwargs)
+        ##########  
+        # TODO:
+        #   - Go through pins to set the default on the commenters
+        ########## 
 
 class PasswordForm(Form):
     '''

@@ -1,17 +1,14 @@
-import os
+import os, subprocess
 from bcrypt import hashpw, gensalt
-from PIL import Image
 from flask import Flask, request, render_template, redirect, url_for, flash, current_app, Blueprint
 from flask.ext.login import current_user, login_required, confirm_login, fresh_login_required
-from flask.ext.uploads import (UploadSet, configure_uploads, IMAGES,
-                              UploadNotAllowed)
 from werkzeug import secure_filename
 from datetime import datetime
 from forms import RegisterForm, SettingsForm, PasswordForm, InterestForm
 from ucri import DEFAULT_PROFILE_PIC, DEFAULT_PROFILE_PIC_PATH, DEFAULT_PROFILE_PIC_LOC
 from ucri.models.user import User
 from ucri.data.forms import UploadForm
-from ucri.data.pin import ALLOWED_EXTENSIONS, allowed_file
+from ucri.data.pin import allowed_file
 
 # Profile blueprint
 mod = Blueprint('profile', __name__)
@@ -21,17 +18,13 @@ def createNewUser(form):
     usr = User(uname=form.uname.data,
                fname=form.fname.data,
                lname=form.lname.data,
-               img_path = DEFAULT_PROFILE_PIC,
+               img = DEFAULT_PROFILE_PIC,
                email=form.email.data,
                gender=form.gender.data,
                pwd=hashedpwd,
                dscrp=form.dscrp.data,
                bday=form.bday.data,
                creation_date=datetime.now())
-    usr.img = Image.open(DEFAULT_PROFILE_PIC_PATH)
-    def_img = open(DEFAULT_PROFILE_PIC_LOC, 'r')
-    usr.img_file = def_img
-    usr.img_file.content_type = 'image/jpeg'
     usr.save()
     flash('Thanks for registering!')
     return redirect(url_for('login.login'))
@@ -52,40 +45,61 @@ def register():
     return render_template('register.html', form=form)
 
 ########## Settings ##########
+@login_required
 def changeProfilePic(form):
-    if form.validate():
-        flash(str(form.img.data.filename))
-    else:
-        flash("No validate")
-    return render_template("settings.html", form=form, upform=UploadForm())
-    """
-    filename = form.img.data
+    filename = form.img.file.filename
     if form.validate() and filename != DEFAULT_PROFILE_PIC and allowed_file(filename):
+        # Remove old_profile pic from storage
+        if current_user.img != DEFAULT_PROFILE_PIC:
+            subprocess.call("rm -f photos/%s" % str(current_user.img), shell=True)
         # Store file
-        filename = secure_filename(filename)
-        form.img.file = open(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-        form.img.file.save()
+        filename = current_user.uname + '_' + secure_filename(form.img.data.filename)
         # Save to DB
-        current_user.img = filename
+        form.img.file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+        current_user.update(set__img=filename)
         current_user.save()
+        # Successfully change pic
         flash("Successfully changed profile picture to %s" % filename)
         return render_template("settings.html", form=form, upform=UploadForm())
-    flash("Failed to upload profile picture. Please use an image with one of the following extensions: %s" % (''.join([ '%s, ' % ext for ext in ALLOWED_EXTENSIONS ]).strip(', ')))
     return render_template("settings.html", form=form, upform=UploadForm())
-    """
+
+@login_required
+def updateSettings(form):
+    if form.validate():
+        current_user.update(set__fname=form.data['fname'])
+        current_user.update(set__lname=form.data['lname'])
+        current_user.update(set__email=form.data['email'])
+        current_user.update(set__gender=form.data['gender'])
+        current_user.update(set__bday=form.data['bday'])
+        current_user.update(set__dscrp=form.data['dscrp'])
+        current_user.save()
+        # Go to profile
+        return redirect("/viewprofile/pins")
+    flash("Form is invalid!")
+    return render_template("settings.html", form=form, upform=UploadForm())
+
+@mod.route('/deactivate')
+@login_required
+def deactivateAccount():
+    # Delete profile picture
+    pass
 
 @mod.route('/settings', methods=['GET', 'POST'])
 @login_required
 def profileSettings():
-    form = SettingsForm(request.form, obj=current_user)
+    form = SettingsForm(obj=current_user)
     if request.method == 'POST':
+        # Handle deactivation
+        if form.data['deactivate']:
+            return redirect(url_for('profile.deactivateAccount'))
         # Handle changing password
         if form.data['change_pwd']:
             return redirect(url_for('profile.setPassword'))
         # Handle changing profile pic
-        if len(form.data['img']) > 0 and form.data['img'] != DEFAULT_PROFILE_PIC:
+        if len(form.img.file.filename) > 0 and form.img.file.filename != DEFAULT_PROFILE_PIC  and form.img.file.filename != current_user.img.strip(current_user.uname + '_'):
             return changeProfilePic(form)
-        return redirect("/viewprofile/pins")
+        # Update the other user settings
+        return updateSettings(form)
     return render_template("settings.html", form=form, upform=UploadForm())
 
 @mod.route('/settings/pwd', methods=['GET', 'POST'])
@@ -94,7 +108,7 @@ def setPassword():
     form = PasswordForm(request.form)
     if request.method == "POST" and form.validate():
         hashedpwd = hashpw(form.pwd.data, gensalt(log_rounds=13))
-        current_user.pwd = hashedpwd
+        current_user.update(set__pwd=hashedpwd)
         current_user.save()
         flash("Password was changed successfully")
         return redirect('/settings')

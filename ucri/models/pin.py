@@ -2,11 +2,11 @@
 # The library functions for the pin database model
 # This defines the required document as well as easy-to-use functions to get user information
 ##################################################
+from flask.ext.login import current_user
 from ucri import db
 from settings import *
 from user import User
 from comment import Comment
-from flask.ext.login import current_user
 
 class Pin(db.Document):
     '''Pin collection model. Fields:

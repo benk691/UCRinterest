@@ -2,9 +2,10 @@
 # The library functions for the user database model
 # This defines the required document as well as easy-to-use functions to get user information
 ##################################################
-from ucri import db
 from flask.ext.login import UserMixin, AnonymousUser, current_user
+from ucri import db
 from settings import *
+from notification import Notification
 
 class User(UserMixin, db.Document):
     '''User collection model. Fields:
@@ -19,9 +20,7 @@ class User(UserMixin, db.Document):
     uname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, unique=True, required=True)
     fname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
     lname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
-    img_file = db.FileField(required=True)
-    img = db.ImageField(required=True)
-    img_path = db.StringField(min_length=PATH_MIN_LENGTH, required=True)
+    img = db.StringField(min_length=PATH_MIN_LENGTH, required=True)
     gender = db.StringField(min_length=1, max_length=1, required=True)
     pwd = db.StringField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
     email = db.EmailField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
@@ -29,6 +28,7 @@ class User(UserMixin, db.Document):
     creation_date = db.DateTimeField(required=True)
     bday = db.DateTimeField(required=True)
     interest_array = db.ListField()
+    notification_array = db.ListField(db.EmbeddedDocumentField(Notification))
     follower_array = db.ListField(db.ReferenceField('self', dbref=True))
 
     meta = { 'category' : 'user' }
