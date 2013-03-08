@@ -521,7 +521,7 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
 .t_mem_box_r    { border-top-right-radius: 15px; 
                   border-bottom-right-radius: 15px; }
 .t_dscrp		{ float: left; width: 480px; height: 180px; 
-			      padding: 10px; font-family:"Georgia"; 
+			      padding: 40px 10px 10px 10px; font-family:"Georgia"; 
 			      font-size: 16px; /*background: #e8e8e8;*/ }
 .t_pic		    { float: left; width: 200px; height: 200px; 
 			      background: white; }
