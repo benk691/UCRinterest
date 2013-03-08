@@ -240,6 +240,16 @@ def search_results(query):
         valid_pins = getValidBrowserPins(pins, current_user)
     return render_template("index.html", pins=valid_pins, upform=UploadForm())
 
+@mod.route("/fromFollows")
+def pinsFromFollows():
+    pins = []
+    allpins = Pin.objects.order_by('-date')
+    for pin in allpins:
+        if pin.pinner.following() == True:
+            pins.append(pin)
+    valid_pins = getValidBrowserPins(pins, current_user)
+    return render_template("index.html", pins=valid_pins, upform=UploadForm())    
+
 @mod.route('/pin/<id>/edit', methods=['POST', 'GET'])
 def editpin(id):
     pin = Pin.objects.get(id=id)
