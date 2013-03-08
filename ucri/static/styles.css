@@ -620,3 +620,83 @@ rounding - border-radius: 15px;
 shadowing - box-shadow: 0px 0px 5px #888;
 
 */
+.edata {
+    width: 750px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.es0 {
+    float: left;
+}
+.es1 {
+    width: 500px;
+    border-bottom: thin solid #D1CDCD;
+    margin: 1px;
+}
+.es1 h2 {
+    font-size: xx-large;
+}
+.es1 input {
+    background-color: #F0EDED;
+    border: 1px solid #BBBBBB;
+    border-radius: 6px 6px 6px 6px;
+    color: #524D4D;
+    display: inline-block;
+    float: right;
+    font-weight: bold;
+    line-height: 1em;
+    margin: 0;
+    padding: 5px 9px;
+    text-align: center;
+}
+.es1 input:hover {
+    background-color: #FF0000;
+}
+.es2 {
+    margin: 1px;
+    border-bottom: thin solid #D1CDCD;
+    border-top: thin solid #D1CDCD
+}
+.es3 {
+    
+    float: right;
+}
+.edata .popup p {
+    font-size: large;
+    font-weight: bold;
+}
+.edata .popup input {
+    float: right;
+    display: inline-block;
+    font-size: large;
+    margin-right: 20px;
+    background-color: #FF0000;
+    border: 1px solid #BBBBBB;
+    border-radius: 6px 6px 6px 6px;
+    line-height: 1em;
+    padding: 5px 9px;
+    text-align: center;
+}
+.edata .popup input:hover {
+    box-shadow: 0 1px rgba(255, 255, 255, 0.35) inset, 0 0 0 1px rgba(140, 126, 126, 0.5), 0 1px 2px rgba(35, 24, 24, 0.75);
+}
+.edata .popup button {
+    float: right;
+    display: inline-block;
+    font-size: large;
+    margin-right: 8px;
+    background-color: #F0EDED;
+    border: 1px solid #BBBBBB;
+    border-radius: 6px 6px 6px 6px;
+    line-height: 1em;
+    padding: 5px 9px;
+    text-align: center;
+}
+.edata .popup button:hover {
+    box-shadow: 0 1px rgba(255, 255, 255, 0.35) inset, 0 0 0 1px rgba(140, 126, 126, 0.5), 0 1px 2px rgba(35, 24, 24, 0.75);
+}
+
+/* Flash messages */
+.flash          { background: #CEE5F5; padding: 0.5em;
+                  border: 1px solid #AACBE2; }
+.error          { background: #F0D6D6; padding: 0.5em; }

@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block content %}
 <div class="box_register">
   <center><h1>Register</h1></center>
@@ -19,8 +18,5 @@
     </dl>
     <p><center><input type=submit class="rnd_btn" value=Register></center>
   </form>
-{% for message in get_flashed_messages() %}
-   <div class=flash>{{ message }}</div>
-{% endfor %}
 </div>
 {% endblock %}

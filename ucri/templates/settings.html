@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class=wrapper>
+  <span><h1>Edit Account Settings</h1></span>
+  <!-- Get form helper -->
+  {% from "_formhelpers.html" import render_field %}
+  <form action="{{ url_for('profile.profileSettings') }}" method=POST enctype=multipart/form-data>
+  {{ form.csrf_token }}
+    <dl>
+      <div class="button btn_right btn_txt">{{ render_field(form.deactivate) }} </div>
+      <!-- Email Address -->
+      <div class=fld_bx2>{{ render_field(form.email) }} </div>
+      <!-- Change Password -->
+      <div class="button btn_left btn_txt">{{ render_field(form.change_pwd) }} </div>
+      <!-- Change Gender -->
+      <div class=fld_bx1>{{ render_field(form.gender) }} </div>
+      <!-- Name -->
+      <div class=fld_bx2>{{ render_field(form.fname) }} </div>
+      <div class=fld_bx2>{{ render_field(form.lname) }} </div>
+      <!-- Birthday -->
+      <div class=fld_bx1>{{ render_field(form.bday) }} </div>
+      <!-- Description -->
+      <div class=fld_bx1>{{ render_field(form.dscrp) }} </div>
+     <!-- Commenters -->
+     <div class=fld_bx1><i><b>Note:</b> The next two fields will be set for all your pins!</i></div>
+     <div class=fld_bx1>{{ render_field(form.pin_browsers) }}</div>
+     <div class=fld_bx1>{{ render_field(form.pin_commenters) }}</div>
+     <!-- Profile Picture -->
+      <div class=fld_bx1><dt>Profile Picture{{ render_field(form.img) }} </div>
+      <!-- This is also okay: <dt>Profile Picture<dd><input type=file name=img>-->
+    </dl>
+    <p><center><input type="submit" value="Save Profile"></center>
+  </form>
+</div>  
+{% endblock %}

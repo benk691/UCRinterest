@@ -36,7 +36,7 @@
 					<li><a href="{{ url_for('profile.register') }}">Register</a></li>
 				{% endif %}
 				<li>
-					<a href="/about">About<span></span></a>
+					<a href="{{ url_for('help.about') }}">About<span></span></a>
 					<ul>
 						<li><a href="{{ url_for('help.help') }}">Help</a></li>
 						<li><a href="{{ url_for('team.team') }}">Team</a></li>
@@ -50,8 +50,8 @@
 						<li><a href="/viewprofile/pins">Pins</a></li>
 						<li><a href="/viewprofile/likes">Likes</a></li>
 						<li><a href="/viewprofile/favorites">Favorites</a></li>
-						<li class="div"><a href="#">Settings</a></li>
-						<li><a href="{{ url_for('logout') }}">Logout</a></li>
+						<li class="div"><a href="/settings">Settings</a></li>
+						<li><a href="{{ url_for('login.logout') }}">Logout</a></li>
 					</ul>
 					{% else %}
 					<a href="{{ url_for('login.login') }}">Login<span></span></a>
@@ -88,7 +88,7 @@
 			{% if messages %}
 			<ul>
 			{% for message in messages %}
-				<li>{{ message }} </li>
+				<li class="flash">{{ message }} </li>
 			{% endfor %}
 			</ul>
 			{% endif %}
