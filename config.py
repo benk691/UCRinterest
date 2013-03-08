@@ -2,7 +2,7 @@ import os
 
 CSRF_ENABLED = True
 
-DEBUG = True
+DEBUG = False
 
 SECRET_KEY = 'SECRET_STUFF'
 
