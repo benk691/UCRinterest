@@ -176,6 +176,8 @@ def upload():
         if pos < 0 or (pos >= 0 and (not filename[pos + 1 : ] in ALLOWED_EXTENSIONS)):
             flash("Error: Invalid extension, pleases use jpg or png")
             return redirect(request.referrer + '#add_form')
+        while os.path.isfile(os.path.join(current_app.config['UPLOAD_FOLDER'], filename)):
+            filename = '_' + filename
         form.photo.file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
         pin = Pin(title=form.title.data,
                   img=filename,
