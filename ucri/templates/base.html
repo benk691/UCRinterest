@@ -42,7 +42,7 @@
                 {%if current_user.is_authenticated() %}
                     {% for notification in current_user.notification_array %}
                         <li><a href="/viewprofile/{{notification.notifier}}/pins">{{ notification.msg }}</a></li>
-                {% endfor %}
+                    {% endfor %}
                 {% endif %}
                 </ul>
                 </li>
