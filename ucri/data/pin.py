@@ -130,6 +130,7 @@ def bigpin(id):
         user = current_user)
 
 @mod.route('/upload', methods=['POST'])
+@login_required
 def upload():
     form = UploadForm()
     if form.validate():
@@ -154,9 +155,10 @@ def upload():
         flash("Image has been uploaded.")
     else:
         flash("Image upload error.")
-    return redirect('viewprofile/pins' + "#add_form")
+    return redirect('viewprofile/%s/pins' % str(current_user.uname) + "#add_form")
 
 @mod.route('/repin', methods=['POST'])
+@login_required
 def repin():
     id = request.form.get('id')
     pin = Pin.objects.get(id=id)
@@ -175,7 +177,7 @@ def repin():
     pin.repins = pin.repins + 1
     pin.save()
     flash("Pin repinned")
-    return redirect('/viewprofile/pins')
+    return redirect('/viewprofile/%s/pins' % str(current_user.uname))
 
 @mod.route('/uploads/<file>')
 def uploaded_file(file):
@@ -199,6 +201,8 @@ def search_results(query):
     regx = re.compile(x, re.IGNORECASE)
     #query database
     pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
+    if current_user != None:
+        pins = Pin.objects(Q(title=regx) | Q(dscrp=regx)).filter(invalid_browsers__not__contains=current_user.to_dbref())
     return render_template("index.html", pins=pins, upform=UploadForm())
 
 @mod.route('/pin/<id>/edit', methods=['POST', 'GET'])
@@ -230,6 +234,7 @@ def add_comment():
     return redirect(request.referrer)
     
 @mod.route('/like', methods=['POST'])
+@login_required
 def like():
     id = request.form.get('id')
     pin = Pin.objects.get(id=id)
@@ -247,12 +252,13 @@ def like():
         pin.like_count = pin.like_count + 1
         pin.save()
         flash("pin liked")
-    return redirect("/viewprofile/likes")
+    return redirect("/viewprofile/%s/likes" % str(current_user.uname))
 
 @mod.route('/favorite', methods=['POST'])
+@login_required
 def favorite():
     id = request.form.get('id')
     pin = Pin.objects.get(id=id)
     pin.favs.append(current_user.to_dbref())
     pin.save()
-    return redirect("/viewprofile/favorites")
+    return redirect("/viewprofile/%s/favorites" % str(current_user.uname))

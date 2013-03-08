@@ -157,9 +157,9 @@ def updateSettings(form):
         current_user.save()
         flash("Settings have been saved successfully!")
         # Go to profile
-        return redirect("/viewprofile/pins")
+        return redirect("/viewprofile/%s/pins" % str(current_user))
     flash("Form is invalid!")
-    return render_template("settings.html", form=form, upform=UploadForm())
+    return render_template("settings.html", form=form, upform=UploadForm(), user=current_user)
 
 @mod.route('/settings', methods=['GET', 'POST'])
 @login_required
