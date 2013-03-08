@@ -495,6 +495,12 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
 			      height: 60px; }
 .btn_txt		{ margin: 2em auto; }
 
+.wrapper .repins h3  { color: #377BA8; 
+                       font-family: 'Georgia', serif;
+                       margin: 0;
+                       font-size: 1.5em;
+                       font-weight: bold;}
+
 .wrapper2 { margin:2em auto; width: 500px;}
 .top_bar2 { width: 500px; }
 .profile_pic2 { float: left; margin: 0px 0px 0px 0px; width: 90px;

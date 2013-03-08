@@ -212,6 +212,8 @@ def repin():
         pin = Pin.objects.get(id=id)
     pin.repins = pin.repins + 1
     pin.save()
+    current_user.update(add_to_set__repins_from=pin.pinner.to_dbref())
+    current_user.save()
     flash("Pin repinned")
     return redirect('/viewprofile/%s/pins' % str(current_user.uname))
 
