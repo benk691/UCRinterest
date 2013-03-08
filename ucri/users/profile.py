@@ -138,8 +138,8 @@ def updateUserBrowserPermissions(form):
     perm = form.data['pin_browsers']
     current_user.update(set__pin_browsers=perm)
     current_user.save()
-    pins = Pin.objects.get(pinner=current_user.to_dbref())
-    if type(pins) != type([]):
+    pins = Pin.objects.filter(pinner=current_user.to_dbref())
+    if type(pins) == type(''):
         pins = [ pins ]
     # Everyone has permission
     if perm == PERM_EVERYONE:
@@ -179,8 +179,8 @@ def updateUserCommenterPermissions(form):
     perm = form.data['pin_commenters']
     current_user.update(set__pin_commenters=perm)
     current_user.save()
-    pins = Pin.objects.get(pinner=current_user.to_dbref())
-    if type(pins) != type([]):
+    pins = Pin.objects.filter(pinner=current_user.to_dbref())
+    if type(pins) == type(''):
         pins = [ pins ]
     # Everyone has permission
     if perm == PERM_EVERYONE:
