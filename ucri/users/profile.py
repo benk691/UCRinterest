@@ -111,11 +111,22 @@ def getFollowingPermissions():
     '''
     Invalidates everyone who the current user isn't following
     '''
-    flash("following permissions")
     invalid = []
     usrs = User.objects.all()
     for usr in usrs:
         if usr.uname != current_user.uname and not inFollowerArray(usr, current_user):
+            invalid.append(usr.to_dbref())
+    return invalid
+
+@login_required
+def getBothPermissions():
+    '''
+    Invalidates everyone who the current user isn't following and everyone who is not a follower of the current user
+    '''
+    invalid = []
+    usrs = User.objects.all()
+    for usr in usrs:
+        if usr.uname != current_user.uname and not inFollowerArray(usr, current_user) and not inFollowerArray(current_user, usr):
             invalid.append(usr.to_dbref())
     return invalid
 
@@ -149,7 +160,7 @@ def updateUserBrowserPermissions(form):
             pin.save()
     # Followers and following get permission
     elif perm == PERM_BOTH:
-        invalid = getFollowerPermissions().extend(getFollowingPermissions())
+        invalid = getBothPermissions()
         for pin in pins:
             pin.invalid_browsers = invalid
             pin.save()
@@ -190,7 +201,7 @@ def updateUserCommenterPermissions(form):
             pin.save()
     # Followers and following get permission
     elif perm == PERM_BOTH:
-        invalid = getFollowerPermissions().extend(getFollowingPermissions())
+        invalid = getBothPermissions()
         for pin in pins:
             pin.invalid_commenters = invalid
             pin.save()
@@ -214,10 +225,10 @@ def updateSettings(form):
         # Update permissions
         if current_user.pin_browsers != form.data['pin_browsers']:
             updateUserBrowserPermissions(form)
-            flash("updated invalid browsers")
+            flash("Updated invalid browsers")
         if current_user.pin_commenters != form.data['pin_commenters']:
             updateUserCommenterPermissions(form)
-            flash("updated invalid commenters")
+            flash("Updated invalid commenters")
         current_user.save()
         flash("Settings have been saved successfully!")
         # Go to profile
