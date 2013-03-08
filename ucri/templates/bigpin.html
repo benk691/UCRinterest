@@ -8,7 +8,7 @@
 				<button type="submit" class="button follow_button" formaction="/follow">Follow</button>
 			</form>
 			{% endif %}
-			<p class="owner_name"><a target="_blank" href="#">{{pin.pinner.uname}}</a></p>
+			<p class="owner_name"><a target="_blank" href="/viewprofile/{{pin.pinner.uname}}/pins">{{pin.pinner.uname}}</a></p>
 			<p class="owner_when">Uploaded {{pin.date.strftime('%I:%M%p %m-%d-%Y')}}</p>
 		</div>
 		<div class="holder">

@@ -218,7 +218,15 @@ def follow():
     current_user.follower_array.append(user)
     current_user.save()
     flash("Following " + user.uname)
-    return redirect("/viewprofile/following")
+    return redirect("/viewprofile/" + current_user.uname + "/following")
+
+@mod.route('/unfollow', methods=["POST"])
+def unfollow():
+    id = request.form.get('pinner')
+    user = User.objects.get(id=id)
+    current_user.update(pull__follower_array=user.to_dbref())
+    current_user.save()
+    return redirect("/viewprofile/" + current_user.uname + "/following")
 
 @mod.route('/clearfollows')
 def clearfollows():
