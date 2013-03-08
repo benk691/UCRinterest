@@ -18,9 +18,9 @@ def notify(fn):
         if fn.__name__.find('_') == -1:
             msg += "%sed a picture" % fn.__name__
         elif 'edit_pin' ==  fn.__name__ or 'delete_pin' == fn.__name__ or fn.__name__ == 'add_comment':
-            msg += "$sed a %s" % (fn.__name__.split('_')[0], fn.__name__.split('_')[1])
+            msg += "$sed a %s" % (fn.__name__.split('_'))
         else:
-            msg += "updated their %s %s" % (fn.__name__.split('_')[0], fn.__name__.split('_')[1])
+            msg += "updated their %s %s" % (fn.__name__.split('_'))
         notification = Notification(notifier=current_user.uname,
                         msg=msg,
                         date=date)

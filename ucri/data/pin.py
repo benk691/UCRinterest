@@ -242,7 +242,6 @@ def search_results(query):
     #query database
     pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
     if current_user != None:
-        flash("searching as current_user")
         pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
         valid_pins = getValidBrowserPins(pins, current_user)
     return render_template("index.html", pins=valid_pins, upform=UploadForm())
