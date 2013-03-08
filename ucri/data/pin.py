@@ -56,6 +56,12 @@ def clear():
     flash("Pins deleted!")
     return redirect(url_for('index'))
 
+@login_required
+def clearUserPins():
+    pins = Pin.objects.get(pinner=current_user)
+    for pin in pins:
+        pin.delete()
+
 @mod.route('/fix_repins')
 def fix_repins():
     pins = Pin.objects.all()

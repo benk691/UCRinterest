@@ -1,14 +1,14 @@
 import os, subprocess
 from bcrypt import hashpw, gensalt
 from flask import Flask, request, render_template, redirect, url_for, flash, current_app, Blueprint
-from flask.ext.login import current_user, login_required, confirm_login, fresh_login_required
+from flask.ext.login import current_user, login_required, confirm_login, fresh_login_required, logout_user
 from werkzeug import secure_filename
 from datetime import datetime
 from forms import RegisterForm, SettingsForm, PasswordForm, InterestForm
 from ucri import DEFAULT_PROFILE_PIC, DEFAULT_PROFILE_PIC_PATH, DEFAULT_PROFILE_PIC_LOC
 from ucri.models.user import User
 from ucri.data.forms import UploadForm
-from ucri.data.pin import allowed_file
+from ucri.data.pin import allowed_file, clearUserPins
 
 # Profile blueprint
 mod = Blueprint('profile', __name__)
@@ -82,7 +82,12 @@ def updateSettings(form):
 @login_required
 def deactivateAccount():
     # Delete profile picture
-    pass
+    if current_user.img != DEFAULT_PROFILE_PIC:
+        subprocess.call("rm -f photos/%s" % str(current_user.img), shell=True)
+    # Delete user from database
+    current_user.delete()
+    logout_user()
+    return redirect(url_for('index'))
 
 @mod.route('/settings', methods=['GET', 'POST'])
 @login_required

@@ -29,7 +29,7 @@ class User(UserMixin, db.Document):
     bday = db.DateTimeField(required=True)
     interest_array = db.ListField()
     notification_array = db.ListField(db.EmbeddedDocumentField(Notification))
-    follower_array = db.ListField(db.ReferenceField('self', dbref=True))
+    follower_array = db.ListField(db.ReferenceField('self', reverse_delete_rule=db.PULL, dbref=True))
 
     meta = { 'category' : 'user' }
 

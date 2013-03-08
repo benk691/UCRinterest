@@ -4,13 +4,10 @@
   <span><h1>Edit Account Settings</h1></span>
   <!-- Get form helper -->
   {% from "_formhelpers.html" import render_field %}
-  <!-- Deactivate Account -->
-  <form action="#del_confirm" method=GET class=del-post>
-      <div class="button btn_right btn_txt">{{ render_field(form.deactivate) }} </div>
-  </form>
   <form action="{{ url_for('profile.profileSettings') }}" method=POST enctype=multipart/form-data>
   {{ form.csrf_token }}
     <dl>
+      <div class="button btn_right btn_txt">{{ render_field(form.deactivate) }} </div>
       <!-- Email Address -->
       <div class=fld_bx2>{{ render_field(form.email) }} </div>
       <!-- Change Password -->
