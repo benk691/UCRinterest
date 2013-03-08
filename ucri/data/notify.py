@@ -18,13 +18,14 @@ def notify(fn):
         if fn.__name__.find('_') == -1:
             msg += "%sed a picture" % fn.__name__
         elif 'edit_pin' ==  fn.__name__ or 'delete_pin' == fn.__name__ or fn.__name__ == 'add_comment':
-            msg += "$sed a %s" % (fn.__name__.split('_'))
+            msg += "%sed a %s" % (fn.__name__.split('_')[0], fn.__name__.split('_')[1])
         else:
-            msg += "updated their %s %s" % (fn.__name__.split('_'))
+            msg += "updated their %s %s" % (fn.__name__.split('_')[0], fn.__name__.split('_')[1])
         notification = Notification(notifier=current_user.uname,
                         msg=msg,
                         date=date)
-        for usr in current_user.follower_array:
+        usrs = User.objects.filter(follower_array__contains=current_user.to_dbref())
+        for usr in usrs:
             usr.notification_array.append(notification)
             usr.save()
         return fn(*args, **kwargs)

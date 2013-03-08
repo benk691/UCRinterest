@@ -28,7 +28,7 @@ def addInvalidBrowser(usr, invalid_usr):
     invalid_usr - the user who can't browse that users pins
     '''
     pins = Pin.objects.get(pinner=usr.to_dbref())
-    if type(pins) != type([]):
+    if type(pins) == type(''):
         pins = [ pins ]
     for pin in pins:
         pin.invalid_browsers.append(invalid_usr.to_dbref())
@@ -41,7 +41,7 @@ def rmInvalidBrowser(usr, valid_usr):
     valid_usr - the user who can browse that users pins
     '''
     pins = Pin.objects.get(pinner=usr.to_dbref())
-    if type(pins) != type([]):
+    if type(pins) == type(''):
         pins = [ pins ]
     for pin in pins:
         pin.update(pull__invalid_browsers=valid_usr.to_dbref())
@@ -54,7 +54,7 @@ def addInvalidCommenter(usr, invalid_usr):
     invalid_usr - the user who can't browse that users pins
     '''
     pins = Pin.objects.get(pinner=usr.to_dbref())
-    if type(pins) != type([]):
+    if type(pins) == type(''):
         pins = [ pins ]
     for pin in pins:
         pin.invalid_commenters.append(invalid_usr.to_dbref())
@@ -67,7 +67,7 @@ def rmInvalidCommenter(usr, valid_usr):
     valid_usr - the user who can browse that users pins
     '''
     pins = Pin.objects.get(pinner=usr.to_dbref())
-    if type(pins) != type([]):
+    if type(pins) == type(''):
         pins = [ pins ]
     for pin in pins:
         pin.update(pull__invalid_commenters=valid_usr.to_dbref())

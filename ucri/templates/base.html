@@ -20,6 +20,7 @@
 			<!-- logo -->
 			<a href="/index" class="logo"></a>
 
+            
 			<!-- search -->
 			<form action="/search" method=POST class="search">
 				<input autocomplete="off" name="q" size="27" placeholder="Search" type="text" />
@@ -35,6 +36,16 @@
 				{% else %}
 					<li><a href="{{ url_for('profile.register') }}">Register</a></li>
 				{% endif %}
+                <li><a>Notifications</a>
+                <ul>
+                <!-- notifications -->
+                {%if current_user.is_authenticated() %}
+                    {% for notification in current_user.notification_array %}
+                        <li><a href="/viewprofile/{{notification.notifier}}/pins">{{ notification.msg }}</a></li>
+                {% endfor %}
+                {% endif %}
+                </ul>
+                </li>
 				<li>
 					<a href="{{ url_for('help.about') }}">About<span></span></a>
 					<ul>
