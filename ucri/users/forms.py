@@ -1,11 +1,12 @@
 from bcrypt import hashpw, gensalt
 from flask import flash
-from flask.ext.wtf import Form, TextField, TextAreaField, PasswordField, SelectField, TextAreaField, SubmitField, DateTimeField, DateField, FileField
+from flask.ext.wtf import Form, TextField, TextAreaField, PasswordField, SelectField, TextAreaField, SubmitField, DateTimeField, DateField, FileField, RadioField
 from flask.ext.wtf import Required, Email, EqualTo, Length, file_required, file_allowed
 from flask.ext.login import current_user, login_required
 from werkzeug import secure_filename
 from datetime import datetime
 from ucri import DEFAULT_PROFILE_PIC
+from ucri.models.user import User
 from ucri.models.settings import *
 
 class RegisterForm(Form):
@@ -53,7 +54,6 @@ class SettingsForm(Form):
                  ('R', 'Only Your Followers'),
                  ('L', 'Only People You Follow'), 
                  ('B', 'Only Followers and Following'),
-                 ('C', 'Custom'),
                  ('N', 'Nobody')]
         )
     pin_commenters = SelectField(
@@ -62,7 +62,6 @@ class SettingsForm(Form):
                  ('R', 'Only Your Followers'),
                  ('L', 'Only People You Follow'), 
                  ('B', 'Only Followers and Following'),
-                 ('C', 'Custom'),
                  ('N', 'Nobody')]
         )
     deactivate = SubmitField(u'Deactivate')

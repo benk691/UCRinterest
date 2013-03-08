@@ -116,7 +116,6 @@ def updateUserBrowserPermissions(form):
         current_user.invalid_browsers = getFollowerPermissions().extend(getFollowingPermissions())
     elif perm == 'N':
         current_user.invalid_browsers = User.objects.all()
-    return perm == 'C'
 
 @login_required
 def updateUserCommenterPermissions(form):
@@ -139,7 +138,6 @@ def updateUserCommenterPermissions(form):
         current_user.invalid_commenters = getFollowerPermissions().extend(getFollowingPermissions())
     elif perm == 'N':
         current_user.invalid_commenters = User.objects.all()
-    return perm == 'C'
 
 @login_required
 def updateSettings(form):
@@ -152,33 +150,16 @@ def updateSettings(form):
         current_user.update(set__bday=form.data['bday'])
         current_user.update(set__dscrp=form.data['dscrp'])
         # Update permissions
-        custom_browse, custom_comment = False, False
         if current_user.pin_browsers != form.data['pin_browsers']:
-            custom_browse = updateUserBrowserPermissions(form)
+            updateUserBrowserPermissions(form)
         if current_user.pin_commenters != form.data['pin_commenters']:
-            custom_comment = updateUserCommenterPermissions(form)
+            updateUserCommenterPermissions(form)
         current_user.save()
         flash("Settings have been saved successfully!")
         # Go to profile
-        if not custom_browse and not custom_comment:
-            return redirect("/viewprofile/pins")
-        else:
-            flash("Custom")
-            return redirect(url_for("index"))
+        return redirect("/viewprofile/pins")
     flash("Form is invalid!")
     return render_template("settings.html", form=form, upform=UploadForm())
-
-@mod.route('/deactivate')
-@login_required
-def deactivateAccount():
-    # Delete profile picture
-    if current_user.img != DEFAULT_PROFILE_PIC:
-        subprocess.call("rm -f photos/%s" % str(current_user.img), shell=True)
-    # Delete user from database
-    current_user.delete()
-    logout_user()
-    flash("Account has been deactivated!")
-    return redirect(url_for('index'))
 
 @mod.route('/settings', methods=['GET', 'POST'])
 @login_required
@@ -197,6 +178,18 @@ def profileSettings():
         # Update the other user settings
         return updateSettings(form)
     return render_template("settings.html", form=form, upform=UploadForm())
+
+@mod.route('/deactivate')
+@login_required
+def deactivateAccount():
+    # Delete profile picture
+    if current_user.img != DEFAULT_PROFILE_PIC:
+        subprocess.call("rm -f photos/%s" % str(current_user.img), shell=True)
+    # Delete user from database
+    current_user.delete()
+    logout_user()
+    flash("Account has been deactivated!")
+    return redirect(url_for('index'))
 
 @mod.route('/settings/pwd', methods=['GET', 'POST'])
 @login_required
