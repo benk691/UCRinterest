@@ -202,7 +202,12 @@ def search_results(query):
     #query database
     pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
     if current_user != None:
-        pins = Pin.objects(Q(title=regx) | Q(dscrp=regx)).filter(invalid_browsers__not__contains=current_user.to_dbref())
+        flash("searching as current_user")
+        pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
+        for pin in pins:
+            flash("len of invalid browsers: %d" % len(pin.invalid_browsers))
+            for iusr in pin.invalid_browsers:
+                flash("invalid browser: %s" % str(iusr.uname))
     return render_template("index.html", pins=pins, upform=UploadForm())
 
 @mod.route('/pin/<id>/edit', methods=['POST', 'GET'])
