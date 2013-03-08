@@ -30,7 +30,7 @@ def addInvalidBrowser(usr, invalid_usr):
     if type(pins) != type([]):
         pins = [ pins ]
     for pin in pins:
-        pin.invalid_browsers.append(invalid_user.to_dbref())
+        pin.invalid_browsers.append(invalid_usr.to_dbref())
         pin.save()
 
 def rmInvalidBrowser(usr, valid_usr):
@@ -43,7 +43,7 @@ def rmInvalidBrowser(usr, valid_usr):
     if type(pins) != type([]):
         pins = [ pins ]
     for pin in pins:
-        pin.update(pull__invalid_browsers=valid_user.to_dbref())
+        pin.update(pull__invalid_browsers=valid_usr.to_dbref())
         pin.save()
 
 def addInvalidCommenter(usr, invalid_usr):
@@ -56,7 +56,7 @@ def addInvalidCommenter(usr, invalid_usr):
     if type(pins) != type([]):
         pins = [ pins ]
     for pin in pins:
-        pin.invalid_commenters.append(invalid_user.to_dbref())
+        pin.invalid_commenters.append(invalid_usr.to_dbref())
         pin.save()
 
 def rmInvalidCommenter(usr, valid_usr):
@@ -69,7 +69,7 @@ def rmInvalidCommenter(usr, valid_usr):
     if type(pins) != type([]):
         pins = [ pins ]
     for pin in pins:
-        pin.update(pull__invalid_commenters=valid_user.to_dbref())
+        pin.update(pull__invalid_commenters=valid_usr.to_dbref())
         pin.save()
 
 def getValidBrowserPins(pins, usr = None):
