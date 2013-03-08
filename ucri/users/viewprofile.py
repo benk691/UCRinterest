@@ -7,6 +7,7 @@ from datetime import datetime
 from ucri.models.user import User
 from ucri.models.pin import Pin
 from ucri.data.forms import UploadForm
+from ucri.data.pin import getValidBrowserPins
 
 mod = Blueprint('viewprofile', __name__)
 
@@ -21,21 +22,24 @@ def profile(uname):
 def profile_pins(uname):
     user = User.objects.get(uname=uname)
     pins = Pin.objects(pinner=user.to_dbref()).order_by('-date')
-    return render_template('profilepins.html', pins=pins, upform=UploadForm(), user=user)
+    valid_pins = getValidBrowserPins(pins, current_user)
+    return render_template('profilepins.html', pins=valid_pins, upform=UploadForm(), user=user)
 
 @mod.route('/viewprofile/<uname>/likes')
 @login_required
 def liked_pins(uname):
     user = User.objects.get(uname=uname)
     pins = Pin.objects(likes__contains=user.to_dbref())
-    return render_template('profilepins.html', pins=pins, upform=UploadForm(), user=user)
+    valid_pins = getValidBrowserPins(pins, current_user)
+    return render_template('profilepins.html', pins=valid_pins, upform=UploadForm(), user=user)
 
 @mod.route('/viewprofile/<uname>/favorites')
 @login_required
 def favorites(uname):
     user = User.objects.get(uname=uname)
     pins = Pin.objects(favs__contains=user.to_dbref())
-    return render_template('profilepins.html', pins=pins, upform=UploadForm(), user=user)
+    valid_pins = getValidBrowserPins(pins, current_user)
+    return render_template('profilepins.html', pins=valid_pins, upform=UploadForm(), user=user)
 
 @mod.route('/viewprofile/<uname>/following')
 @login_required

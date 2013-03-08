@@ -43,11 +43,13 @@
 			{% endfor %}
 		</div>
 		{% if current_user.is_authenticated() %}
+        {% if pin.validCommenter() %}
 		<form class="comment" method="post" action="">
 			<input type="hidden" name="id" value="{{ pin.id }}" />
 			<textarea placeholder="Add a comment..." maxlength="1000" name="val"></textarea>
 			<button type="submit" class="button" formaction="/add_comment">Comment</button>
 		</form>
+        {% endif %}
 		{% endif %}
 	</div>
 </div>
