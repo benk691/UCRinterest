@@ -25,7 +25,7 @@ def updateAllPermissions(new_usr):
         if usr.pin_browsers in invalidate_choices:
             addInvalidBrowser(usr, new_usr)
 
-        if usr.pin_commenter in invalidate_choices:
+        if usr.pin_commenters in invalidate_choices:
             addInvalidCommenter(usr, new_usr)
 
 def createNewUser(form):
