@@ -19,6 +19,50 @@ def allowed_file(filename):
     flash("Failed to upload image %s. Please use an image with one of the following extensions: %s" % (str(filename), ''.join([ '%s, ' % ext for ext in ALLOWED_EXTENSIONS ]).strip(', ')))
     return False
 
+def addInvalidBrowser(usr, invalid_usr):
+    '''
+    Updates the individual pin permissions of the browsers
+    usr - the usr that is the pinner
+    invalid_usr - the user who can't browse that users pins
+    '''
+    pins = Pin.objects.get(pinner=usr.to_dbref())
+    for pin in pins:
+        pin.invalid_browsers.append(invalid_user.to_dbref())
+        pin.save()
+
+def rmInvalidBrowser(usr, valid_usr):
+    '''
+    Updates the individual pin permissions of the browsers
+    usr - the usr that is the pinner
+    valid_usr - the user who can browse that users pins
+    '''
+    pins = Pin.objects.get(pinner=usr.to_dbref())
+    for pin in pins:
+        pin.update(pull__invalid_browsers=valid_user.to_dbref())
+        pin.save()
+
+def addInvalidCommenter(usr, invalid_usr):
+    '''
+    Updates the individual pin permissions of the browsers
+    usr - the usr that is the pinner
+    invalid_usr - the user who can't browse that users pins
+    '''
+    pins = Pin.objects.get(pinner=usr.to_dbref())
+    for pin in pins:
+        pin.invalid_commenters.append(invalid_user.to_dbref())
+        pin.save()
+
+def rmInvalidCommenter(usr, valid_usr):
+    '''
+    Updates the individual pin permissions of the browsers
+    usr - the usr that is the pinner
+    valid_usr - the user who can browse that users pins
+    '''
+    pins = Pin.objects.get(pinner=usr.to_dbref())
+    for pin in pins:
+        pin.update(pull__invalid_commenters=valid_user.to_dbref())
+        pin.save()
+
 def createPin(title, img, dscrp):
     '''Creates pin
     - title : the pin title
@@ -33,7 +77,7 @@ def createPin(title, img, dscrp):
                 orig = False
         except Pin.DoesNotExist:
             pass
-
+        
         pin = Pin(title=title, img=img, pinner=current_user.to_dbref(), dscrp=dscrp, orig=orig, date=datetime.now(), repins=0, like_count=0)
         pin.save()
         if pin.repins == None:

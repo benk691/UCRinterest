@@ -8,10 +8,25 @@ from forms import RegisterForm, SettingsForm, PasswordForm, InterestForm
 from ucri import DEFAULT_PROFILE_PIC, DEFAULT_PROFILE_PIC_PATH, DEFAULT_PROFILE_PIC_LOC
 from ucri.models.user import User
 from ucri.data.forms import UploadForm
-from ucri.data.pin import allowed_file
+from ucri.data.pin import allowed_file, addInvalidBrowser, rmInvalidBrowser, addInvalidCommenter, rmInvalidCommenter
 
 # Profile blueprint
 mod = Blueprint('profile', __name__)
+
+def updateAllPermissions(new_usr):
+    '''
+    Updates the permissions of all other users 
+    to handle the case where a user has 
+    selected nobody to see their pins or 
+    comment on their pins
+    '''
+    invalidate_choices = ['R', 'L', 'B', 'N']
+    for usr in User.objects.all():
+        if usr.pin_browsers in invalidate_choices:
+            addInvalidBrowser(usr, new_usr)
+
+        if usr.pin_commenter in invalidate_choices:
+            addInvalidCommenter(usr, new_usr)
 
 def createNewUser(form):
     hashedpwd = hashpw(form.pwd.data, gensalt(log_rounds=13))
@@ -28,6 +43,8 @@ def createNewUser(form):
                bday=form.bday.data,
                creation_date=datetime.now())
     usr.save()
+    # Put this user in the permissions of other users
+    updateAllPermissions(usr)
     flash('Thanks for registering!')
     return redirect(url_for('login.login'))
 
