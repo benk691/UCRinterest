@@ -17,6 +17,7 @@ db = MongoEngine(app)
 from ucri.models.user import User, Anonymous
 from ucri.models.pin import Pin
 from ucri.data.forms import UploadForm
+from ucri.data.pin import getValidPins
 
 # Login manager
 login_manager = LoginManager()
@@ -69,4 +70,5 @@ app.register_blueprint(pinModule)
 def index():
     upform = UploadForm()
     pins = Pin.objects.order_by('-date')
-    return render_template("index.html", pins=pins, upform=upform)
+    valid_pins = getValidPins(pins, current_user)
+    return render_template("index.html", pins=valid_pins, upform=upform)

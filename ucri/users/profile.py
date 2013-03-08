@@ -10,6 +10,7 @@ from ucri.models.user import User
 from ucri.models.pin import Pin
 from ucri.data.forms import UploadForm
 from ucri.data.pin import allowed_file, addInvalidBrowser, rmInvalidBrowser, addInvalidCommenter, rmInvalidCommenter
+from permission import *
 
 # Profile blueprint
 mod = Blueprint('profile', __name__)
@@ -21,12 +22,11 @@ def updateAllPermissions(new_usr):
     selected nobody to see their pins or 
     comment on their pins
     '''
-    invalidate_choices = ['R', 'L', 'B', 'N']
     for usr in User.objects.all():
-        if usr.pin_browsers in invalidate_choices:
+        if usr.pin_browsers in INVALIDATE_CHOICES:
             addInvalidBrowser(usr, new_usr)
 
-        if usr.pin_commenters in invalidate_choices:
+        if usr.pin_commenters in INVALIDATE_CHOICES:
             addInvalidCommenter(usr, new_usr)
 
 def createNewUser(form):
@@ -37,8 +37,8 @@ def createNewUser(form):
                img=DEFAULT_PROFILE_PIC,
                email=form.email.data,
                gender=form.gender.data,
-               pin_browsers='E',
-               pin_commenters='E',
+               pin_browsers=PERM_EVERYONE,
+               pin_commenters=PERM_EVERYONE,
                pwd=hashedpwd,
                dscrp=form.dscrp.data,
                bday=form.bday.data,
@@ -91,7 +91,10 @@ def inFollowerArray(check_usr, usr):
     '''
     for f in usr.follower_array:
         if check_usr.uname == f.uname:
+            flash("user %s found in %s follower_array" % (check_usr.uname, usr.uname))
             return True
+        else:
+            flash("user %s did not match %s in %s follower_array" % (check_usr.uname, f.uname, usr.uname))
     return False
 
 @login_required
@@ -103,7 +106,7 @@ def getFollowerPermissions():
     invalid = []
     usrs = User.objects.all()
     for usr in usrs:
-        if usr.uname != current_user.uname and not inFollowerArray(usr, current_user):
+        if usr.uname != current_user.uname and not inFollowerArray(current_user, usr):
             invalid.append(usr.to_dbref())
             flash("added non follower usr: %s" % usr.uname)
     return invalid
@@ -118,10 +121,8 @@ def getFollowingPermissions():
     usrs = User.objects.all()
     #flash("%s, %s" % (current_user.to_dbref(), current_user.stupid))
     for usr in usrs:
-        if usr.uname != current_user.uname and not inFollowerArray(current_user, usr):
+        if usr.uname != current_user.uname and not inFollowerArray(usr, current_user):
             invalid.append(usr.to_dbref())
-            if usr.uname == "alice":
-                flash("added non following usr: %s" % usr.stupid)
             flash("added non following usr: %s" % usr.uname)
     return invalid
 
@@ -137,33 +138,33 @@ def updateUserBrowserPermissions(form):
     if type(pins) != type([]):
         pins = [ pins ]
     # Everyone has permission
-    if perm == 'E':
+    if perm == PERM_EVERYONE:
         for pin in pins:
             pin.invalid_browsers = []
             pin.save()
     # Your followers have permission
-    elif perm == 'R':
+    elif perm == PERM_FOLLOWERS:
         invalid = getFollowerPermissions()
         for pin in pins:
             pin.invalid_browsers = invalid
             pin.save()
             flash(pin.invalid_browsers)
     # People you follow have permission
-    elif perm == 'L':
+    elif perm == PERM_FOLLOWING:
         invalid = getFollowingPermissions()
         for pin in pins:
             pin.invalid_browsers = invalid
             pin.save()
             flash(pin.invalid_browsers)
     # Followers and following get permission
-    elif perm == 'B':
+    elif perm == PERM_BOTH:
         invalid = getFollowerPermissions().extend(getFollowingPermissions())
         for pin in pins:
             pin.invalid_browsers = invalid
             pin.save()
             flash(pin.invalid_browsers)
     # Nobody has permission
-    elif perm == 'N':
+    elif perm == PERM_NOBODY:
         invalid = User.objects.all()
         for pin in pins:
             pin.invalid_browsers = invalid
@@ -182,30 +183,30 @@ def updateUserCommenterPermissions(form):
     if type(pins) != type([]):
         pins = [ pins ]
     # Everyone has permission
-    if perm == 'E':
+    if perm == PERM_EVERYONE:
         for pin in pins:
             pin.invalid_commenters = []
             pin.save()
     # Your followers have permission
-    elif perm == 'R':
+    elif perm == PERM_FOLLOWERS:
         invalid = getFollowerPermissions()
         for pin in pins:
             pin.invalid_commenters = invalid
             pin.save()
     # People you follow have permission
-    elif perm == 'L':
+    elif perm == PERM_FOLLOWING:
         invalid = getFollowingPermissions()
         for pin in pins:
             pin.invalid_commenters = invalid
             pin.save()
     # Followers and following get permission
-    elif perm == 'B':
+    elif perm == PERM_BOTH:
         invalid = getFollowerPermissions().extend(getFollowingPermissions())
         for pin in pins:
             pin.invalid_commenters = invalid
             pin.save()
     # Nobody has permission
-    elif perm == 'N':
+    elif perm == PERM_NOBODY:
         invalid = User.objects.all()
         for pin in pins:
             pin.invalid_commenters = invalid

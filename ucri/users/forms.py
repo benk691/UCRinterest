@@ -7,6 +7,7 @@ from werkzeug import secure_filename
 from datetime import datetime
 from ucri import DEFAULT_PROFILE_PIC
 from ucri.models.settings import *
+from permission import *
 
 class RegisterForm(Form):
     '''
@@ -49,19 +50,19 @@ class SettingsForm(Form):
     dscrp = TextAreaField(u'Describe yourself', [Length(min=DSCRPT_MIN_LENGTH, max=DSCRPT_MAX_LENGTH)])
     pin_browsers = SelectField(
         u'Select who can browse for your pins',
-        choices=[('E', 'Everyone'),
-                 ('R', 'Only Your Followers'),
-                 ('L', 'Only People You Follow'), 
-                 ('B', 'Only Followers and Following'),
-                 ('N', 'Nobody')]
+        choices=[(PERM_EVERYONE, 'Everyone'),
+                 (PERM_FOLLOWERS, 'Only Your Followers'),
+                 (PERM_FOLLOWING, 'Only People You Follow'), 
+                 (PERM_BOTH, 'Only Followers and Following'),
+                 (PERM_NOBODY, 'Nobody')]
         )
     pin_commenters = SelectField(
         u'Select who can comment on your pins',
-        choices=[('E', 'Everyone'),
-                 ('R', 'Only Your Followers'),
-                 ('L', 'Only People You Follow'), 
-                 ('B', 'Only Followers and Following'),
-                 ('N', 'Nobody')]
+        choices=[(PERM_EVERYONE, 'Everyone'),
+                 (PERM_FOLLOWERS, 'Only Your Followers'),
+                 (PERM_FOLLOWING, 'Only People You Follow'), 
+                 (PERM_BOTH, 'Only Followers and Following'),
+                 (PERM_NOBODY, 'Nobody')]
         )
     deactivate = SubmitField(u'Deactivate')
     save = SubmitField(u'Save Profile')

@@ -5,11 +5,12 @@ from werkzeug import secure_filename
 from mongoengine.queryset import Q
 from datetime import datetime
 from ucri import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
-from ucri.models.user import User
+from ucri.models.user import User, Anonymous
 from ucri.models.pin import Pin
 from ucri.models.comment import Comment
 #from ucri.models.board import Board
 from ucri.data.forms import UploadForm
+from ucri.users.permission import *
 
 mod = Blueprint('pin', __name__)
 
@@ -62,6 +63,31 @@ def rmInvalidCommenter(usr, valid_usr):
     for pin in pins:
         pin.update(pull__invalid_commenters=valid_user.to_dbref())
         pin.save()
+
+def getValidPins(pins, usr = None):
+    '''
+    Iterates through a given list of pins and determines the valid ones to display
+    pins - the list of pins to iterate through
+    usr - the user trying to look at the pins [default = None (this means anonymous person is attempting to look at pins)]
+    '''
+    valid_pins = []
+    # Check that the pins param is valid
+    if pins != None and len(pins) > 0:
+        for pin in pins:
+            # Handle anonymous user
+            if usr == None or not usr.is_active():
+                if pin.pinner.pin_browsers == PERM_EVERYONE:
+                    valid_pins.append(pin)
+            # Handle registered user
+            else:
+                valid = True
+                for iusr in pin.invalid_browsers:
+                    if iusr.uname == usr.uname:
+                        valid = False
+                        break
+                if valid:
+                    valid_pins.append(pin)
+    return valid_pins
 
 def createPin(title, img, dscrp):
     '''Creates pin
@@ -191,7 +217,6 @@ def search():
         return redirect(request.referrer)
     return redirect('/search_results/' + query)
     
-
 @mod.route("/search_results/<query>")
 def search_results(query):
     #tokenize
@@ -204,11 +229,8 @@ def search_results(query):
     if current_user != None:
         flash("searching as current_user")
         pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
-        for pin in pins:
-            flash("len of invalid browsers: %d" % len(pin.invalid_browsers))
-            for iusr in pin.invalid_browsers:
-                flash("invalid browser: %s" % str(iusr.uname))
-    return render_template("index.html", pins=pins, upform=UploadForm())
+        valid_pins = getValidPins(pins, current_user)
+    return render_template("index.html", pins=valid_pins, upform=UploadForm())
 
 @mod.route('/pin/<id>/edit', methods=['POST', 'GET'])
 def editpin(id):
