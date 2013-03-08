@@ -6,7 +6,6 @@ from flask.ext.login import current_user, login_required
 from werkzeug import secure_filename
 from datetime import datetime
 from ucri import DEFAULT_PROFILE_PIC
-from ucri.models.user import User
 from ucri.models.settings import *
 
 class RegisterForm(Form):
