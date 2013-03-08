@@ -32,6 +32,7 @@ class User(UserMixin, db.Document):
     interest_array = db.ListField()
     notification_array = db.ListField(db.EmbeddedDocumentField(Notification))
     follower_array = db.ListField(db.ReferenceField('self', reverse_delete_rule=db.PULL, dbref=True))
+    repins_from = db.ListField(db.ReferenceField('self', dbref=True))
     meta = { 'category' : 'user' }
 
     def is_active(self):

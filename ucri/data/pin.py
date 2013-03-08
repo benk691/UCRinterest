@@ -176,6 +176,8 @@ def upload():
         if pos < 0 or (pos >= 0 and (not filename[pos + 1 : ] in ALLOWED_EXTENSIONS)):
             flash("Error: Invalid extension, pleases use jpg or png")
             return redirect(request.referrer + '#add_form')
+        while os.path.isfile(os.path.join(current_app.config['UPLOAD_FOLDER'], filename)):
+            filename = '_' + filename
         form.photo.file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
         pin = Pin(title=form.title.data,
                   img=filename,
@@ -210,6 +212,8 @@ def repin():
         pin = Pin.objects.get(id=id)
     pin.repins = pin.repins + 1
     pin.save()
+    current_user.update(add_to_set__repins_from=pin.pinner.to_dbref())
+    current_user.save()
     flash("Pin repinned")
     return redirect('/viewprofile/%s/pins' % str(current_user.uname))
 
@@ -239,6 +243,16 @@ def search_results(query):
         pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
         valid_pins = getValidBrowserPins(pins, current_user)
     return render_template("index.html", pins=valid_pins, upform=UploadForm())
+
+@mod.route("/fromFollows")
+def pinsFromFollows():
+    pins = []
+    allpins = Pin.objects.order_by('-date')
+    for pin in allpins:
+        if pin.pinner.following() == True:
+            pins.append(pin)
+    valid_pins = getValidBrowserPins(pins, current_user)
+    return render_template("index.html", pins=valid_pins, upform=UploadForm())    
 
 @mod.route('/pin/<id>/edit', methods=['POST', 'GET'])
 def editpin(id):

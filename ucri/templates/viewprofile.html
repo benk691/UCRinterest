@@ -13,6 +13,10 @@
     </div>
     <div class=repins>
       <h2>Repins from</h2>
+      </br>
+      {% for u in user.repins_from[:8] %}
+        <a href="/viewprofile/{{ u.uname }}/pins"><h3>{{u.uname}}</h3></a>
+      {% endfor %}
     </div>
   </div>
   <div class=mid_bar>
