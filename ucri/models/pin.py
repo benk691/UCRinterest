@@ -43,3 +43,13 @@ class Pin(db.Document):
                 return True
             else:
                 return False
+
+    def validCommenter(self):
+        '''
+        Get the valid commenters, to comment a user has to be logged in
+        '''
+        # Check that the pins param is valid
+        for iusr in self.invalid_commenters:
+            if iusr.uname == current_user.uname:
+                return False
+        return True

@@ -91,10 +91,7 @@ def inFollowerArray(check_usr, usr):
     '''
     for f in usr.follower_array:
         if check_usr.uname == f.uname:
-            flash("user %s found in %s follower_array" % (check_usr.uname, usr.uname))
             return True
-        else:
-            flash("user %s did not match %s in %s follower_array" % (check_usr.uname, f.uname, usr.uname))
     return False
 
 @login_required
@@ -102,13 +99,11 @@ def getFollowerPermissions():
     '''
     Invalidates everyone who is not a follower of the current user
     '''
-    flash("follower permissions")
     invalid = []
     usrs = User.objects.all()
     for usr in usrs:
         if usr.uname != current_user.uname and not inFollowerArray(current_user, usr):
             invalid.append(usr.to_dbref())
-            flash("added non follower usr: %s" % usr.uname)
     return invalid
 
 @login_required
@@ -119,11 +114,9 @@ def getFollowingPermissions():
     flash("following permissions")
     invalid = []
     usrs = User.objects.all()
-    #flash("%s, %s" % (current_user.to_dbref(), current_user.stupid))
     for usr in usrs:
         if usr.uname != current_user.uname and not inFollowerArray(usr, current_user):
             invalid.append(usr.to_dbref())
-            flash("added non following usr: %s" % usr.uname)
     return invalid
 
 @login_required
@@ -148,28 +141,24 @@ def updateUserBrowserPermissions(form):
         for pin in pins:
             pin.invalid_browsers = invalid
             pin.save()
-            flash(pin.invalid_browsers)
     # People you follow have permission
     elif perm == PERM_FOLLOWING:
         invalid = getFollowingPermissions()
         for pin in pins:
             pin.invalid_browsers = invalid
             pin.save()
-            flash(pin.invalid_browsers)
     # Followers and following get permission
     elif perm == PERM_BOTH:
         invalid = getFollowerPermissions().extend(getFollowingPermissions())
         for pin in pins:
             pin.invalid_browsers = invalid
             pin.save()
-            flash(pin.invalid_browsers)
     # Nobody has permission
     elif perm == PERM_NOBODY:
-        invalid = User.objects.all()
+        invalid = [ usr.to_dbref() for usr in User.objects.all() if usr.uname != current_user.uname ]
         for pin in pins:
             pin.invalid_browsers = invalid
             pin.save()
-            flash(pin.invalid_browsers)
 
 @login_required
 def updateUserCommenterPermissions(form):
@@ -207,7 +196,7 @@ def updateUserCommenterPermissions(form):
             pin.save()
     # Nobody has permission
     elif perm == PERM_NOBODY:
-        invalid = User.objects.all()
+        invalid = [ usr.to_dbref() for usr in User.objects.all() if usr.uname != current_user.uname ]
         for pin in pins:
             pin.invalid_commenters = invalid
             pin.save()
@@ -223,13 +212,12 @@ def updateSettings(form):
         current_user.update(set__bday=form.data['bday'])
         current_user.update(set__dscrp=form.data['dscrp'])
         # Update permissions
-        flash("cu browser = %s" % str(current_user.pin_browsers))
-        flash("form browser = %s" % str(form.data['pin_browsers']))
         if current_user.pin_browsers != form.data['pin_browsers']:
-            flash("updating invalid browsers")
             updateUserBrowserPermissions(form)
+            flash("updated invalid browsers")
         if current_user.pin_commenters != form.data['pin_commenters']:
             updateUserCommenterPermissions(form)
+            flash("updated invalid commenters")
         current_user.save()
         flash("Settings have been saved successfully!")
         # Go to profile

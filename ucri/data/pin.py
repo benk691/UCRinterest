@@ -27,6 +27,8 @@ def addInvalidBrowser(usr, invalid_usr):
     invalid_usr - the user who can't browse that users pins
     '''
     pins = Pin.objects.get(pinner=usr.to_dbref())
+    if type(pins) != type([]):
+        pins = [ pins ]
     for pin in pins:
         pin.invalid_browsers.append(invalid_user.to_dbref())
         pin.save()
@@ -38,6 +40,8 @@ def rmInvalidBrowser(usr, valid_usr):
     valid_usr - the user who can browse that users pins
     '''
     pins = Pin.objects.get(pinner=usr.to_dbref())
+    if type(pins) != type([]):
+        pins = [ pins ]
     for pin in pins:
         pin.update(pull__invalid_browsers=valid_user.to_dbref())
         pin.save()
@@ -49,6 +53,8 @@ def addInvalidCommenter(usr, invalid_usr):
     invalid_usr - the user who can't browse that users pins
     '''
     pins = Pin.objects.get(pinner=usr.to_dbref())
+    if type(pins) != type([]):
+        pins = [ pins ]
     for pin in pins:
         pin.invalid_commenters.append(invalid_user.to_dbref())
         pin.save()
@@ -60,11 +66,13 @@ def rmInvalidCommenter(usr, valid_usr):
     valid_usr - the user who can browse that users pins
     '''
     pins = Pin.objects.get(pinner=usr.to_dbref())
+    if type(pins) != type([]):
+        pins = [ pins ]
     for pin in pins:
         pin.update(pull__invalid_commenters=valid_user.to_dbref())
         pin.save()
 
-def getValidPins(pins, usr = None):
+def getValidBrowserPins(pins, usr = None):
     '''
     Iterates through a given list of pins and determines the valid ones to display
     pins - the list of pins to iterate through
@@ -229,7 +237,7 @@ def search_results(query):
     if current_user != None:
         flash("searching as current_user")
         pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
-        valid_pins = getValidPins(pins, current_user)
+        valid_pins = getValidBrowserPins(pins, current_user)
     return render_template("index.html", pins=valid_pins, upform=UploadForm())
 
 @mod.route('/pin/<id>/edit', methods=['POST', 'GET'])
