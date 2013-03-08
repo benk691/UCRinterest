@@ -10,42 +10,43 @@ from ucri.data.forms import UploadForm
 
 mod = Blueprint('viewprofile', __name__)
 
-@mod.route('/viewprofile')
+@mod.route('/viewprofile/<uname>/')
 @login_required
-def viewprofile():
-    return render_template('viewprofile.html', upform=UploadForm(), user=current_user)
+def profile(uname):
+    user = User.objects.get(uname=uname)
+    return render_template('viewprofile.html', upform=UploadForm(), user=user)
 
-@mod.route('/viewprofile/pins')
+@mod.route('/viewprofile/<uname>/pins')
 @login_required
-def profilepins():
-    user = current_user
+def profilepins(uname):
+    user = User.objects.get(uname=uname)
     pins = Pin.objects(pinner=user.to_dbref()).order_by('-date')
     return render_template('profilepins.html', pins=pins, upform=UploadForm(), user=user)
 
-@mod.route('/viewprofile/likes')
+@mod.route('/viewprofile/<uname>/likes')
 @login_required
-def likedpins():
-    user = current_user
+def likedpins(uname):
+    user = User.objects.get(uname=uname)
     pins = Pin.objects(likes__contains=user.to_dbref())
     return render_template('profilepins.html', pins=pins, upform=UploadForm(), user=user)
 
-@mod.route('/viewprofile/favorites')
+@mod.route('/viewprofile/<uname>/favorites')
 @login_required
-def favorites():
-    user = current_user
+def favorites(uname):
+    user = User.objects.get(uname=uname)
     pins = Pin.objects(favs__contains=user.to_dbref())
     return render_template('profilepins.html', pins=pins, upform=UploadForm(), user=user)
 
-@mod.route('/viewprofile/following')
+@mod.route('/viewprofile/<uname>/following')
 @login_required
-def following():
-    user=current_user
+def following(uname):
+    user=User.objects.get(uname=uname)
     users = user.follower_array
     return render_template('profilefollows.html', users=users, upform=UploadForm(), user=user)
 
-@mod.route('/viewprofile/followers')
+@mod.route('/viewprofile/<uname>/followers')
 @login_required
-def followers():
-    user = current_user
+def followers(uname):
+    user = User.objects.get(uname=uname)
     users = User.objects.filter(follower_array__contains=user.to_dbref())
     return render_template('profilefollows.html', users=users, upform=UploadForm(), user=user)
