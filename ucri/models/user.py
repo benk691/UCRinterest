@@ -50,3 +50,6 @@ class User(UserMixin, db.Document):
 
 class Anonymous(AnonymousUser):
     uname = u"Anonymous"
+
+    def is_active(self):
+        return False

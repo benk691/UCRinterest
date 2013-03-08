@@ -7,8 +7,10 @@ from datetime import datetime
 from forms import RegisterForm, SettingsForm, PasswordForm, InterestForm
 from ucri import DEFAULT_PROFILE_PIC, DEFAULT_PROFILE_PIC_PATH, DEFAULT_PROFILE_PIC_LOC
 from ucri.models.user import User
+from ucri.models.pin import Pin
 from ucri.data.forms import UploadForm
 from ucri.data.pin import allowed_file, addInvalidBrowser, rmInvalidBrowser, addInvalidCommenter, rmInvalidCommenter
+from permission import *
 
 # Profile blueprint
 mod = Blueprint('profile', __name__)
@@ -20,12 +22,11 @@ def updateAllPermissions(new_usr):
     selected nobody to see their pins or 
     comment on their pins
     '''
-    invalidate_choices = ['R', 'L', 'B', 'N']
     for usr in User.objects.all():
-        if usr.pin_browsers in invalidate_choices:
+        if usr.pin_browsers in INVALIDATE_CHOICES:
             addInvalidBrowser(usr, new_usr)
 
-        if usr.pin_commenters in invalidate_choices:
+        if usr.pin_commenters in INVALIDATE_CHOICES:
             addInvalidCommenter(usr, new_usr)
 
 def createNewUser(form):
@@ -36,8 +37,8 @@ def createNewUser(form):
                img=DEFAULT_PROFILE_PIC,
                email=form.email.data,
                gender=form.gender.data,
-               pin_browsers='E',
-               pin_commenters='E',
+               pin_browsers=PERM_EVERYONE,
+               pin_commenters=PERM_EVERYONE,
                pwd=hashedpwd,
                dscrp=form.dscrp.data,
                bday=form.bday.data,
@@ -83,15 +84,49 @@ def changeProfilePic(form):
     return render_template("settings.html", form=form, upform=UploadForm())
 
 @login_required
-def getFollowerPermissions():
-    return User.objects.filter(follower_array__not__contains=current_user.to_dbref())
+def inFollowerArray(check_usr, usr):
+    '''
+    Checks if check_usr is in usr.follower_array or not
+    returns True if check_usr is found, Flase otherwise
+    '''
+    for f in usr.follower_array:
+        if check_usr.uname == f.uname:
+            return True
+    return False
 
 @login_required
-def getFollowingPermissions():
+def getFollowerPermissions():
+    '''
+    Invalidates everyone who is not a follower of the current user
+    '''
     invalid = []
     usrs = User.objects.all()
     for usr in usrs:
-        if usr.to_dbref() not in current_user.follower_array:
+        if usr.uname != current_user.uname and not inFollowerArray(current_user, usr):
+            invalid.append(usr.to_dbref())
+    return invalid
+
+@login_required
+def getFollowingPermissions():
+    '''
+    Invalidates everyone who the current user isn't following
+    '''
+    invalid = []
+    usrs = User.objects.all()
+    for usr in usrs:
+        if usr.uname != current_user.uname and not inFollowerArray(usr, current_user):
+            invalid.append(usr.to_dbref())
+    return invalid
+
+@login_required
+def getBothPermissions():
+    '''
+    Invalidates everyone who the current user isn't following and everyone who is not a follower of the current user
+    '''
+    invalid = []
+    usrs = User.objects.all()
+    for usr in usrs:
+        if usr.uname != current_user.uname and not inFollowerArray(usr, current_user) and not inFollowerArray(current_user, usr):
             invalid.append(usr.to_dbref())
     return invalid
 
@@ -102,21 +137,39 @@ def updateUserBrowserPermissions(form):
     '''
     perm = form.data['pin_browsers']
     current_user.update(set__pin_browsers=perm)
+    current_user.save()
+    pins = Pin.objects.get(pinner=current_user.to_dbref())
+    if type(pins) != type([]):
+        pins = [ pins ]
     # Everyone has permission
-    if perm == 'E':
-        current_user.invalid_browsers = []
+    if perm == PERM_EVERYONE:
+        for pin in pins:
+            pin.invalid_browsers = []
+            pin.save()
     # Your followers have permission
-    elif perm == 'R':
-        current_user.invalid_browsers = getFollowerPermissions()
+    elif perm == PERM_FOLLOWERS:
+        invalid = getFollowerPermissions()
+        for pin in pins:
+            pin.invalid_browsers = invalid
+            pin.save()
     # People you follow have permission
-    elif perm == 'L':
-        current_user.invalid_browsers = getFollowingPermissions()
+    elif perm == PERM_FOLLOWING:
+        invalid = getFollowingPermissions()
+        for pin in pins:
+            pin.invalid_browsers = invalid
+            pin.save()
     # Followers and following get permission
-    elif perm == 'B':
-        current_user.invalid_browsers = getFollowerPermissions().extend(getFollowingPermissions())
-    elif perm == 'N':
-        current_user.invalid_browsers = User.objects.all()
-    return perm == 'C'
+    elif perm == PERM_BOTH:
+        invalid = getBothPermissions()
+        for pin in pins:
+            pin.invalid_browsers = invalid
+            pin.save()
+    # Nobody has permission
+    elif perm == PERM_NOBODY:
+        invalid = [ usr.to_dbref() for usr in User.objects.all() if usr.uname != current_user.uname ]
+        for pin in pins:
+            pin.invalid_browsers = invalid
+            pin.save()
 
 @login_required
 def updateUserCommenterPermissions(form):
@@ -125,21 +178,39 @@ def updateUserCommenterPermissions(form):
     '''
     perm = form.data['pin_commenters']
     current_user.update(set__pin_commenters=perm)
+    current_user.save()
+    pins = Pin.objects.get(pinner=current_user.to_dbref())
+    if type(pins) != type([]):
+        pins = [ pins ]
     # Everyone has permission
-    if perm == 'E':
-        current_user.invalid_commenters = []
+    if perm == PERM_EVERYONE:
+        for pin in pins:
+            pin.invalid_commenters = []
+            pin.save()
     # Your followers have permission
-    elif perm == 'R':
-        current_user.invalid_commenters = getFollowerPermissions()
+    elif perm == PERM_FOLLOWERS:
+        invalid = getFollowerPermissions()
+        for pin in pins:
+            pin.invalid_commenters = invalid
+            pin.save()
     # People you follow have permission
-    elif perm == 'L':
-        current_user.invalid_commenters = getFollowingPermissions()
+    elif perm == PERM_FOLLOWING:
+        invalid = getFollowingPermissions()
+        for pin in pins:
+            pin.invalid_commenters = invalid
+            pin.save()
     # Followers and following get permission
-    elif perm == 'B':
-        current_user.invalid_commenters = getFollowerPermissions().extend(getFollowingPermissions())
-    elif perm == 'N':
-        current_user.invalid_commenters = User.objects.all()
-    return perm == 'C'
+    elif perm == PERM_BOTH:
+        invalid = getBothPermissions()
+        for pin in pins:
+            pin.invalid_commenters = invalid
+            pin.save()
+    # Nobody has permission
+    elif perm == PERM_NOBODY:
+        invalid = [ usr.to_dbref() for usr in User.objects.all() if usr.uname != current_user.uname ]
+        for pin in pins:
+            pin.invalid_commenters = invalid
+            pin.save()
 
 @login_required
 def updateSettings(form):
@@ -152,33 +223,18 @@ def updateSettings(form):
         current_user.update(set__bday=form.data['bday'])
         current_user.update(set__dscrp=form.data['dscrp'])
         # Update permissions
-        custom_browse, custom_comment = False, False
         if current_user.pin_browsers != form.data['pin_browsers']:
-            custom_browse = updateUserBrowserPermissions(form)
+            updateUserBrowserPermissions(form)
+            flash("Updated invalid browsers")
         if current_user.pin_commenters != form.data['pin_commenters']:
-            custom_comment = updateUserCommenterPermissions(form)
+            updateUserCommenterPermissions(form)
+            flash("Updated invalid commenters")
         current_user.save()
         flash("Settings have been saved successfully!")
         # Go to profile
-        if not custom_browse and not custom_comment:
-            return redirect("/viewprofile/pins")
-        else:
-            flash("Custom")
-            return redirect(url_for("index"))
+        return redirect("/viewprofile/%s/pins" % str(current_user.uname))
     flash("Form is invalid!")
     return render_template("settings.html", form=form, upform=UploadForm())
-
-@mod.route('/deactivate')
-@login_required
-def deactivateAccount():
-    # Delete profile picture
-    if current_user.img != DEFAULT_PROFILE_PIC:
-        subprocess.call("rm -f photos/%s" % str(current_user.img), shell=True)
-    # Delete user from database
-    current_user.delete()
-    logout_user()
-    flash("Account has been deactivated!")
-    return redirect(url_for('index'))
 
 @mod.route('/settings', methods=['GET', 'POST'])
 @login_required
@@ -197,6 +253,18 @@ def profileSettings():
         # Update the other user settings
         return updateSettings(form)
     return render_template("settings.html", form=form, upform=UploadForm())
+
+@mod.route('/deactivate')
+@login_required
+def deactivateAccount():
+    # Delete profile picture
+    if current_user.img != DEFAULT_PROFILE_PIC:
+        subprocess.call("rm -f photos/%s" % str(current_user.img), shell=True)
+    # Delete user from database
+    current_user.delete()
+    logout_user()
+    flash("Account has been deactivated!")
+    return redirect(url_for('index'))
 
 @mod.route('/settings/pwd', methods=['GET', 'POST'])
 @login_required

@@ -5,11 +5,12 @@ from werkzeug import secure_filename
 from mongoengine.queryset import Q
 from datetime import datetime
 from ucri import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
-from ucri.models.user import User
+from ucri.models.user import User, Anonymous
 from ucri.models.pin import Pin
 from ucri.models.comment import Comment
 #from ucri.models.board import Board
 from ucri.data.forms import UploadForm
+from ucri.users.permission import *
 
 mod = Blueprint('pin', __name__)
 
@@ -26,8 +27,10 @@ def addInvalidBrowser(usr, invalid_usr):
     invalid_usr - the user who can't browse that users pins
     '''
     pins = Pin.objects.get(pinner=usr.to_dbref())
+    if type(pins) != type([]):
+        pins = [ pins ]
     for pin in pins:
-        pin.invalid_browsers.append(invalid_user.to_dbref())
+        pin.invalid_browsers.append(invalid_usr.to_dbref())
         pin.save()
 
 def rmInvalidBrowser(usr, valid_usr):
@@ -37,8 +40,10 @@ def rmInvalidBrowser(usr, valid_usr):
     valid_usr - the user who can browse that users pins
     '''
     pins = Pin.objects.get(pinner=usr.to_dbref())
+    if type(pins) != type([]):
+        pins = [ pins ]
     for pin in pins:
-        pin.update(pull__invalid_browsers=valid_user.to_dbref())
+        pin.update(pull__invalid_browsers=valid_usr.to_dbref())
         pin.save()
 
 def addInvalidCommenter(usr, invalid_usr):
@@ -48,8 +53,10 @@ def addInvalidCommenter(usr, invalid_usr):
     invalid_usr - the user who can't browse that users pins
     '''
     pins = Pin.objects.get(pinner=usr.to_dbref())
+    if type(pins) != type([]):
+        pins = [ pins ]
     for pin in pins:
-        pin.invalid_commenters.append(invalid_user.to_dbref())
+        pin.invalid_commenters.append(invalid_usr.to_dbref())
         pin.save()
 
 def rmInvalidCommenter(usr, valid_usr):
@@ -59,9 +66,36 @@ def rmInvalidCommenter(usr, valid_usr):
     valid_usr - the user who can browse that users pins
     '''
     pins = Pin.objects.get(pinner=usr.to_dbref())
+    if type(pins) != type([]):
+        pins = [ pins ]
     for pin in pins:
-        pin.update(pull__invalid_commenters=valid_user.to_dbref())
+        pin.update(pull__invalid_commenters=valid_usr.to_dbref())
         pin.save()
+
+def getValidBrowserPins(pins, usr = None):
+    '''
+    Iterates through a given list of pins and determines the valid ones to display
+    pins - the list of pins to iterate through
+    usr - the user trying to look at the pins [default = None (this means anonymous person is attempting to look at pins)]
+    '''
+    valid_pins = []
+    # Check that the pins param is valid
+    if pins != None and len(pins) > 0:
+        for pin in pins:
+            # Handle anonymous user
+            if usr == None or not usr.is_active():
+                if pin.pinner.pin_browsers == PERM_EVERYONE:
+                    valid_pins.append(pin)
+            # Handle registered user
+            else:
+                valid = True
+                for iusr in pin.invalid_browsers:
+                    if iusr.uname == usr.uname:
+                        valid = False
+                        break
+                if valid:
+                    valid_pins.append(pin)
+    return valid_pins
 
 def createPin(title, img, dscrp):
     '''Creates pin
@@ -130,6 +164,7 @@ def bigpin(id):
         user = current_user)
 
 @mod.route('/upload', methods=['POST'])
+@login_required
 def upload():
     form = UploadForm()
     if form.validate():
@@ -154,9 +189,10 @@ def upload():
         flash("Image has been uploaded.")
     else:
         flash("Image upload error.")
-    return redirect('viewprofile/pins' + "#add_form")
+    return redirect('viewprofile/%s/pins' % str(current_user.uname) + "#add_form")
 
 @mod.route('/repin', methods=['POST'])
+@login_required
 def repin():
     id = request.form.get('id')
     pin = Pin.objects.get(id=id)
@@ -175,7 +211,7 @@ def repin():
     pin.repins = pin.repins + 1
     pin.save()
     flash("Pin repinned")
-    return redirect('/viewprofile/pins')
+    return redirect('/viewprofile/%s/pins' % str(current_user.uname))
 
 @mod.route('/uploads/<file>')
 def uploaded_file(file):
@@ -189,7 +225,6 @@ def search():
         return redirect(request.referrer)
     return redirect('/search_results/' + query)
     
-
 @mod.route("/search_results/<query>")
 def search_results(query):
     #tokenize
@@ -199,7 +234,11 @@ def search_results(query):
     regx = re.compile(x, re.IGNORECASE)
     #query database
     pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
-    return render_template("index.html", pins=pins, upform=UploadForm())
+    if current_user != None:
+        flash("searching as current_user")
+        pins = Pin.objects(Q(title=regx) | Q(dscrp=regx))
+        valid_pins = getValidBrowserPins(pins, current_user)
+    return render_template("index.html", pins=valid_pins, upform=UploadForm())
 
 @mod.route('/pin/<id>/edit', methods=['POST', 'GET'])
 def editpin(id):
@@ -230,6 +269,7 @@ def add_comment():
     return redirect(request.referrer)
     
 @mod.route('/like', methods=['POST'])
+@login_required
 def like():
     id = request.form.get('id')
     pin = Pin.objects.get(id=id)
@@ -247,12 +287,13 @@ def like():
         pin.like_count = pin.like_count + 1
         pin.save()
         flash("pin liked")
-    return redirect("/viewprofile/likes")
+    return redirect("/viewprofile/%s/likes" % str(current_user.uname))
 
 @mod.route('/favorite', methods=['POST'])
+@login_required
 def favorite():
     id = request.form.get('id')
     pin = Pin.objects.get(id=id)
     pin.favs.append(current_user.to_dbref())
     pin.save()
-    return redirect("/viewprofile/favorites")
+    return redirect("/viewprofile/%s/favorites" % str(current_user.uname))

@@ -21,7 +21,9 @@
 					<button type="submit" class="button" formaction="/like">{% if pin.is_liked() %}Unlike{% else %}Like{% endif %} </button>
 				</form>
 			{% endif %}
-			<a class="button comment_tr">Comment</a>
+            {% if pin.validCommenter() %}
+            <a class="button comment_tr">Comment</a>
+            {% endif %}
 		</div>
 		{% endif %}
 		<a class="image ajax" href="/pin/{{pin.id}}" title="{{ pin.title }}">
