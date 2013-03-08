@@ -16,6 +16,6 @@ class Notification(db.EmbeddedDocument):
     - msg : the notifcation message
     - date : the date the notification occured
     '''
-    notifier = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, unique=True, required=True)
+    notifier = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
     msg = db.StringField(min_length=DSCRPT_MIN_LENGTH+1, max_length=DSCRPT_MAX_LENGTH, required=True)
     date = db.DateTimeField(required=True)

@@ -32,6 +32,8 @@ class Pin(db.Document):
     likes = db.ListField(db.ReferenceField(User, reverse_delete_rule=db.PULL, dbref=True))
     like_count = db.IntField(default=0)
     favs = db.ListField(db.ReferenceField(User, reverse_delete_rule=db.PULL, dbref=True))
+    invalid_browsers = db.ListField(db.ReferenceField(User, reverse_delete_rule=db.PULL, dbref=True))
+    invalid_commenters = db.ListField(db.ReferenceField(User, reverse_delete_rule=db.PULL, dbref=True))
     meta = { 'category' : 'img' }
 
     def is_liked(self):

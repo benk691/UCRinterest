@@ -47,24 +47,26 @@ class SettingsForm(Form):
     change_pwd = SubmitField(u'Change Password')
     bday = DateField(u'Birthday (mm/dd/yyyy)', format='%m/%d/%Y')
     dscrp = TextAreaField(u'Describe yourself', [Length(min=DSCRPT_MIN_LENGTH, max=DSCRPT_MAX_LENGTH)])
+    pin_browsers = SelectField(
+        u'Select who can browse for your pins',
+        choices=[('E', 'Everyone'),
+                 ('R', 'Only Your Followers'),
+                 ('L', 'Only People You Follow'), 
+                 ('B', 'Only Followers and Following'),
+                 ('C', 'Custom'),
+                 ('N', 'Nobody')]
+        )
     pin_commenters = SelectField(
         u'Select who can comment on your pins',
         choices=[('E', 'Everyone'),
                  ('R', 'Only Your Followers'),
                  ('L', 'Only People You Follow'), 
-                 ('B', 'Both Followers and Following')],
-        default=1
+                 ('B', 'Only Followers and Following'),
+                 ('C', 'Custom'),
+                 ('N', 'Nobody')]
         )
     deactivate = SubmitField(u'Deactivate')
     save = SubmitField(u'Save Profile')
-
-    @login_required
-    def __init__(self, *args, **kwargs):
-        Form.__init__(self, *args, **kwargs)
-        ##########  
-        # TODO:
-        #   - Go through pins to set the default on the commenters
-        ########## 
 
 class PasswordForm(Form):
     '''

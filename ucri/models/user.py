@@ -22,6 +22,8 @@ class User(UserMixin, db.Document):
     lname = db.StringField(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH, required=True)
     img = db.StringField(min_length=PATH_MIN_LENGTH, required=True)
     gender = db.StringField(min_length=1, max_length=1, required=True)
+    pin_browsers = db.StringField(min_length=1, max_length=1, required=True)
+    pin_commenters = db.StringField(min_length=1, max_length=1, required=True)
     pwd = db.StringField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
     email = db.EmailField(min_length=PWD_MIN_LENGTH, max_length=PWD_MAX_LENGTH, required=True)
     dscrp = db.StringField(min_length=DSCRPT_MIN_LENGTH, max_length=DSCRPT_MAX_LENGTH)
@@ -30,7 +32,6 @@ class User(UserMixin, db.Document):
     interest_array = db.ListField()
     notification_array = db.ListField(db.EmbeddedDocumentField(Notification))
     follower_array = db.ListField(db.ReferenceField('self', reverse_delete_rule=db.PULL, dbref=True))
-
     meta = { 'category' : 'user' }
 
     def is_active(self):

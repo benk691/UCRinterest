@@ -8,7 +8,7 @@ from forms import RegisterForm, SettingsForm, PasswordForm, InterestForm
 from ucri import DEFAULT_PROFILE_PIC, DEFAULT_PROFILE_PIC_PATH, DEFAULT_PROFILE_PIC_LOC
 from ucri.models.user import User
 from ucri.data.forms import UploadForm
-from ucri.data.pin import allowed_file, clearUserPins
+from ucri.data.pin import allowed_file
 
 # Profile blueprint
 mod = Blueprint('profile', __name__)
@@ -18,9 +18,11 @@ def createNewUser(form):
     usr = User(uname=form.uname.data,
                fname=form.fname.data,
                lname=form.lname.data,
-               img = DEFAULT_PROFILE_PIC,
+               img=DEFAULT_PROFILE_PIC,
                email=form.email.data,
                gender=form.gender.data,
+               pin_browsers='E',
+               pin_commenters='E',
                pwd=hashedpwd,
                dscrp=form.dscrp.data,
                bday=form.bday.data,
@@ -66,12 +68,15 @@ def changeProfilePic(form):
 @login_required
 def updateSettings(form):
     if form.validate():
+        # Set all string fields
         current_user.update(set__fname=form.data['fname'])
         current_user.update(set__lname=form.data['lname'])
         current_user.update(set__email=form.data['email'])
         current_user.update(set__gender=form.data['gender'])
         current_user.update(set__bday=form.data['bday'])
         current_user.update(set__dscrp=form.data['dscrp'])
+        current_user.update(set__pin_browsers=form.data['pin_browsers'])
+        current_user.update(set__pin_commenters=form.data['pin_commenters'])
         current_user.save()
         # Go to profile
         return redirect("/viewprofile/pins")
