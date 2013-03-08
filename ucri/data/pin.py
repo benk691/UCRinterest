@@ -10,6 +10,7 @@ from ucri.models.pin import Pin
 from ucri.models.comment import Comment
 #from ucri.models.board import Board
 from ucri.data.forms import UploadForm
+from ucri.data.notify import notify
 from ucri.users.permission import *
 
 mod = Blueprint('pin', __name__)
@@ -165,6 +166,7 @@ def bigpin(id):
 
 @mod.route('/upload', methods=['POST'])
 @login_required
+@notify
 def upload():
     form = UploadForm()
     if form.validate():
@@ -193,6 +195,7 @@ def upload():
 
 @mod.route('/repin', methods=['POST'])
 @login_required
+@notify
 def repin():
     id = request.form.get('id')
     pin = Pin.objects.get(id=id)
@@ -241,7 +244,8 @@ def search_results(query):
     return render_template("index.html", pins=valid_pins, upform=UploadForm())
 
 @mod.route('/pin/<id>/edit', methods=['POST', 'GET'])
-def editpin(id):
+@notify
+def edit_pin(id):
     pin = Pin.objects.get(id=id)
     if pin.pinner.id != current_user.id:
         return redirect(url_for('index'))
@@ -251,12 +255,14 @@ def editpin(id):
     return render_template("editpin.html", pin=pin, upform=UploadForm())
 
 @mod.route('/delete', methods=['POST'])
-def deletepin():
+@notify
+def delete_pin():
     pin = Pin.objects.get(id=request.form.get('id'))
     pin.delete()
     return redirect(url_for('index'))
 
 @mod.route('/add_comment', methods=['POST'])
+@notify
 def add_comment():
     if request.form.get('val') != "":
         pin = Pin.objects.get(id=request.form.get('id'))
@@ -270,6 +276,7 @@ def add_comment():
     
 @mod.route('/like', methods=['POST'])
 @login_required
+@notify
 def like():
     id = request.form.get('id')
     pin = Pin.objects.get(id=id)
@@ -291,6 +298,7 @@ def like():
 
 @mod.route('/favorite', methods=['POST'])
 @login_required
+@notify
 def favorite():
     id = request.form.get('id')
     pin = Pin.objects.get(id=id)

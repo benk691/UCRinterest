@@ -5,11 +5,6 @@
 from ucri import db
 from settings import *
 
-##########
-# TODO:
-#   - add an action decorator for actions that make a notification
-##########
-
 class Notification(db.EmbeddedDocument):
     '''Notification is an embedded document. Fields:
     - notifier : the user name that the notification came from

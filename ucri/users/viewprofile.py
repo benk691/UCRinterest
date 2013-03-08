@@ -18,14 +18,14 @@ def profile(uname):
 
 @mod.route('/viewprofile/<uname>/pins')
 @login_required
-def profilepins(uname):
+def profile_pins(uname):
     user = User.objects.get(uname=uname)
     pins = Pin.objects(pinner=user.to_dbref()).order_by('-date')
     return render_template('profilepins.html', pins=pins, upform=UploadForm(), user=user)
 
 @mod.route('/viewprofile/<uname>/likes')
 @login_required
-def likedpins(uname):
+def liked_pins(uname):
     user = User.objects.get(uname=uname)
     pins = Pin.objects(likes__contains=user.to_dbref())
     return render_template('profilepins.html', pins=pins, upform=UploadForm(), user=user)
