@@ -154,7 +154,7 @@ def upload():
         flash("Image has been uploaded.")
     else:
         flash("Image upload error.")
-    return redirect(request.referrer + "#add_form" or url_for("index"))
+    return redirect('viewprofile/pins' + "#add_form")
 
 @mod.route('/repin', methods=['POST'])
 def repin():
@@ -185,6 +185,13 @@ def uploaded_file(file):
 def search():
     #get form input
     query = request.form.get('q')
+    if query == "":
+        return redirect(request.referrer)
+    return redirect('/search_results/' + query)
+    
+
+@mod.route("/search_results/<query>")
+def search_results(query):
     #tokenize
     terms = re.split('\s', query)
     #generate regular expression from tokens
