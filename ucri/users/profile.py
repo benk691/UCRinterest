@@ -91,7 +91,7 @@ def getFollowingPermissions():
     invalid = []
     usrs = User.objects.all()
     for usr in usrs:
-        if usr.to_dbref() not in current_usr.follower_array:
+        if usr.to_dbref() not in current_user.follower_array:
             invalid.append(usr.to_dbref())
     return invalid
 
