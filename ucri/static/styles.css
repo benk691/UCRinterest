@@ -506,7 +506,7 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
                   border-radius: 15px; }
 .fld_bx1        { float: left; padding: 10px; width: 460px; }
 .fld_bx2        { float: left; padding: 10px; }
-.fld_bx1 .rnd_descrip
+.fld_bx1 .rnd_descrip, .set_bx2 .rnd_descrip
                 { border: 1px solid #ccc; -moz-border-radius: 10px; 
                   -webkit-border-radius: 10px; border-radius: 10px; 
                   -moz-box-shadow: 2px 2px 3px #666;
@@ -514,6 +514,35 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
                   box-shadow: 2px 2px 3px #666; font-size: 20px;
                   padding: 4px 7px; outline: 0;
                   -webkit-appearance: none; width: 455px; }
+
+/***************************SETTINGS*PAGE****************************/
+
+.set_wrapper    { margin: 2em auto; padding: 15px; background: white; 
+                  width: 500px; height: 520px;
+                  border-radius: 15px; box-shadow: 0px 0px 5px #888; }
+.set_title      { float:left; width: 500px; text-align: center;
+                  padding: 0px 0px 15px 0px; }
+.set_control    { text-align: center; float: left; width: 250px;
+                  padding: 3px 0px 3px 0px; color: #377BA8; 
+                  font-family: 'Georgia', serif; margin: 0; 
+                  font-size: 14px; font-weight: bold; }
+.set_bx1        { text-align: center; float: left; width: 250px;
+                  padding: 10px 0px 10px 0px; }
+.set_bx2        { float:left; width: 500px; text-align: center;
+                  padding: 10px 0px 10px 0px; }
+.set_btn_l      { text-align: left; float: left; width: 240px;
+                  padding: 10px 0px 0px 10px; }
+.set_btn_r      { text-align: right; float: left; width: 240px;
+                  padding: 10px 10px 0px 0px; }
+.set_rnd_up     { font-size: 20px; }
+.set_drp_rnd
+                { border: 1px solid #ccc; -moz-border-radius: 10px; 
+                  -webkit-border-radius: 10px; border-radius: 10px; 
+                  -moz-box-shadow: 2px 2px 3px #666;
+                  -webkit-box-shadow: 2px 2px 3px #666;
+                  box-shadow: 2px 2px 3px #666; font-size: 20px;
+                  padding: 4px 7px; outline: 0;
+                  -webkit-appearance: none; width: 226px; }
 
 /*****************************ABOUT*PAGE*****************************/
 
