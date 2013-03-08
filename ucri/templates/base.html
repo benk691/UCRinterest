@@ -44,9 +44,8 @@
 				</li>
 				<li>
 				{%if current_user.is_authenticated() %}	
-					<a href="/viewprofile/{{ current_user.uname }}">{{ current_user.uname }}<span></span></a>
+					<a href="/viewprofile/{{ current_user.uname }}/pins">{{ current_user.uname }}<span></span></a>
 					<ul>
-						<li><a href="#">Boards</a></li>
 						<li><a href="/viewprofile/{{ current_user.uname }}/pins">Pins</a></li>
 						<li><a href="/viewprofile/{{ current_user.uname }}/likes">Likes</a></li>
 						<li><a href="/viewprofile/{{ current_user.uname }}/favorites">Favorites</a></li>
