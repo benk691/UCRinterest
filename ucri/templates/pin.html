@@ -1,9 +1,9 @@
 <div class="pin" pin_id={{pin.id}}>
     <p class="info">
         {% if pin.orig %}
-            <span>Pinned by <b>{{pin.pinner.uname }}</b></span>
+            <span>Pinned by <a href="/viewprofile/{{pin.pinner.uname}}/pins"><b>{{pin.pinner.uname }}</b></a></span>
         {% else %}
-            <span>Repinned by <b>{{pin.pinner.uname }}</b></span>
+            <span>Repinned by <a href="/viewprofile/{{pin.pinner.uname}}/pins"><b>{{pin.pinner.uname }}</b></a></span>
         {% endif %}
     </p>
 	<div class="holder">
