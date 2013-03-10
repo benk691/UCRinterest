@@ -9,7 +9,7 @@ from ucri.UCRinterest.ucri.models.user import User, Anonymous
 from ucri.UCRinterest.ucri.models.pin import Pin
 from ucri.UCRinterest.ucri.models.comment import Comment
 #from ucri.models.board import Board
-from ucri.UCRinterest.ucri.UCRinterest.ucri.data.forms import UploadForm
+from ucri.UCRinterest.ucri.data.forms import UploadForm
 from ucri.UCRinterest.ucri.data.notify import notify
 from ucri.UCRinterest.ucri.users.permission import *
 

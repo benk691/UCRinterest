@@ -5,7 +5,7 @@ from flask.ext.login import current_user, login_required, confirm_login, fresh_l
 from werkzeug import secure_filename
 from datetime import datetime
 from forms import RegisterForm, SettingsForm, PasswordForm, InterestForm
-from ucri.UCRinterest.ucri.UCRinterest.ucri import DEFAULT_PROFILE_PIC
+from ucri.UCRinterest.ucri import DEFAULT_PROFILE_PIC
 from ucri.UCRinterest.ucri.models.user import User
 from ucri.UCRinterest.ucri.models.pin import Pin
 from ucri.UCRinterest.ucri.data.forms import UploadForm

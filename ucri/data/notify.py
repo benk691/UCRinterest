@@ -1,8 +1,8 @@
 from functools import wraps
 from datetime import datetime
 from flask.ext.login import current_user
-from ucri.models.user import User
-from ucri.models.notification import Notification
+from ucri.UCRinterest.ucri.models.user import User
+from ucri.UCRinterest.ucri.models.notification import Notification
 
 def notify(fn):
     '''

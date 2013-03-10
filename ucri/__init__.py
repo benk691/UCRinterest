@@ -28,7 +28,7 @@ login_manager.anonymous_user = Anonymous
 login_manager.login_view = "login"
 login_manager.login_message = u"Log In"
 login_manager.refresh_view = "reauth"
-login_manager.setup_app(app)
+login_manager.init_app(app)
 
 # Load user
 @login_manager.user_loader
