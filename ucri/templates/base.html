@@ -20,6 +20,7 @@
 			<!-- logo -->
 			<a href="/index" class="logo"></a>
 
+            
 			<!-- search -->
 			<form action="/search" method=POST class="search">
 				<input autocomplete="off" name="q" size="27" placeholder="Search" type="text" />
@@ -35,8 +36,18 @@
 				{% else %}
 					<li><a href="{{ url_for('profile.register') }}">Register</a></li>
 				{% endif %}
+                <li><a>Notifications</a>
+                <ul>
+                <!-- notifications -->
+                {%if current_user.is_authenticated() %}
+                    {% for notification in current_user.notification_array %}
+                        <li><a href="/viewprofile/{{notification.notifier}}/pins">{{ notification.msg }}</a></li>
+                    {% endfor %}
+                {% endif %}
+                </ul>
+                </li>
 				<li>
-					<a href="/about">About<span></span></a>
+					<a href="{{ url_for('help.about') }}">About<span></span></a>
 					<ul>
 						<li><a href="{{ url_for('help.help') }}">Help</a></li>
 						<li><a href="{{ url_for('team.team') }}">Team</a></li>
@@ -44,14 +55,13 @@
 				</li>
 				<li>
 				{%if current_user.is_authenticated() %}	
-					<a href="{{ url_for('viewprofile.viewprofile') }}">{{ current_user.uname }}<span></span></a>
+					<a href="/viewprofile/{{ current_user.uname }}/pins">{{ current_user.uname }}<span></span></a>
 					<ul>
-						<li><a href="#">Boards</a></li>
-						<li><a href="/viewprofile/pins">Pins</a></li>
-						<li><a href="/viewprofile/likes">Likes</a></li>
-						<li><a href="/viewprofile/favorites">Favorites</a></li>
-						<li class="div"><a href="#">Settings</a></li>
-						<li><a href="{{ url_for('logout') }}">Logout</a></li>
+						<li><a href="/viewprofile/{{ current_user.uname }}/pins">Pins</a></li>
+						<li><a href="/viewprofile/{{ current_user.uname }}/likes">Likes</a></li>
+						<li><a href="/viewprofile/{{ current_user.uname }}/favorites">Favorites</a></li>
+						<li class="div"><a href="/settings">Settings</a></li>
+						<li><a href="{{ url_for('login.logout') }}">Logout</a></li>
 					</ul>
 					{% else %}
 					<a href="{{ url_for('login.login') }}">Login<span></span></a>
@@ -88,7 +98,7 @@
 			{% if messages %}
 			<ul>
 			{% for message in messages %}
-				<li>{{ message }} </li>
+				<li class="flash">{{ message }} </li>
 			{% endfor %}
 			</ul>
 			{% endif %}

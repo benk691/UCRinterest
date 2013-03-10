@@ -13,7 +13,6 @@ a {
     text-decoration: none;
 }
 
-
 name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3em; font-weight: bold; }
 
 /* header elements */
@@ -184,6 +183,7 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
     display: inline-block;
     left: 50%;
     padding: 30px 30px 20px;
+    border-radius: 15px;
     position: fixed;
     top: 40%;
     visibility: hidden;
@@ -267,6 +267,9 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
     padding: 5px 9px;
     text-align: center;
     text-shadow: 0 1px rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: x-small;
+    line-height: 10px;
 
     -webkit-transition: all 0.2s ease-in-out 0s;
     -moz-transition: all 0.2s ease-in-out 0s;
@@ -311,16 +314,16 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
     float: left;
     margin: 0 5px 0 0;
 }
-.pin:hover .actions a {
-    display: block;
-}
-.pin .actions button {
+.pin .actions form {
     clear: none;
     display: none;
     float: left;
     margin: 0 5px 0 0;
 }
-.pin:hover .actions button {
+.pin:hover .actions a {
+    display: block;
+}
+.pin:hover .actions form {
     display: block;
 }
 .pin .image {
@@ -379,9 +382,11 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
     background-color: transparent;
     box-shadow: none;
     float: none;
-    margin: 0;
+    margin: 0em auto;
     padding: 5px;
-    width: 600px;
+    width: 610px;
+    border-radius: 10px;
+    background: white;
 }
 .bigpin .owner {
     border-bottom: 1px solid #D1CDCD;
@@ -488,36 +493,96 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
 .btn_right		{ float: right; border-left: 2px solid #ccc; 
 			      padding-left: 15px; padding-right: 15px;
 			      height: 60px; }
-.btn_left:hover { background-color: #F0EDED}
-.btn_right:hover { background-color: #F0EDED}
 .btn_txt		{ margin: 2em auto; }
 
-.wrapper2   { margin:2em auto; width: 500px;}
-.top_bar2   { width: 500px; }
-.profile_pic2   { float: left; margin: 0px 0px 0px 0px; width: 90px;
-                  height: 90px; padding: 0.8em; background: white; 
+.wrapper .repins h3  { color: #377BA8; 
+                       font-family: 'Georgia', serif;
+                       margin: 0;
+                       font-size: 1.5em;
+                       font-weight: bold;}
+
+.wrapper2 { margin:2em auto; width: 500px;}
+.top_bar2 { width: 500px; }
+.profile_pic2 { float: left; margin: 0px 0px 0px 0px; width: 90px;
+                  height: 90px; padding: 0.8em; background: white;
                   box-shadow: 0px 0px 5px #888; }
-.profile_info2  { float: left; margin: 0px 0px 0px 0px; width: 350px;
-                  height: 90px; padding: 0.8em; background: white; 
+.profile_info2 { float: left; margin: 0px 0px 0px 0px; width: 350px;
+                  height: 90px; padding: 0.8em; background: white;
                   box-shadow: 0px 0px 5px #888; }
 
 /*****************************TEAM*PAGE******************************/
 
 .t_members		{ margin: 2em auto; width: 700px; height: 900px; }
-.t_mem_box		{ margin: 3em auto; width: 700px; height: 200px; 
+.t_mem_box_l, .t_mem_box_r
+                { margin: 3em auto; width: 700px; height: 200px; 
 			      background: #eee; box-shadow: 0px 0px 5px #888; }
+.t_mem_box_l    { border-top-left-radius: 15px; 
+                  border-bottom-left-radius: 15px; }
+.t_mem_box_r    { border-top-right-radius: 15px; 
+                  border-bottom-right-radius: 15px; }
 .t_dscrp		{ float: left; width: 480px; height: 180px; 
-			      padding: 10px; font-family:"Georgia"; 
-			      font-size: 16px; background: #e8e8e8; }
+			      padding: 40px 10px 10px 10px; font-family:"Georgia"; 
+			      font-size: 16px; /*background: #e8e8e8;*/ }
 .t_pic		    { float: left; width: 200px; height: 200px; 
 			      background: white; }
 
 /***************************REGISTER*PAGE****************************/
 
-.box_register	{ margin: 5em auto; width: 500px; padding: 10px;
-                  background: white; box-shadow: 0px 0px 5px #888; }
-.fld_bx1        { float: left; width: 480px; }
-.fld_bx2        { float: left; width: 240px; }
+.box_register	{ margin: 5em auto; width: 495px; padding: 10px 10px 15px 10px;
+                  background: white; box-shadow: 0px 0px 5px #888; 
+                  border-radius: 15px; }
+.fld_bx1        { float: left; padding: 10px; width: 460px; }
+.fld_bx2        { float: left; padding: 10px; }
+.fld_bx1 .rnd_descrip, .set_bx2 .rnd_descrip
+                { border: 1px solid #ccc; -moz-border-radius: 10px; 
+                  -webkit-border-radius: 10px; border-radius: 10px; 
+                  -moz-box-shadow: 2px 2px 3px #666;
+                  -webkit-box-shadow: 2px 2px 3px #666;
+                  box-shadow: 2px 2px 3px #666; font-size: 20px;
+                  padding: 4px 7px; outline: 0;
+                  -webkit-appearance: none; width: 455px; }
+
+/***************************SETTINGS*PAGE****************************/
+
+.set_wrapper    { margin: 2em auto; padding: 10px; background: white; 
+                  width: 480px; height: 520px;
+                  border-radius: 15px; box-shadow: 0px 0px 5px #888; }
+.set_title      { float:left; width: 480px; text-align: center; }
+.set_long_desc  { text-align: center; float: left; width: 480px;
+                  padding: 0px 0px 0px 0px; color: #377BA8; 
+                  font-family: 'Georgia', serif; margin: 0; 
+                  font-size: 14px; font-weight: bold; }
+.set_desc       { text-align: center; float: left; width: 240px; 
+                  height: 14px; padding: 0px 0px 0px 0px; color: #377BA8; 
+                  font-family: 'Georgia', serif; margin: 0; 
+                  font-size: 14px; font-weight: bold; }
+.set_bx1        { text-align: center; float: left; width: 240px;
+                  padding: 3px 0px 10px 0px; }
+.set_bx2        { float:left; width: 480px; text-align: center;
+                  padding: 3px 0px 10px 0px; }
+.set_btn_l      { text-align: left; float: left; width: 235px;
+                  padding: 10px 0px 0px 5px; }
+.set_btn_r      { text-align: right; float: left; width: 235px;
+                  padding: 10px 5px 0px 0px; }
+.set_rnd_up     { font-size: 20px; }
+.set_drp_rnd
+                { border: 1px solid #ccc; -moz-border-radius: 10px; 
+                  -webkit-border-radius: 10px; border-radius: 10px; 
+                  -moz-box-shadow: 2px 2px 3px #666;
+                  -webkit-box-shadow: 2px 2px 3px #666;
+                  box-shadow: 2px 2px 3px #666; font-size: 20px;
+                  padding: 4px 7px; outline: 0;
+                  -webkit-appearance: none; width: 226px; }
+
+/***************************CHANGE*PASSWORD**************************/
+
+.pass_wrapper   { margin: 2em auto; width: 225px; height: 205px;
+                  padding: 10px; border-radius: 15px; 
+                  box-shadow: 0px 0px 5px #888; background: white;}
+.pass_bx        { text-align: center; float: left; padding-bottom: 10px; 
+                  width: 225px; }
+.pass_btn_l     { float: left; text-align: left; width: 113px; }
+.pass_btn_r     { float: left; text-align: right; width: 112px; }
 
 /*****************************ABOUT*PAGE*****************************/
 
@@ -552,12 +617,39 @@ name			{ color: #377BA8; font-family: 'Georgia', serif; margin: 0; font-size: 3e
 
 /*****************************LOGIN*PAGE*****************************/
 
-.lgn_box        { margin: 5em auto; width: 225px; height: 185px;
-                  padding: 15px; background: white; 
-                  border-radius: 15px; box-shadow: 0px 0px 5px #888; }
+.lgn_box		{ margin: 5em auto; width: 225px; height: 185px;
+			      padding: 15px; background: white; 
+			      border-radius: 15px; box-shadow: 0px 0px 5px #888; }
 .lgn_lgn		{ float: left; }
 .lgn_reg		{ float: right; }
-input.rnd
+
+/****************************EDIT*PIN*PAGE***************************/
+
+.edt_wrapper    { margin: 2em auto; width: 610px; 
+                  border-radius: 15px; box-shadow: 0px 0px 5px #888;
+                  padding: 10px; background: white; }
+.edt_title      { margin: 0em auto; width: 200px; padding-bottom: 10px; text-align: center;}
+
+.edt_wrapper .image img 
+                { display: block; margin: 0 auto; max-width: 600px; }
+
+.new_dscrp      { margin: 0px auto; width: 580; text-align: center; 
+                  padding: 10px 0px 10px 0px; }
+
+.btn_delete     {padding: 5px; }
+.btn_cancel     { padding-left: 25px; }
+textarea.rnd_descrip
+                { border: 1px solid #ccc; -moz-border-radius: 10px; 
+                  -webkit-border-radius: 10px; border-radius: 10px; 
+                  -moz-box-shadow: 2px 2px 3px #666;
+                  -webkit-box-shadow: 2px 2px 3px #666;
+                  box-shadow: 2px 2px 3px #666; font-size: 20px;
+                  padding: 4px 7px; outline: 0;
+                  -webkit-appearance: none; width: 490px; }
+
+/****************************SHARED*ITEMS****************************/
+
+.rnd, input.rnd
                 { border: 1px solid #ccc; -moz-border-radius: 10px; 
                   -webkit-border-radius: 10px; border-radius: 10px; 
                   -moz-box-shadow: 2px 2px 3px #666;
@@ -565,7 +657,8 @@ input.rnd
                   box-shadow: 2px 2px 3px #666; font-size: 20px;
                   padding: 4px 7px; outline: 0;
                   -webkit-appearance: none; width: 210px;}
-input.rnd_btn   { border: 1px solid #ccc; -moz-border-radius: 10px; 
+input.rnd_btn, button.rnd_btn
+                { border: 1px solid #ccc; -moz-border-radius: 10px; 
                   -webkit-border-radius: 10px; border-radius: 10px; 
                   -moz-box-shadow: 2px 2px 3px #666;
                   -webkit-box-shadow: 2px 2px 3px #666;
@@ -576,6 +669,11 @@ input.rnd_btn   { border: 1px solid #ccc; -moz-border-radius: 10px;
                   background: -moz-linear-gradient(top,  #ffffff,  #f0f0f0);
                   filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f0f0f0'); }
 
+.pin_dscrp      { float: left; padding: 5px; text-align: left; 
+                  width: 590px;
+                  font-family:"Georgia"; 
+                  font-size: 14px; }
+
 /****************************UNKNOWN*PAGE****************************/
 
 dl              { margin-bottom:10px; }
@@ -585,8 +683,12 @@ dl dt 		    { color:#5f9be3; float:left; text-align: center;
 dl dd 		    { margin:10px 0; padding:5px 0; }
 .btn_rt		    { float: right; margin-right: 25px; }
 
-/**************************** Editing ****************************/
+/* Useful stuff
 
+rounding - border-radius: 15px;
+shadowing - box-shadow: 0px 0px 5px #888;
+
+*/
 .edata {
     width: 750px;
     margin: 0 auto;
@@ -662,3 +764,8 @@ dl dd 		    { margin:10px 0; padding:5px 0; }
 .edata .popup button:hover {
     box-shadow: 0 1px rgba(255, 255, 255, 0.35) inset, 0 0 0 1px rgba(140, 126, 126, 0.5), 0 1px 2px rgba(35, 24, 24, 0.75);
 }
+
+/* Flash messages */
+.flash          { background: #CEE5F5; padding: 0.5em;
+                  border: 1px solid #AACBE2; }
+.error          { background: #F0D6D6; padding: 0.5em; }

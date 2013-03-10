@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="set_wrapper">
+  <div class="set_title"><h1>Edit Account Settings</h1></div>
+  <!-- Get form helper -->
+  {% from "_formhelpers.html" import render_field %}
+  <form action="{{ url_for('profile.profileSettings') }}" method=POST enctype=multipart/form-data>
+  {{ form.csrf_token }}
+    <dl>
+      <!-- Email Address -->
+      <div class="set_desc">Email</div>
+      <div class="set_desc"></div>
+      <div class="set_bx1">{{ render_field(form.email, class="rnd", placeholder="Email Address") }} </div>
+      <!-- Change Password -->
+      <div class="set_bx1">{{ render_field(form.change_pwd, class="rnd_btn", placeholder="Change Password") }} </div>
+      <!-- Name -->
+      <div class="set_desc">First Name</div>
+      <div class="set_desc">Last Name</div>
+      <div class="set_bx1">{{ render_field(form.fname, class="rnd", placeholder="First Name") }} </div>
+      <div class="set_bx1">{{ render_field(form.lname, class="rnd", placeholder="Last Name") }} </div>
+      <!-- Change Gender -->
+      <div class="set_desc">Gender</div>
+      <div class="set_desc">Birthday</div>
+      <div class="set_bx1">{{ render_field(form.gender, class="set_drp_rnd", placeholder="Gender") }} </div>
+      <!-- Birthday -->
+      <div class="set_bx1">{{ render_field(form.bday, class="rnd") }} </div>
+      <!-- Description -->
+      <div class="set_long_desc">Description</div>
+      <div class="set_bx2">{{ render_field(form.dscrp, class="rnd_descrip") }} </div>
+      <!-- Profile Picture -->
+      <div class="set_long_desc">Profile Picture Upload</div>
+      <div class="set_bx2">{{ render_field(form.img, class="set_rnd_up", placeholder="Profile Picture") }} </div>
+      <!-- Commenters -->
+      <div class="set_bx2"><i><b>Note:</b> The next two fields will be set for all your pins!</i></div>
+      <div class="set_desc">Browsers</div>
+      <div class="set_desc">Commenters</div>
+      <div class="set_bx1">{{ render_field(form.pin_browsers, class="set_drp_rnd") }}</div><!--Browsers-->
+      <div class="set_bx1">{{ render_field(form.pin_commenters, class="set_drp_rnd") }}</div><!--Commenters-->
+      <!-- This is also okay: <dt>Profile Picture<dd><input type=file name=img>-->
+      <div class="set_btn_l">{{ render_field(form.deactivate, class="rnd_btn", placeholder="Deactivate") }} </div>
+      <div class="set_btn_r"><input type="submit" class="rnd_btn" value="Save Profile"></div>
+    </dl>
+  </form>
+</div>  
+{% endblock %}

@@ -1,50 +1,55 @@
-<div class="pin bigpin">
-	<div class="owner">
-		{% if current_user.is_authenticated() and not pin.pinner.following() and not pin.pinner.id == current_user.id  %}
-		<form method="POST">
-			<input type="hidden" name="pinner" value="{{ pin.pinner.id }}" />
-			<button type="submit" class="button follow_button" formaction="/follow">Follow</button>
-		</form>
-		{% endif %}
-		<p class="owner_name"><a target="_blank" href="#">{{pin.pinner.uname}}</a></p>
-		<p class="owner_when">Uploaded {{pin.date.strftime('%I:%M%p %m-%d-%Y')}}</p>
-	</div>
-	<div class="holder">
-		<div class="actions">
-			{% if current_user.is_authenticated() %}
-				<form method="POST">
-					<input type="hidden" name="id" value="{{ pin.id }}" />
-					<button type="submit" class="button" formaction="/repin">Repin</button>
-				</form>
-				{% if current_user.id == pin.pinner.id %}
-					<a href="/pin/{{pin.id}}/edit" class="button">Edit</a>
-				{% else %}
+<link href="/static/styles.css" rel="stylesheet" type="text/css" />
+<div class="pin_wrapper">
+	<div class="pin bigpin">
+		<div class="owner">
+			{% if current_user.is_authenticated() and not pin.pinner.following() and not pin.pinner.id == current_user.id  %}
+			<form method="POST">
+				<input type="hidden" name="pinner" value="{{ pin.pinner.id }}" />
+				<button type="submit" class="button follow_button" formaction="/follow">Follow</button>
+			</form>
+			{% endif %}
+			<p class="owner_name"><a target="_blank" href="/viewprofile/{{pin.pinner.uname}}/pins">{{pin.pinner.uname}}</a></p>
+			<p class="owner_when">Uploaded {{pin.date.strftime('%I:%M%p %m-%d-%Y')}}</p>
+		</div>
+		<div class="holder">
+			<div class="actions">
+				{% if current_user.is_authenticated() %}
 					<form method="POST">
 						<input type="hidden" name="id" value="{{ pin.id }}" />
-						<button type="submit" class="button" formaction="/like">{% if pin.is_liked() %}Unlike{% else %}Like{% endif %}</button>
+						<button type="submit" class="button" formaction="/repin">Repin</button>
+					</form>
+					{% if current_user.id == pin.pinner.id %}
+						<a href="/pin/{{pin.id}}/edit" class="button">Edit</a>
+					{% else %}
+						<form method="POST">
+							<input type="hidden" name="id" value="{{ pin.id }}" />
+							<button type="submit" class="button" formaction="/like">{% if pin.is_liked() %}Unlike{% else %}Like{% endif %}</button>
+						</form>
+					{% endif %}
+					<form method="POST">
+						<input type="hidden" name="id" value="{{ pin.id }}" />
+						<button type="submit" class="button" formaction="/favorite">Add to Favorites</button>
 					</form>
 				{% endif %}
-				<form method="POST">
-					<input type="hidden" name="id" value="{{ pin.id }}" />
-					<button type="submit" class="button" formaction="/favorite">Add to Favorites</button>
-				</form>
-			{% endif %}
+			</div>
+			<a class="image" href="/uploads/{{pin.img}}" title="{{pin.title}}">
+				<img alt="{{ pin.title }}" src="/uploads/{{pin.img}}">
+			</a>
 		</div>
-		<a class="image" href="/uploads/{{pin.img}}" title="{{pin.title}}">
-			<img alt="{{ pin.title }}" src="/uploads/{{pin.img}}">
-		</a>
+		<div class="pin_dscrp">{{ pin.dscrp }}</div>
+		<div class="comments">
+			{% for comment in pin.cmts %}
+			{% include 'comment.html' %}
+			{% endfor %}
+		</div>
+		{% if current_user.is_authenticated() %}
+        {% if pin.validCommenter() %}
+		<form class="comment" method="post" action="">
+			<input type="hidden" name="id" value="{{ pin.id }}" />
+			<textarea placeholder="Add a comment..." maxlength="1000" name="val"></textarea>
+			<button type="submit" class="button" formaction="/add_comment">Comment</button>
+		</form>
+        {% endif %}
+		{% endif %}
 	</div>
-	<p class="dscrp">{{ pin.dscrp }}</p>
-	<div class="comments">
-		{% for comment in pin.cmts %}
-		{% include 'comment.html' %}
-		{% endfor %}
-	</div>
-	{% if current_user.is_authenticated() %}
-	<form class="comment" method="post" action="">
-		<input type="hidden" name="id" value="{{ pin.id }}" />
-		<textarea placeholder="Add a comment..." maxlength="1000" name="val"></textarea>
-		<button type="submit" class="button" formaction="/add_comment">Comment</button>
-	</form>
-	{% endif %}
 </div>

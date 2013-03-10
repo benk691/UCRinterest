@@ -18,7 +18,7 @@ def login():
         # Query database
         try:
             usrQuery = User.objects.get(uname=username)
-            if usrQuery is not None and hashpw(password, usrQuery.pwd) == usrQuery.pwd:#usrQuery.pwd == password:
+            if usrQuery is not None and hashpw(password, usrQuery.pwd) == usrQuery.pwd:
                 if login_user(usrQuery, remember="no"):
                     flash("Logged in!")
                     return redirect(request.args.get("next") or url_for("index"))
@@ -39,3 +39,9 @@ def reauth():
         return redirect(request.args.get("next") or url_for("index"))
     return render_template("reauth.html")
 
+@mod.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash("Logged out.")
+    return redirect(url_for("index"))

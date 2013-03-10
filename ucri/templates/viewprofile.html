@@ -3,23 +3,43 @@
 <div class=wrapper>
   <div class=top_bar>
     <div class=profile_pic>
+        <img width=180px height=180px alt="Profile Picture" src="/uploads/{{user.img}}">
     </div>
+    
     <div class=profile_info>
-      <name>{{current_user.fname}} {{current_user.lname}}</name>
-      <p>{{current_user.dscrp}}</p>
-      <p><a href="{{current_user.email}}">{{current_user.email}}</a></p>
+      <name>{{user.fname}} {{user.lname}}</name>
+      <p>{{user.dscrp}}</p>
+      <p><a href="{{user.email}}">{{user.email}}</a></p>
     </div>
     <div class=repins>
       <h2>Repins from</h2>
+      </br>
+      {% for u in user.repins_from[:8] %}
+        <a href="/viewprofile/{{ u.uname }}/pins"><h3>{{u.uname}}</h3></a>
+      {% endfor %}
     </div>
   </div>
   <div class=mid_bar>
-    <div class=btn_left><div class=btn_txt><h3>Boards</h3></div></div>
-    <a href="/viewprofile/pins"><div class=btn_left><div class=btn_txt><h3>Pins</h3></div></div></a>
-    <a href="/viewprofile/likes"><div class=btn_left><div class=btn_txt><h3>Likes</h3></div></div></a>
-    <a href="/viewprofile/favorites"><div class=btn_left><div class=btn_txt><h3>Favorites</h3></div></div></a>
-    <a href="/viewprofile/following"><div class=btn_right><div class=btn_txt><h3>Following</h3></div></div></a>
-    <a href="/viewprofile/followers"><div class=btn_right><div class=btn_txt><h3>Followers</h3></div></div></a>
+    <a href="/viewprofile/{{ user.uname }}/pins"><div class=btn_left><div class=btn_txt><h3>Pins</h3></div></div></a>
+    <a href="/viewprofile/{{ user.uname }}/likes"><div class=btn_left><div class=btn_txt><h3>Likes</h3></div></div></a>
+    <a href="/viewprofile/{{ user.uname }}/favorites"><div class=btn_left><div class=btn_txt><h3>Favorites</h3></div></div></a>
+    {% if current_user == user %}
+    <a href="/settings"><div class=btn_right><div class=btn_txt><h3>Settings</h3></div></div></a>
+    {% elif current_user.is_authenticated() and not user.id == current_user.id  %}
+    {% if not user.following() %}
+      <form method="POST" name="followform" action="/follow">
+        <input type="hidden" name="pinner" value="{{ user.id }}" />
+      </form>
+      <a href="/follow" onclick="document.followform.submit();return false"><div class=btn_right><div class=btn_txt><h3>Follow</h3></div></div></a>
+      {% else %}
+      <form method="POST" name="followform2" action="/unfollow">
+        <input type="hidden" name="pinner" value="{{ user.id }}" />
+      </form>
+      <a href="/unfollow" onclick="document.followform2.submit();return false"><div class=btn_right><div class=btn_txt><h3>Unfollow</h3></div></div></a>
+      {% endif %}
+    {% endif %}
+    <a href="/viewprofile/{{ user.uname }}/following"><div class=btn_right><div class=btn_txt><h3>Following</h3></div></div></a>
+    <a href="/viewprofile/{{ user.uname }}/followers"><div class=btn_right><div class=btn_txt><h3>Followers</h3></div></div></a>
   </div>
 </div>
   <div class=low_bar>

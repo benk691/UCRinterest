@@ -1,42 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
 <div class=edata>
-	<div class=es0>
-		<div class=es1>
-			<form action="#del_confirm" method=GET class=del-post>
-				<input type=submit value="Delete Pin">
-			</form>
-			<h2>Edit Pin</h2>
-		</div>
-		<div class=es2>
-			<h3>Description</h3>
-			<form action="" method=POST class=ed-post>
-				<textarea name=dscrp rows=2 cols=40>{{pin.dscrp}}</textarea>
-				<input type=submit value=Update>
-			</form>
-		</div>
-	</div>
-	<div class=es3>
-		<div class="pin">
-			<div class="holder">
-				<a class="image ajax" href="/pin/{{pin.id}}" title="{{ pin.title }}">
-					<img alt="{{ pin.title }}" src="/uploads/{{pin.img}}">
-				</a>
+	<div class="edt_wrapper">
+		<div class="edt_title"><h1>Editing Pin</h1></div>
+		<a class="image ajax" href="/pin/{{pin.id}}" title="{{ pin.title }}">
+			<img alt="{{ pin.title }}" src="/uploads/{{pin.img}}">
+		</a>
+		<div class="pin_dscrp">{{ pin.dscrp }}</div>
+			<div class="new_dscrp">
+				<form action="" method=POST class=ed-post>
+					<textarea class="rnd_descrip" name=dscrp rows=2 cols=40 placeholder="New Description"></textarea>
+					<input type=submit class="rnd_btn" value=Update>
+				</form>
 			</div>
-			<p class="dscrp">{{ pin.dscrp }}</p>
+			<div class="btn_delete">
+				<form action="#del_confirm" method=GET class=del-post>
+					<input type=submit class="rnd_btn" value="Delete Pin">
+				</form>
+			</div>
 		</div>
 	</div>
 
 	<!-- delete confirm box -->
 	<a href="" class="overlay" id="del_confirm"></a>
 	<div class="popup">
-		<p>Are you sure you want to delete this pin?</p>
+		<center><h1>Are you sure you want to delete this pin?</h1>
 		<form action="/delete" method=POST>
 			<input type=hidden name=id value="{{pin.id}}"></input>
-			<input type=submit value="Delete Pin">
+			<input type=submit class="rnd_btn" value="Delete Pin">
+			<a href=""><button type="button" class="rnd_btn">Cancel</button></a>
 		</form>
-		<a href=""><button type="button">Cancel</button></a>
+</center>
 	</div>
-
 </div>
 {% endblock %}
