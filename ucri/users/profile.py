@@ -84,8 +84,6 @@ def changeProfilePic(form):
         current_user.save()
         # Successfully change pic
         flash("Successfully changed profile picture to %s" % filename)
-        return render_template("settings.html", form=form, upform=UploadForm())
-    return render_template("settings.html", form=form, upform=UploadForm())
 
 @login_required
 def inFollowerArray(check_usr, usr):
@@ -253,7 +251,7 @@ def profileSettings():
             return redirect(url_for('profile.setPassword'))
         # Handle changing profile pic
         if len(form.img.file.filename) > 0 and form.img.file.filename != DEFAULT_PROFILE_PIC  and form.img.file.filename != current_user.img.strip(current_user.uname + '_'):
-            return changeProfilePic(form)
+            changeProfilePic(form)
         # Update the other user settings
         return updateSettings(form)
     return render_template("settings.html", form=form, upform=UploadForm())
