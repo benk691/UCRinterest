@@ -5,11 +5,11 @@ from flask.ext.login import current_user, login_required, confirm_login, fresh_l
 from werkzeug import secure_filename
 from datetime import datetime
 from forms import RegisterForm, SettingsForm, PasswordForm, InterestForm
-from ucri import DEFAULT_PROFILE_PIC, DEFAULT_PROFILE_PIC_PATH, DEFAULT_PROFILE_PIC_LOC
+from ucri import DEFAULT_PROFILE_PIC
 from ucri.models.user import User
 from ucri.models.pin import Pin
 from ucri.data.forms import UploadForm
-from ucri.data.pin import allowed_file, addInvalidBrowser, rmInvalidBrowser, addInvalidCommenter, rmInvalidCommenter
+from ucri.data.pin import allowed_file, addInvalidBrowser, rmInvalidBrowser, addInvalidCommenter, rmInvalidCommenter, handleImageDeletion
 from permission import *
 
 # Profile blueprint
@@ -65,13 +65,17 @@ def register():
     return render_template('register.html', form=form)
 
 ########## Settings ##########
+def deleteProfilePic(img):
+    # Remove old_profile pic from storage
+    if img != DEFAULT_PROFILE_PIC:
+        subprocess.call("rm -f photos/%s" % str(img), shell=True)
+
 @login_required
 def changeProfilePic(form):
     filename = form.img.file.filename
     if form.validate() and filename != DEFAULT_PROFILE_PIC and allowed_file(filename):
-        # Remove old_profile pic from storage
-        if current_user.img != DEFAULT_PROFILE_PIC:
-            subprocess.call("rm -f photos/%s" % str(current_user.img), shell=True)
+        # Delete the profile picture
+        deleteProfilePic(current_user.img)
         # Store file
         filename = current_user.uname + '_' + secure_filename(form.img.data.filename)
         # Save to DB
@@ -254,14 +258,39 @@ def profileSettings():
         return updateSettings(form)
     return render_template("settings.html", form=form, upform=UploadForm())
 
+def getUserImages(usr):
+    pins = Pin.objects.filter(pinner=usr.to_dbref())
+    imgs = []
+    for pin in pins:
+        imgs.append(pin.img)
+    return imgs
+
+def handleUserImageDeletion(imgs):
+    for img in imgs:
+        handleImageDeletion(img)
+
+def handleUserDeletion(usr):
+    # Delete profile picture
+    deleteProfilePic(usr.img)
+    # Grab user images
+    imgs = getUserImages(usr)
+    # Delete user from database
+    usr.delete()
+    # Delete images in the photos folder
+    handleUserImageDeletion(imgs)
+
 @mod.route('/deactivate')
 @login_required
 def deactivateAccount():
     # Delete profile picture
-    if current_user.img != DEFAULT_PROFILE_PIC:
-        subprocess.call("rm -f photos/%s" % str(current_user.img), shell=True)
+    deleteProfilePic(current_user.img)
+    # Grab user images
+    imgs = getUserImages(current_user)
     # Delete user from database
     current_user.delete()
+    # Delete images in the photos folder
+    handleUserImageDeletion(imgs)
+    # Logout User
     logout_user()
     flash("Account has been deactivated!")
     return redirect(url_for('index'))

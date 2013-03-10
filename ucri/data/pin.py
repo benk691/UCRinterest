@@ -1,4 +1,4 @@
-import os, re
+import os, re, subprocess
 from flask import Flask, request, render_template, redirect, url_for, flash, Response, Blueprint, send_from_directory, current_app
 from flask.ext.login import current_user, login_required, confirm_login
 from werkzeug import secure_filename
@@ -125,14 +125,6 @@ def make():
     createPin("Settings 3", "img3.jpg", "Description 3")
     createPin("Settings 4", "img4.jpg", "Description 4")
     flash("Pins Created!")
-    return redirect(url_for('index'))
-
-@mod.route("/clear")
-def clear():
-    pins = Pin.objects.all()
-    for pin in pins:
-        pin.delete()
-    flash("Pins deleted!")
     return redirect(url_for('index'))
 
 @mod.route('/fix_repins')
@@ -267,11 +259,19 @@ def edit_pin(id):
         pin.save()
     return render_template("editpin.html", pin=pin, upform=UploadForm())
 
+def handleImageDeletion(img):
+    matching_pins = Pin.objects.filter(img=img)
+    if matching_pins == None or len(matching_pins) == 0:
+        subprocess.call("rm -f photos/%s" % str(img), shell=True)
+    
 @mod.route('/delete', methods=['POST'])
 @notify
 def delete_pin():
     pin = Pin.objects.get(id=request.form.get('id'))
+    img = pin.img
     pin.delete()
+    handleImageDeletion(img)
+    flash("Pin deleted")
     return redirect(url_for('index'))
 
 @mod.route('/add_comment', methods=['POST'])
