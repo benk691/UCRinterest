@@ -118,15 +118,6 @@ def createPin(title, img, dscrp):
         if pin.repins == None:
             fix_repins()
 
-@mod.route("/make")
-def make():
-    createPin("Settings 1", "img1.jpg", "Description 1")
-    createPin("Settings 2", "img2.jpg", "Description 2")
-    createPin("Settings 3", "img3.jpg", "Description 3")
-    createPin("Settings 4", "img4.jpg", "Description 4")
-    flash("Pins Created!")
-    return redirect(url_for('index'))
-
 @mod.route('/fix_repins')
 def fix_repins():
     pins = Pin.objects.all()

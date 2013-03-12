@@ -6,7 +6,7 @@ DEBUG = False
 
 SECRET_KEY = 'SECRET_STUFF'
 
-ALLOWED_EXTENSIONS = set(['apng', 'png', 'jpg', 'jpeg', 'gif', 'APNG', 'PNG', 'JPG', 'JPEG', 'GIF'])
+ALLOWED_EXTENSIONS = set(['bmp', 'apng', 'png', 'jpg', 'jpeg', 'gif', 'BMP', 'APNG', 'PNG', 'JPG', 'JPEG', 'GIF'])
 
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'photos')
 

@@ -18,7 +18,6 @@ from ucri.UCRinterest.ucri.models.user import User, Anonymous
 from ucri.UCRinterest.ucri.models.pin import Pin
 from ucri.UCRinterest.ucri.data.forms import UploadForm
 from ucri.UCRinterest.ucri.data.pin import getValidBrowserPins
-from ucri.UCRinterest.ucri.users.profile import handleUserDeletion
 
 # Login manager
 login_manager = LoginManager()
@@ -73,16 +72,3 @@ def index():
     pins = Pin.objects.order_by('-date')
     valid_pins = getValidBrowserPins(pins, current_user)
     return render_template("index.html", pins=valid_pins, upform=upform)
-
-@app.route("/clear")
-def clear():
-    # logout the users
-    if current_user == None or not current_user.is_active():
-        # Delete users
-        usrs = User.objects.all()
-        for usr in usrs:
-            handleUserDeletion(usr)
-        flash("Everything deleted!")
-    else:
-        flash("No users can be logged in")
-    return redirect(url_for('index'))
